@@ -49,23 +49,5 @@ public final class structPlage implements org.omg.CORBA.portable.IDLEntity
         this.heureDeb = heureDeb;
         this.heureFin = heureFin;
     }
-    
-    public boolean contient (GregorianCalendar gc) {
-    	boolean contient = false;
-   	
-    	String[] dateDeb = jourDeb.split("-");
-    	String[] dateFin = jourFin.split("-");
-    	
-    	GregorianCalendar calDeb = new GregorianCalendar(2000+Integer.parseInt(dateDeb[2]), Integer.parseInt(dateDeb[1]), 
-    			Integer.parseInt(dateDeb[0]), (int)heureDeb, (int)(heureDeb-(int)heureDeb)*60);
-    	GregorianCalendar calFin = new GregorianCalendar(2000+Integer.parseInt(dateFin[2]), Integer.parseInt(dateFin[1]), 
-    			Integer.parseInt(dateFin[0]), (int)heureFin, (int)(heureFin-(int)heureFin)*60);
-
-    	
-    	if (gc.after(calDeb) && gc.before(calFin))
-    		contient = true;
-    	
-		return contient;    	
-    }
 
 }

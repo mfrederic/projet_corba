@@ -1,5 +1,7 @@
 package autorisation;
 
+import helpers.MaPlageDate;
+
 import java.util.GregorianCalendar;
 
 import Gestion_acces.ServeurAutorisationPOA;
@@ -20,7 +22,7 @@ public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
 		short id = 0;
 		short idZone = 0;
 		boolean autorise = false;
-		structPlage[] listePlages = new structPlage[0];
+		MaPlageDate[] listePlages = new MaPlageDate[0];
 		int i = 0;
 		
 		// id = select idPersonne from personne where p.idPers = idPersonne
