@@ -1,7 +1,2 @@
-/.DS_Store
-/Gestion_acces/
-/annuaire/
-/authentification/
-/autorisation/
-/interfaces/
-/log/
+/model/
+/bdd/
