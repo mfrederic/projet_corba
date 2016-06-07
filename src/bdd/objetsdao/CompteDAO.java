@@ -90,17 +90,17 @@ public class CompteDAO extends DAO<Compte>{
 		}
 	}
 	
-	//retourne le compte ou null si empreinte inconnu
-	public Compte findByEmpreinte(String empreinte) {
+	//retourne le refPersonne ou 0 si empreinte inconnue
+	public int findByEmpreinte(String empreinte) {
 		try {
-			ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery("SELECT * FROM \"Compte\" WHERE \"empreinte\" = " + empreinte);
+			ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery("SELECT * FROM \"Compte\" WHERE empreinte = '" + empreinte+"'");
 			if (result.first()) {
-				return find(result.getInt(1));
+				return result.getInt(4);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return null;
+		return 0;
 	}
 	
 	//retourne le compte ou null si empreinte inconnu

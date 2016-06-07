@@ -2,16 +2,34 @@ package autorisation;
 
 import helpers.MaPlageDate;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.Iterator;
+import java.util.List;
 
+import model.Personne;
+import model.Zone;
 import Gestion_acces.ServeurAutorisationPOA;
 import Gestion_acces.personne;
 import Gestion_acces.personneInexistante;
 import Gestion_acces.structPlage;
 import Gestion_acces.ServeurAutorisationPackage.autorisationInexistante;
 import Gestion_acces.ServeurAutorisationPackage.zoneInconnue;
+import bdd.objetsdao.AutorisationDAO;
+import bdd.objetsdao.PersonneDAO;
+import bdd.objetsdao.ZoneDAO;
 
 public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
+	
+	private PersonneDAO repoPersonne;
+	private ZoneDAO repoZone;
+	private AutorisationDAO repoAutorisation;
+	
+	public ServeurAutorisationImpl() {
+		repoPersonne = new PersonneDAO();
+		repoZone = new ZoneDAO();
+		repoAutorisation = new AutorisationDAO();
+	}
 
 	@Override
 	public boolean demanderAutor(personne p, short zone)
@@ -19,24 +37,30 @@ public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
 		// TODO Auto-generated method stub
 		System.out.println("Autorisation-demanderAutor");
 		
-		short id = 0;
-		short idZone = 0;
+		Personne pers = null;
+		Zone z = null;
 		boolean autorise = false;
-		MaPlageDate[] listePlages = new MaPlageDate[0];
-		int i = 0;
+		List<MaPlageDate> listePlages = new ArrayList<MaPlageDate>();
 		
-		// id = select idPersonne from personne where p.idPers = idPersonne
-		if (id == 0)
+		// interdit !!!
+		// BD
+		pers = repoPersonne.find(p.idPers);
+		// interdit !!
+		
+		if (pers == null)
 			throw new personneInexistante(p.idPers);
 		else {
-			// idZone = select idZone from zone where idZone = zone
-			if (idZone == 0 )
+			
+			// BD
+			z = repoZone.find(zone);
+			
+			if (z == null)
 				throw new zoneInconnue(zone);
 			else {
-				// listePlages = select structPlage from Autorisation where zone = zone
-				while (!autorise && i< listePlages.length) {
-					autorise = listePlages[i].contient(new GregorianCalendar());
-					i++;
+				listePlages = repoAutorisation.findAllByPersonneZone(p.idPers, zone);
+				Iterator<MaPlageDate> it = listePlages.iterator();
+				while (!autorise && it.hasNext()) {
+					autorise = it.next().contient(new GregorianCalendar());
 				}
 			}
 		}

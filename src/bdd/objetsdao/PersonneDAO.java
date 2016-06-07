@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import bdd.DAO;
+import model.Compte;
 import model.Personne;
 
 public class PersonneDAO extends DAO<Personne>{
@@ -114,6 +115,21 @@ public class PersonneDAO extends DAO<Personne>{
 			e.printStackTrace();
 		}
 		return pers;
+	}
+	
+	//retourne la personne ou null si photo inconnue
+	public Personne findByPicture(String photo) {
+		try {
+			ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)
+					.executeQuery("SELECT * FROM \"Personne\" WHERE \"photoPersonne\" = '" + photo + "'");
+				
+			if (result.first()) {
+				return find(result.getInt(6));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

@@ -1,42 +1,53 @@
 package annuaire;
 
+import model.Personne;
 import Gestion_acces.AnnuairePOA;
 import Gestion_acces.personne;
 import Gestion_acces.personneInexistante;
 import Gestion_acces.rolePersonne;
 import Gestion_acces.statutPersonne;
+import bdd.objetsdao.PersonneDAO;
 
 public class AnnuaireImpl extends AnnuairePOA{
 
+	private PersonneDAO repoPersonne;
+	
+	public AnnuaireImpl() {
+		repoPersonne = new PersonneDAO();
+	}
+	
 	@Override
 	public personne identifier(short id) throws personneInexistante {
 		// TODO Auto-generated method stub
 		System.out.println("Annuaire-identifier");
-		personne p = new personne((short)0,"nom","prenom","photo",statutPersonne.permanent,rolePersonne.basique);
+		Personne persBD = null;
+		personne persORB = new personne((short)0,"nom","prenom","photo",statutPersonne.permanent,rolePersonne.basique);
 		
-		// p = select personne where idPers = id
-		p.idPers = 1;
-		if (p.idPers == 0)
+		persBD = repoPersonne.find(id);
+
+		if (persBD == null)
 			throw new personneInexistante(id);
+		else
+			persORB = personneBDtoORB(persBD);
 		
-		System.out.println(p.prenom + " " + p.nom);
-		return p;
+		return persORB;
 	}
 
 	@Override
 	public personne demanderIdentite(String ph) throws personneInexistante {
 		// TODO Auto-generated method stub
 		System.out.println("Annuaire-identifier");
-		personne p = new personne((short)0,"nom","prenom","photo",statutPersonne.permanent,rolePersonne.basique);
+		Personne persBD = null;
+		personne persORB = new personne((short)0,"nom","prenom","photo",statutPersonne.permanent,rolePersonne.basique);
 		
-		// p = select personne where photo = ph
-		p.idPers = 1;
-		
-		if (p.idPers == 0)
+		persBD = repoPersonne.findByPicture(ph);
+
+		if (persBD == null)
 			throw new personneInexistante((short)0);
+		else
+			persORB = personneBDtoORB(persBD);
 		
-		System.out.println(p.prenom + " " + p.nom);
-		return p;
+		return persORB;
 	}
 
 	@Override
@@ -90,6 +101,38 @@ public class AnnuaireImpl extends AnnuairePOA{
 		// listePersonnes [] = select * from Personne where nom = nom and prenom = prenom;
 		
 		return listePersonnes;
+	}
+	
+	private personne personneBDtoORB(Personne p) {
+		statutPersonne statut;
+		rolePersonne role;
+		
+		switch (p.getStatutPersonne()) {
+			case "temporaire":
+				statut = statutPersonne.temporaire;
+				break;
+			case "permanent" :
+				statut = statutPersonne.permanent;
+				break;
+			default :
+				statut = statutPersonne.permanent;
+				break;
+		}
+		switch (p.getRolePersonne()) {
+		case "RH":
+			role = rolePersonne.RH;
+			break;
+		case "accueil" :
+			role = rolePersonne.accueil;
+			break;
+		case "basique" :
+			role = rolePersonne.basique;
+			break;
+		default :
+			role = rolePersonne.basique;
+			break;
+	}
+		return new personne((short) p.getIdPersonne(), p.getNomPersonne(), p.getPrenomPersonne(), p.getPhotoPersonne(), statut, role);	
 	}
 
 }

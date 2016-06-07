@@ -1,5 +1,7 @@
 package bdd.objetsdao;
 
+import helpers.MaPlageDate;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -7,9 +9,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import bdd.DAO;
 import model.Autorisation;
-import model.Compte;
+import bdd.DAO;
 
 public class AutorisationDAO extends DAO<Autorisation>{
 
@@ -40,7 +41,7 @@ public class AutorisationDAO extends DAO<Autorisation>{
 		try {
 			PreparedStatement prepare = 
 					this.connect.prepareStatement(
-							"INSERT INTO \"Autorisation\" (\"refPersonne\",\"refZone\",\"heureDebut\",\"heureFin\",\"jourDebut\",\"heureFin\") VALUES(?, ?, ?,?,?,?)",
+							"INSERT INTO \"Autorisation\" (\"refPersonne\",\"refZone\",\"heureDebut\",\"heureFin\",\"jourDebut\",\"jourFin\") VALUES(?, ?, ?,?,?,?)",
 							Statement.RETURN_GENERATED_KEYS
 							);
 			prepare.setInt(1, obj.getRefPersonne());
@@ -118,6 +119,22 @@ public class AutorisationDAO extends DAO<Autorisation>{
 			ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery("SELECT * FROM \"Autorisation\" WHERE \"refZone\" = " + idZone);
 			while (result.next()) {
 				out.add(find(result.getInt(1)));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if(out.size()>0)
+			return out;
+		return null;
+	}
+	
+	//retourne la liste de plages d'autorisation pour une personne et une zone ou null si aucun match
+	public List<MaPlageDate> findAllByPersonneZone(int idPersonne, int idZone) {
+		List<MaPlageDate> out = new ArrayList<MaPlageDate>();
+		try {
+			ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery("SELECT * FROM \"Autorisation\" WHERE \"refPersonne\" = " + idPersonne + " AND \"refZone\" = " + idZone);
+			while (result.next()) {
+				out.add(new MaPlageDate(result.getString(6), result.getString(7), result.getInt(4), result.getInt(5)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -11,7 +11,7 @@ import Gestion_acces.statutPersonne;
 import Gestion_acces.ServeurAutorisationPackage.zoneInconnue;
 import authentification.ClientServeurAuthentification;
 import autorisation.ClientServeurAutorisation;
-import autorisation.Porte;
+import model.Porte;
 
 public class InterfacePorte {
 
@@ -35,7 +35,7 @@ public class InterfacePorte {
 		monAutorisation = new ClientServeurAutorisation();
 		monJournal = new ClientJournal();
 		
-		entrer("emp","ph");
+		entrer("empreinteDeMarie","photooo");
 		
 		System.out.println(message);
 	}
@@ -44,7 +44,7 @@ public class InterfacePorte {
 		boolean autorisation = false;		
 
 		try {
-			persTemp = monAuthentification.getMonAuthentification().demanderAuth("emp","ph",cleServeur);
+			persTemp = monAuthentification.getMonAuthentification().demanderAuth(emp, ph, cleServeur);
 			
 			if (persTemp.idPers == 0)
 				message = "Accès refusé : personne inconnue";

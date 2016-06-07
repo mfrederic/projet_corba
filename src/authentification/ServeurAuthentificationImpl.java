@@ -1,5 +1,6 @@
 package authentification;
 
+import model.Compte;
 import Gestion_acces.ServeurAuthentificationPOA;
 import Gestion_acces.accesRefuse;
 import Gestion_acces.droitsInsuffisants;
@@ -11,18 +12,22 @@ import Gestion_acces.ServeurAuthentificationPackage.compteDejaCree;
 import Gestion_acces.ServeurAuthentificationPackage.compteInexistant;
 import Gestion_acces.ServeurAuthentificationPackage.suppressionInterdite;
 import annuaire.ClientAnnuaire;
+import bdd.objetsdao.CompteDAO;
 
 public class ServeurAuthentificationImpl extends ServeurAuthentificationPOA{
 	private ClientAnnuaire monAnnuaire;
+	
+	private CompteDAO repoCompte;
 	
 	private static final String cleServeur = "stp";
 	
 	public ServeurAuthentificationImpl() {
 		monAnnuaire = new ClientAnnuaire();
+		repoCompte = new CompteDAO();
 	}
 	
 	@Override
-	public personne demanderAuth(String emp, String ph, String mdp)
+	public personne demanderAuth(String empr, String ph, String mdp)
 			throws accesRefuse {
 		// TODO Auto-generated method stub
 		System.out.println("Auth-demanderAuth");
@@ -30,9 +35,11 @@ public class ServeurAuthentificationImpl extends ServeurAuthentificationPOA{
 		personne p = new personne((short)0,"nom","prenom","photo",statutPersonne.permanent,rolePersonne.basique);
 
 		if (cleServeur.equals(mdp)) {
-			int refPersonne = 1;
+			int refPersonne = 0;
 
-			//refPersonne = get refPersonne where empreinte = emp
+			//BD
+			refPersonne = repoCompte.findByEmpreinte(empr);
+			System.out.println(refPersonne);
 			
 			if (refPersonne == 0)
 				throw new accesRefuse("Empreinte inconnue");

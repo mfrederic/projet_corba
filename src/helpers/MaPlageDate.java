@@ -18,16 +18,25 @@ public class MaPlageDate {
 	
     
     public boolean contient (GregorianCalendar gc) {
+    	//System.out.println("gc : " + gc.toString());
     	boolean contient = false;
    	
     	String[] dateDeb = structPlage.jourDeb.split("-");
     	String[] dateFin = structPlage.jourFin.split("-");
     	
-    	GregorianCalendar calDeb = new GregorianCalendar(2000+Integer.parseInt(dateDeb[2]), Integer.parseInt(dateDeb[1]), 
+    	GregorianCalendar calDeb = new GregorianCalendar(Integer.parseInt(dateDeb[2]), Integer.parseInt(dateDeb[1]), 
     			Integer.parseInt(dateDeb[0]), (int)structPlage.heureDeb, (int)(structPlage.heureDeb-(int)structPlage.heureDeb)*60);
-    	GregorianCalendar calFin = new GregorianCalendar(2000+Integer.parseInt(dateFin[2]), Integer.parseInt(dateFin[1]), 
+    	GregorianCalendar calFin = new GregorianCalendar(Integer.parseInt(dateFin[2]), Integer.parseInt(dateFin[1]), 
     			Integer.parseInt(dateFin[0]), (int)structPlage.heureFin, (int)(structPlage.heureFin-(int)structPlage.heureFin)*60);
 
+    	/*
+    	System.out.println("calDeb : " + calDeb.toString());
+    	System.out.println(structPlage.jourDeb + "  " + structPlage.heureDeb);
+    	System.out.println("calFin : " + calFin.toString());
+    	System.out.println(structPlage.jourFin + "  " + structPlage.heureFin);
+    	
+    	System.out.println(gc.after(calDeb) + ";" + gc.before(calFin));
+    	*/
     	
     	if (gc.after(calDeb) && gc.before(calFin))
     		contient = true;
