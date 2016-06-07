@@ -71,24 +71,20 @@ public class ServeurAuthentificationImpl extends ServeurAuthentificationPOA{
 		personne p = new personne((short)0,"nom","prenom","photo",statutPersonne.permanent,rolePersonne.basique);
 		
 		if (cleServeur.equals(mdp)) { // Clé serveur
-			short refP = 0;
-			String pswd = "";
-		
-			// refP = select refPersonne where user = this.user
-			refP = 1;
+			Compte cmpt = new Compte();
+			
+			// BD
+			cmpt = repoCompte.findByUser(user);
 					
-			if (refP == 0) // Contrôle de l'existance du user dans la base
+			if (cmpt == null) // Contrôle de l'existance du user dans la base
 				throw new compteInexistant(user);
 			else { // le compte existe
-				
-				// pswd = select password where user = this.user
-				pswd = "pswd";
-						
-				if (!pswd.equals(password)) // Contrôle du mdp utilisateur
+			
+				if (!cmpt.getPassword().equals(password)) // Contrôle du mdp utilisateur
 					throw new droitsInsuffisants("Mauvais mot de passe");
 				else { // Mot de passe bon
 					try {
-						p = monAnnuaire.getMonAnnuaire().identifier(refP);
+						p = monAnnuaire.getMonAnnuaire().identifier((short)cmpt.getRefPersonne());
 					} catch (personneInexistante e) {
 						// TODO Auto-generated catch block
 						System.out.println(e.toString());
@@ -113,14 +109,19 @@ public class ServeurAuthentificationImpl extends ServeurAuthentificationPOA{
 		short refPers = 0;
 		
 		if (cleServeur.equals(mdp)) { // Clé serveur
-			// refPers = select refPersonne where user = this.user
-			refPers = 1;
+			Compte cmpt = new Compte();
+			
+			// BD
+			cmpt = repoCompte.findByUser(user);
 					
-			if (refPers == 0) // Contrôle de l'existance du user dans la base
+			if (cmpt == null) // Contrôle de l'existance du user dans la base
 				throw new compteInexistant(user);
 			else { // le compte existe
 				
-				// Set emp = emp where user = user
+				// BD
+				cmpt.setEmpreinte(emp);
+				repoCompte.update(cmpt);
+
 				System.out.println("Empreinte ajoutée");
 			}
 		} else {

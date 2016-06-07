@@ -72,7 +72,7 @@ public class CompteDAO extends DAO<Compte>{
 			prepare.executeUpdate();
 			ResultSet rs = prepare.getGeneratedKeys();
 			rs.next();
-			return find(rs.getInt(6));
+			return find(rs.getInt(4));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -103,14 +103,14 @@ public class CompteDAO extends DAO<Compte>{
 		return 0;
 	}
 	
-	//retourne le compte ou null si empreinte inconnu
+	//retourne le compte ou null si user ou mdp inconnu
 	public Compte findByUserAndPassword(String user, String password) {
 		try {
 			ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)
 					.executeQuery("SELECT * FROM \"Compte\" WHERE \"user\" = " + user + " AND \"password\" = " + password);
 				
 			if (result.first()) {
-				return find(result.getInt(1));
+				return find(result.getInt(4));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -118,8 +118,20 @@ public class CompteDAO extends DAO<Compte>{
 		return null;
 	}
 	
-	
-
+	//retourne le compte ou null si user ou mdp inconnu
+	public Compte findByUser(String user) {
+		try {
+			ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)
+					.executeQuery("SELECT * FROM \"Compte\" WHERE \"user\" = '" + user + "'");
+				
+			if (result.first()) {
+				return find(result.getInt(4));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	@Override
 	public ArrayList<Compte> getInstances() {

@@ -18,6 +18,8 @@ public class InterfaceEmpreinte {
 	private static ClientServeurAuthentification monAuthentification;
 	
 	private static personne persTemp;
+	private static String userTemp;
+	private static String pswdTemp;
 	private static boolean authReussie;
 	
 	public static void main(String args[]) {
@@ -32,8 +34,10 @@ public class InterfaceEmpreinte {
 				BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 				String s[] = in.readLine().split(";");
 				
-			if (s.length > 1) {				
-				authentifier(s[0], s[1]);
+			if (s.length > 1) {		
+				userTemp = s[0];
+				pswdTemp = s[1];
+				authentifier(userTemp, pswdTemp);
 			}
 				
 				
@@ -53,10 +57,10 @@ public class InterfaceEmpreinte {
 	        String choix = in.readLine();
 			
 			switch (choix) {
-	        	case "1": ajouterEmpreinte("user","pswd");
+	        	case "1": ajouterEmpreinte(userTemp, "NouvelleEmpreinte2");
 	        		break;
 	        	case "2": try {
-					modifierEmpreinte("user","pswd");
+					modifierEmpreinte(userTemp, "NouvelleEmpreinte");
 				} catch (droitsInsuffisants e) {
 					// TODO Auto-generated catch block
 					System.out.println(e.toString());

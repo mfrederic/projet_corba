@@ -67,11 +67,11 @@ public class InterfacePorte {
 		}
 		
 
-		journaliser("Entrée", persTemp, autorisation, "");
+		//journaliser("Entrée", persTemp, autorisation, message);
 	}
 	
 	private static void journaliser(String typeAcces, personne p, boolean res, String commentaire) {
-		monJournal.getMonJournal().journaliser(new GregorianCalendar().toString(), typeAcces, p, res, commentaire);
+		short retour = monJournal.getMonJournal().journaliser(new GregorianCalendar().toString(), typeAcces, p, res, commentaire);
 	}
 	
 }
