@@ -31,4 +31,10 @@ public interface ServeurAutorisationOperations
     public void supprimerAutorisation(Gestion_acces.personne p, short zone, Gestion_acces.structPlage plage)
         throws Gestion_acces.ServeurAutorisationPackage.autorisationInexistante;
 
+    /**
+     * Operation getZonesResp
+     */
+    public short[] getZonesResp(Gestion_acces.personne resp)
+        throws Gestion_acces.personneInexistante;
+
 }

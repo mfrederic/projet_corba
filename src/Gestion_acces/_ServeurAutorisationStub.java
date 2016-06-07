@@ -273,4 +273,60 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
         }
     }
 
+    /**
+     * Operation getZonesResp
+     */
+    public short[] getZonesResp(Gestion_acces.personne resp)
+        throws Gestion_acces.personneInexistante
+    {
+        while(true)
+        {
+            if (!this._is_local())
+            {
+                org.omg.CORBA.portable.InputStream _input = null;
+                try
+                {
+                    org.omg.CORBA.portable.OutputStream _output = this._request("getZonesResp",true);
+                    Gestion_acces.personneHelper.write(_output,resp);
+                    _input = this._invoke(_output);
+                    short[] _arg_ret = Gestion_acces.listeZonesHelper.read(_input);
+                    return _arg_ret;
+                }
+                catch(org.omg.CORBA.portable.RemarshalException _exception)
+                {
+                    continue;
+                }
+                catch(org.omg.CORBA.portable.ApplicationException _exception)
+                {
+                    String _exception_id = _exception.getId();
+                    if (_exception_id.equals(Gestion_acces.personneInexistanteHelper.id()))
+                    {
+                        throw Gestion_acces.personneInexistanteHelper.read(_exception.getInputStream());
+                    }
+
+                    throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
+                }
+                finally
+                {
+                    this._releaseReply(_input);
+                }
+            }
+            else
+            {
+                org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke("getZonesResp",_opsClass);
+                if (_so == null)
+                   continue;
+                Gestion_acces.ServeurAutorisationOperations _self = (Gestion_acces.ServeurAutorisationOperations) _so.servant;
+                try
+                {
+                    return _self.getZonesResp( resp);
+                }
+                finally
+                {
+                    _servant_postinvoke(_so);
+                }
+            }
+        }
+    }
+
 }

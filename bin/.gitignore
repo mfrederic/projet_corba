@@ -1,2 +1,8 @@
-/model/
+/Gestion_acces/
+/annuaire/
+/authentification/
+/autorisation/
 /bdd/
+/interfaces/
+/log/
+/model/

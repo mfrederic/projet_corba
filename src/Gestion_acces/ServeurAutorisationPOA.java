@@ -37,6 +37,8 @@ public abstract class ServeurAutorisationPOA extends org.omg.PortableServer.Serv
                 return _invoke_ajouterAutorisation(_is, handler);
         } else if (opName.equals("demanderAutor")) {
                 return _invoke_demanderAutor(_is, handler);
+        } else if (opName.equals("getZonesResp")) {
+                return _invoke_getZonesResp(_is, handler);
         } else if (opName.equals("modifierAutorisation")) {
                 return _invoke_modifierAutorisation(_is, handler);
         } else if (opName.equals("supprimerAutorisation")) {
@@ -157,6 +159,28 @@ public abstract class ServeurAutorisationPOA extends org.omg.PortableServer.Serv
         {
             _output = handler.createExceptionReply();
             Gestion_acces.ServeurAutorisationPackage.autorisationInexistanteHelper.write(_output,_exception);
+        }
+        return _output;
+    }
+
+    private org.omg.CORBA.portable.OutputStream _invoke_getZonesResp(
+            final org.omg.CORBA.portable.InputStream _is,
+            final org.omg.CORBA.portable.ResponseHandler handler) {
+        org.omg.CORBA.portable.OutputStream _output;
+        Gestion_acces.personne arg0_in = Gestion_acces.personneHelper.read(_is);
+
+        try
+        {
+            short[] _arg_result = getZonesResp(arg0_in);
+
+            _output = handler.createReply();
+            Gestion_acces.listeZonesHelper.write(_output,_arg_result);
+
+        }
+        catch (Gestion_acces.personneInexistante _exception)
+        {
+            _output = handler.createExceptionReply();
+            Gestion_acces.personneInexistanteHelper.write(_output,_exception);
         }
         return _output;
     }

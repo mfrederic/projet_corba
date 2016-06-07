@@ -52,7 +52,7 @@ public class InterfaceGestionPersonnel {
 		}
 		
 		System.out.println("Que voulez-vous faire ?");
-		System.out.println("1. Creer Compte");
+		System.out.println("1. Créer Compte");
 		System.out.println("2. Ajouter photo");
 		System.out.println("3. Supprimer empreinte");
         

@@ -98,4 +98,13 @@ public class ServeurAutorisationPOATie extends ServeurAutorisationPOA
         _tie.supprimerAutorisation( p,  zone,  plage);
     }
 
+    /**
+     * Operation getZonesResp
+     */
+    public short[] getZonesResp(Gestion_acces.personne resp)
+        throws Gestion_acces.personneInexistante
+    {
+        return _tie.getZonesResp( resp);
+    }
+
 }

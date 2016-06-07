@@ -70,12 +70,12 @@ public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
 		// TODO Auto-generated method stub
 		System.out.println("Autorisation-modifierAutorisation");
 		
-		short id = 0;
+		short idPers = 0;
 		short idZone = 0;
 		short idAutor = 0;
 
-		// id = select idPersonne from personne where p.idPers = idPersonne
-		if (id == 0)
+		// idPers = select idPersonne from personne where p.idPers = idPersonne
+		if (idPers == 0)
 			throw new personneInexistante(p.idPers);
 		else {
 			// idZone = select idZone from zone where idZone = zone
@@ -122,4 +122,24 @@ public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
 		}		
 	}
 
+	@Override
+	public short[] getZonesResp(personne resp) throws personneInexistante {
+		// TODO Auto-generated method stub
+		System.out.println("Autorisation-getZonesResp");
+		
+		short idPers = 0;
+		short[] listeZones = null;
+		listeZones[0] = 0;
+		
+		// idPers = select idPersonne from personne where p.idPers = idPersonne
+		if (idPers == 0)
+			throw new personneInexistante(idPers);
+		else {
+			// listeZones = select idZone from Zone where respZone = resp
+			System.out.println(listeZones.toString());
+		}
+		return listeZones;
+	}
+	
+	
 }
