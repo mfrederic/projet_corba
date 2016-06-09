@@ -57,10 +57,16 @@ public class InterfaceEmpreinte {
 	        String choix = in.readLine();
 			
 			switch (choix) {
-	        	case "1": ajouterEmpreinte(userTemp, "NouvelleEmpreinte2");
+	        	case "1": 
+        			System.out.println("empreinte");
+        			choix = in.readLine();
+	        		ajouterEmpreinte(userTemp, choix);
 	        		break;
 	        	case "2": try {
-					modifierEmpreinte(userTemp, "NouvelleEmpreinte");
+	        		System.out.println("empreinte");
+        			choix = in.readLine();
+	        		modifierEmpreinte(userTemp, choix);
+	        		break;
 				} catch (droitsInsuffisants e) {
 					// TODO Auto-generated catch block
 					System.out.println(e.toString());

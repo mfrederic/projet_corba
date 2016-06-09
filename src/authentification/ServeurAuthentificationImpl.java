@@ -134,25 +134,29 @@ public class ServeurAuthentificationImpl extends ServeurAuthentificationPOA{
 			throws accesRefuse, compteInexistant, suppressionInterdite {
 		// TODO Auto-generated method stub
 		System.out.println("Auth-supprimerEmpreinte");
-		short refPers = 0;
 		personne p = new personne((short)0,"nom","prenom","photo",statutPersonne.permanent,rolePersonne.basique);
 		
 		if (cleServeur.equals(mdp)) { // Clé serveur
+			Compte cmpt = new Compte();
 			
-			// refPers = select refPersonne where user = this.user
-			refPers = 1;
-					
-			if (refPers == 0) // Contrôle de l'existance du user dans la base
+			// BD
+			cmpt = repoCompte.findByUser(user);
+			
+			if (cmpt == null) // Contrôle de l'existance du user dans la base
 				throw new compteInexistant(user);
 			else { // le compte existe
 				
 				try {
-					p = monAnnuaire.getMonAnnuaire().identifier(refPers);
+					p = monAnnuaire.getMonAnnuaire().identifier((short) cmpt.getRefPersonne());
 					
-					if (p.statut == statutPersonne.temporaire)
+					if (p.statut == statutPersonne.temporaire) {
 						System.out.println("Empreinte supprimée");
-						// set empreinte = null from compte where user = user
-					else
+						
+						// BD
+						cmpt.setEmpreinte(null);
+						cmpt = repoCompte.update(cmpt);
+						
+					} else
 						throw new suppressionInterdite(p.role);
 				} catch (personneInexistante e) {
 					// TODO Auto-generated catch block
@@ -169,17 +173,24 @@ public class ServeurAuthentificationImpl extends ServeurAuthentificationPOA{
 			String mdp) throws compteDejaCree, accesRefuse {
 		// TODO Auto-generated method stub
 		System.out.println("Auth-creerCompte");
-		short refPers = 0;
 		
 		if (cleServeur.equals(mdp)) { // Clé serveur
-			// refPers = select refPersonne where user = this.user
-			refPers = 1;
+			Compte cmpt = new Compte();
+			
+			// BD
+			cmpt = repoCompte.findByUser(user);
 					
-			if (refPers != 0) // Contrôle de l'inexistance du user dans la base
-				throw new compteDejaCree(user, password, refPers);
+			if (cmpt != null) // Contrôle de l'inexistance du user dans la base
+				throw new compteDejaCree(user, password, (short) cmpt.getRefPersonne());
 			
 			else { // le compte n'existe pas
-				// insert into compte values(user, password,idPersonne);
+				
+				// BD
+				cmpt.setRefPersonne(idPersonne);
+				cmpt.setPassword(password);
+				cmpt.setUser(user);
+				cmpt = repoCompte.create(cmpt);
+
 				System.out.println("Compte créé");
 			}
 		} else {
@@ -192,18 +203,22 @@ public class ServeurAuthentificationImpl extends ServeurAuthentificationPOA{
 			throws accesRefuse, compteInexistant {
 		// TODO Auto-generated method stub
 		System.out.println("Auth-modifierMdp");
-		short refPers = 0;
 		
 		if (cleServeur.equals(mdpServeur)) { // Clé serveur
-			// refPers = select refPersonne where user = this.user
-			refPers = 1;
+			Compte cmpt = new Compte();
+			
+			// BD
+			cmpt = repoCompte.findByUser(user);
 					
-			if (refPers == 0) // Contrôle de l'existance du user dans la base
+			if (cmpt == null) // Contrôle de l'existance du user dans la base
 				throw new compteInexistant(user);
 			else { // le compte existe
+				
+				// BD
+				cmpt.setPassword(newMdp);
+				cmpt = repoCompte.update(cmpt);
 				System.out.println("Mot de passe modifié");
 			}
-			// Set mdp = newMdp where user = user
 		} else {
 			throw new accesRefuse("Mot de passe serveur faux");
 		}

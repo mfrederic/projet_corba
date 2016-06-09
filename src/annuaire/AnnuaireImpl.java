@@ -1,5 +1,8 @@
 package annuaire;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import model.Personne;
 import Gestion_acces.AnnuairePOA;
 import Gestion_acces.personne;
@@ -55,13 +58,17 @@ public class AnnuaireImpl extends AnnuairePOA{
 			statutPersonne statut, rolePersonne role) {
 		// TODO Auto-generated method stub
 		System.out.println("Annuaire-creerPersonne");
-		
+		Personne pers = new Personne();
 		short id = 0;
 		
-		// id = Insert into personne values(nom,prenom,statut,role)
-		id = 1;
-		
-		return id;
+		// BD
+		pers.setNomPersonne(nom);
+		pers.setPrenomPersonne(prenom);
+		pers.setStatutPersonne(statut.toString());
+		pers.setRolePersonne(role.toString());
+		pers = repoPersonne.create(pers);
+
+		return (short) pers.getIdPersonne();
 	}
 
 	@Override
@@ -69,13 +76,20 @@ public class AnnuaireImpl extends AnnuairePOA{
 			throws personneInexistante {
 		// TODO Auto-generated method stub
 		System.out.println("Annuaire-ajouterPhoto");
-		short idPers = 0;
+		Personne pers = new Personne();
 		
-		// idPers = select idPers where idPers = idPersonne
-		if (idPers == 0)
+		pers = repoPersonne.find(idPersonne);
+
+		if (pers == null)
 			throw new personneInexistante(idPersonne);
-		else
+		else {
+			
+			// BD
+			pers.setPhotoPersonne(ph);
+			repoPersonne.update(pers);
 			System.out.println("Photo changée");
+		}
+		
 	}
 
 	@Override
@@ -84,23 +98,43 @@ public class AnnuaireImpl extends AnnuairePOA{
 			throws personneInexistante {
 		// TODO Auto-generated method stub
 		System.out.println("Annuaire-modifierInfos");
+		Personne pers = new Personne();
 		
-		short id = 0;
-		// id = select idPers where idPers = idPersonne
-		if (id == 0)
+		pers = repoPersonne.find(idPersonne);
+
+		if (pers == null)
 			throw new personneInexistante(idPersonne);
-		else
-			// set nom = nom where idPersonne = idPersonne, set prenom = prenom where idPersonne = idPersonne...
+		else {
+			
+			// BD
+			pers.setNomPersonne(nom);
+			pers.setPrenomPersonne(prenom);
+			pers.setStatutPersonne(statut.toString());
+			pers.setRolePersonne(role.toString());
+
 			System.out.println("Infos modifiées");
+		}
 	}
 
 	@Override
 	public personne[] chercherPersonnes(String nom, String prenom) {
 		// TODO Auto-generated method stub
-		personne[] listePersonnes = null;
-		// listePersonnes [] = select * from Personne where nom = nom and prenom = prenom;
 		
-		return listePersonnes;
+		ArrayList<Personne> listePersonnes = repoPersonne.getByNomPrenom(nom, prenom);
+		personne[] listePersORB = new personne[0];
+
+		if (listePersonnes == null)
+			return new personne[0];
+		
+		else {
+			Personne[] listePersBD = (Personne[]) listePersonnes.toArray();
+			listePersORB = new personne[listePersBD.length];
+			for (int i=0; i<listePersBD.length; i++) {
+			   listePersORB[i] = personneBDtoORB(listePersBD[i]);
+			}
+		   
+		   return listePersORB;
+		}
 	}
 	
 	private personne personneBDtoORB(Personne p) {

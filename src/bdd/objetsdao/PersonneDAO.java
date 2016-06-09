@@ -106,7 +106,25 @@ public class PersonneDAO extends DAO<Personne>{
 			ResultSet result = this.connect.createStatement(
 					ResultSet.TYPE_SCROLL_INSENSITIVE,
 					ResultSet.CONCUR_UPDATABLE).executeQuery(
-							"SELECT * FROM tweet");
+							"SELECT * FROM \"Personne\"");
+			while (result.next()) {
+				Personne a = this.find(result.getInt(1));
+				pers.add(a);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return pers;
+	}
+	
+	//retourne la liste de personnes ou null si inconnu
+	public ArrayList<Personne> getByNomPrenom(String nom, String prenom) {
+		ArrayList<Personne> pers = new ArrayList<Personne>();
+		try {
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE).executeQuery(
+							"SELECT * FROM \"Personne\" WHERE \"nomPersonne\" = '" + nom + "' AND \"prenomPersonne\" = '" + prenom + "'");
 			while (result.next()) {
 				Personne a = this.find(result.getInt(1));
 				pers.add(a);
