@@ -3,7 +3,8 @@
 /authentification/
 /autorisation/
 /bdd/
+/helpers/
 /interfaces/
 /log/
 /model/
-/helpers/
+/interfaceEmpreinte/
