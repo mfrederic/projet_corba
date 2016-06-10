@@ -47,7 +47,7 @@ module Gestion_acces {
 		boolean demanderAutor (in personne p, in short zone) raises(zoneInconnue); // Depuis Porte
 		void ajouterAutorisation (in personne p, in short zone, in structPlage plage) raises(zoneInconnue);
 		void modifierAutorisation (in personne p, in short oldZone, in structPlage oldPlage, in short newZone, in structPlage newPlage) raises(zoneInconnue, autorisationInexistante);
-		void supprimerAutorisation (in personne p, in short zone, in structPlage plage) raises(autorisationInexistante);
+		void supprimerAutorisation (in personne p, in short zone, in structPlage plage) raises(zoneInconnue, autorisationInexistante);
 		listeZones getZonesResp(in personne resp);
 	};
 

@@ -143,6 +143,29 @@ public class AutorisationDAO extends DAO<Autorisation>{
 			return out;
 		return null;
 	}
+	
+	//retourne l'autorisation pour une personne, une zone et une plage ou null
+		public Autorisation findAllByPersonneZonePlage(int idPersonne, int idZone, float hDeb, float hFin, String jDeb, String jFin) {
+			try {
+				ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)
+						.executeQuery(
+								"SELECT * " + 
+								"FROM \"Autorisation\" " + 
+								"WHERE \"refPersonne\" = '" + idPersonne + "'" + 
+								" AND \"refZone\" = '" + idZone + "'" + 
+								" AND \"heureDebut\" = '" + hDeb + "'" + 
+								" AND \"heureFin\" = '" + hFin + "'" + 
+								" AND \"jourDebut\" = '" + jDeb + "'" + 
+								" AND \"jourFin\" = '" + jFin + "'");
+				while (result.first()) {
+					 return find(result.getInt(1));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return null;
+		}
 
 
 	@Override

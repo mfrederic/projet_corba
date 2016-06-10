@@ -93,7 +93,7 @@ public class ServeurAutorisationPOATie extends ServeurAutorisationPOA
      * Operation supprimerAutorisation
      */
     public void supprimerAutorisation(Gestion_acces.personne p, short zone, Gestion_acces.structPlage plage)
-        throws Gestion_acces.ServeurAutorisationPackage.autorisationInexistante
+        throws Gestion_acces.ServeurAutorisationPackage.zoneInconnue, Gestion_acces.ServeurAutorisationPackage.autorisationInexistante
     {
         _tie.supprimerAutorisation( p,  zone,  plage);
     }

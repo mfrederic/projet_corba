@@ -204,7 +204,7 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
      * Operation supprimerAutorisation
      */
     public void supprimerAutorisation(Gestion_acces.personne p, short zone, Gestion_acces.structPlage plage)
-        throws Gestion_acces.ServeurAutorisationPackage.autorisationInexistante
+        throws Gestion_acces.ServeurAutorisationPackage.zoneInconnue, Gestion_acces.ServeurAutorisationPackage.autorisationInexistante
     {
         while(true)
         {
@@ -227,6 +227,11 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
                 catch(org.omg.CORBA.portable.ApplicationException _exception)
                 {
                     String _exception_id = _exception.getId();
+                    if (_exception_id.equals(Gestion_acces.ServeurAutorisationPackage.zoneInconnueHelper.id()))
+                    {
+                        throw Gestion_acces.ServeurAutorisationPackage.zoneInconnueHelper.read(_exception.getInputStream());
+                    }
+
                     if (_exception_id.equals(Gestion_acces.ServeurAutorisationPackage.autorisationInexistanteHelper.id()))
                     {
                         throw Gestion_acces.ServeurAutorisationPackage.autorisationInexistanteHelper.read(_exception.getInputStream());

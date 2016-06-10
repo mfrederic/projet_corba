@@ -140,6 +140,11 @@ public abstract class ServeurAutorisationPOA extends org.omg.PortableServer.Serv
             _output = handler.createReply();
 
         }
+        catch (Gestion_acces.ServeurAutorisationPackage.zoneInconnue _exception)
+        {
+            _output = handler.createExceptionReply();
+            Gestion_acces.ServeurAutorisationPackage.zoneInconnueHelper.write(_output,_exception);
+        }
         catch (Gestion_acces.ServeurAutorisationPackage.autorisationInexistante _exception)
         {
             _output = handler.createExceptionReply();

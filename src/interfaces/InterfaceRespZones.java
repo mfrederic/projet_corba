@@ -195,6 +195,10 @@ public class InterfaceRespZones {
 				// TODO Auto-generated catch block
 				System.out.println("Aucune autorisation correspondante trouvée (id = " + e.idAutorisation + ")");
 			}
+			catch (zoneInconnue e) {
+				// TODO Auto-generated catch block
+				System.out.println("Zone inconnue (id = " + e.zone + ")");
+			}
 
 		}
 	}
