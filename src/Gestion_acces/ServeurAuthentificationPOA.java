@@ -67,10 +67,10 @@ public abstract class ServeurAuthentificationPOA extends org.omg.PortableServer.
             Gestion_acces.personneHelper.write(_output,_arg_result);
 
         }
-        catch (Gestion_acces.accesRefuse _exception)
+        catch (Gestion_acces.ServeurAuthentificationPackage.accesRefuse _exception)
         {
             _output = handler.createExceptionReply();
-            Gestion_acces.accesRefuseHelper.write(_output,_exception);
+            Gestion_acces.ServeurAuthentificationPackage.accesRefuseHelper.write(_output,_exception);
         }
         return _output;
     }
@@ -96,15 +96,15 @@ public abstract class ServeurAuthentificationPOA extends org.omg.PortableServer.
             _output = handler.createExceptionReply();
             Gestion_acces.ServeurAuthentificationPackage.compteInexistantHelper.write(_output,_exception);
         }
-        catch (Gestion_acces.droitsInsuffisants _exception)
+        catch (Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants _exception)
         {
             _output = handler.createExceptionReply();
-            Gestion_acces.droitsInsuffisantsHelper.write(_output,_exception);
+            Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisantsHelper.write(_output,_exception);
         }
-        catch (Gestion_acces.accesRefuse _exception)
+        catch (Gestion_acces.ServeurAuthentificationPackage.accesRefuse _exception)
         {
             _output = handler.createExceptionReply();
-            Gestion_acces.accesRefuseHelper.write(_output,_exception);
+            Gestion_acces.ServeurAuthentificationPackage.accesRefuseHelper.write(_output,_exception);
         }
         return _output;
     }
@@ -124,10 +124,10 @@ public abstract class ServeurAuthentificationPOA extends org.omg.PortableServer.
             _output = handler.createReply();
 
         }
-        catch (Gestion_acces.accesRefuse _exception)
+        catch (Gestion_acces.ServeurAuthentificationPackage.accesRefuse _exception)
         {
             _output = handler.createExceptionReply();
-            Gestion_acces.accesRefuseHelper.write(_output,_exception);
+            Gestion_acces.ServeurAuthentificationPackage.accesRefuseHelper.write(_output,_exception);
         }
         catch (Gestion_acces.ServeurAuthentificationPackage.compteInexistant _exception)
         {
@@ -151,10 +151,10 @@ public abstract class ServeurAuthentificationPOA extends org.omg.PortableServer.
             _output = handler.createReply();
 
         }
-        catch (Gestion_acces.accesRefuse _exception)
+        catch (Gestion_acces.ServeurAuthentificationPackage.accesRefuse _exception)
         {
             _output = handler.createExceptionReply();
-            Gestion_acces.accesRefuseHelper.write(_output,_exception);
+            Gestion_acces.ServeurAuthentificationPackage.accesRefuseHelper.write(_output,_exception);
         }
         catch (Gestion_acces.ServeurAuthentificationPackage.compteInexistant _exception)
         {
@@ -190,10 +190,10 @@ public abstract class ServeurAuthentificationPOA extends org.omg.PortableServer.
             _output = handler.createExceptionReply();
             Gestion_acces.ServeurAuthentificationPackage.compteDejaCreeHelper.write(_output,_exception);
         }
-        catch (Gestion_acces.accesRefuse _exception)
+        catch (Gestion_acces.ServeurAuthentificationPackage.accesRefuse _exception)
         {
             _output = handler.createExceptionReply();
-            Gestion_acces.accesRefuseHelper.write(_output,_exception);
+            Gestion_acces.ServeurAuthentificationPackage.accesRefuseHelper.write(_output,_exception);
         }
         return _output;
     }
@@ -218,10 +218,10 @@ public abstract class ServeurAuthentificationPOA extends org.omg.PortableServer.
             _output = handler.createExceptionReply();
             Gestion_acces.ServeurAuthentificationPackage.compteInexistantHelper.write(_output,_exception);
         }
-        catch (Gestion_acces.accesRefuse _exception)
+        catch (Gestion_acces.ServeurAuthentificationPackage.accesRefuse _exception)
         {
             _output = handler.createExceptionReply();
-            Gestion_acces.accesRefuseHelper.write(_output,_exception);
+            Gestion_acces.ServeurAuthentificationPackage.accesRefuseHelper.write(_output,_exception);
         }
         return _output;
     }

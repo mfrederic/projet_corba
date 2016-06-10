@@ -1,4 +1,4 @@
-package Gestion_acces;
+package Gestion_acces.ServeurAuthentificationPackage;
 
 /**
  * Exception definition : droitsInsuffisants
@@ -40,7 +40,4 @@ public final class droitsInsuffisants extends org.omg.CORBA.UserException
         this.raison = raison;
     }
 
-    public String toString() {
-    	return "Droits insuffisants : " + raison;
-    }
 }

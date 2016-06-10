@@ -1,4 +1,4 @@
-package Gestion_acces;
+package Gestion_acces.ServeurAuthentificationPackage;
 
 /**
  * Exception definition : accesRefuse
@@ -38,10 +38,6 @@ public final class accesRefuse extends org.omg.CORBA.UserException
     {
         super(accesRefuseHelper.id() +" " +  orb_reason);
         this.raison = raison;
-    }
-    
-    public String toString() {
-    	return "Accès refusé : " + raison;
     }
 
 }

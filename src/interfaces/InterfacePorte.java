@@ -3,15 +3,15 @@ package interfaces;
 import java.util.GregorianCalendar;
 
 import log.ClientJournal;
-import Gestion_acces.accesRefuse;
+import model.Porte;
 import Gestion_acces.personne;
-import Gestion_acces.personneInexistante;
 import Gestion_acces.rolePersonne;
 import Gestion_acces.statutPersonne;
+import Gestion_acces.AnnuairePackage.personneInexistante;
+import Gestion_acces.ServeurAuthentificationPackage.accesRefuse;
 import Gestion_acces.ServeurAutorisationPackage.zoneInconnue;
 import authentification.ClientServeurAuthentification;
 import autorisation.ClientServeurAutorisation;
-import model.Porte;
 
 public class InterfacePorte {
 
@@ -35,7 +35,7 @@ public class InterfacePorte {
 		monAutorisation = new ClientServeurAutorisation();
 		monJournal = new ClientJournal();
 		
-		entrer("empreinteDeMarie","photooo");
+		entrer("EmpreinteDeMarie","photooo");
 		
 		System.out.println(message);
 	}
@@ -51,9 +51,9 @@ public class InterfacePorte {
 			else {
 				try {
 					autorisation = monAutorisation.getMonAutorisation().demanderAutor(persTemp, (short)porte.getRefZone());
-				} catch (personneInexistante | zoneInconnue e) {
+				} catch (zoneInconnue e) {
 					// TODO Auto-generated catch block
-					System.out.println(e.toString());
+					System.out.println("Zone inconnue (id = " + e.zone + ")");
 				}
 				
 				if (autorisation)
@@ -63,15 +63,18 @@ public class InterfacePorte {
 			}
 		} catch (accesRefuse e) {
 			// TODO Auto-generated catch block
-			message = e.toString();
+			message = "Accès refusé : " + e.raison;
 		}
 		
 
-		//journaliser("Entrée", persTemp, autorisation, message);
+		journaliser("Entrée", persTemp, autorisation, message);
 	}
 	
 	private static void journaliser(String typeAcces, personne p, boolean res, String commentaire) {
-		short retour = monJournal.getMonJournal().journaliser(new GregorianCalendar().toString(), typeAcces, p, res, commentaire);
+		GregorianCalendar gc = new GregorianCalendar();
+		String ts = String.valueOf(gc.YEAR) + "-" + String.valueOf(gc.MONTH) + "-" + String.valueOf(gc.DAY_OF_MONTH) + " " + String.valueOf(gc.HOUR_OF_DAY) + ":" + String.valueOf(gc.MINUTE) + ":" + String.valueOf(gc.SECOND); 
+
+		monJournal.getMonJournal().journaliser("e", typeAcces, p, res, commentaire);
 	}
 	
 }

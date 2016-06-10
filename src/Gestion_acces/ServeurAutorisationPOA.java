@@ -64,11 +64,6 @@ public abstract class ServeurAutorisationPOA extends org.omg.PortableServer.Serv
             _output.write_boolean(_arg_result);
 
         }
-        catch (Gestion_acces.personneInexistante _exception)
-        {
-            _output = handler.createExceptionReply();
-            Gestion_acces.personneInexistanteHelper.write(_output,_exception);
-        }
         catch (Gestion_acces.ServeurAutorisationPackage.zoneInconnue _exception)
         {
             _output = handler.createExceptionReply();
@@ -91,11 +86,6 @@ public abstract class ServeurAutorisationPOA extends org.omg.PortableServer.Serv
 
             _output = handler.createReply();
 
-        }
-        catch (Gestion_acces.personneInexistante _exception)
-        {
-            _output = handler.createExceptionReply();
-            Gestion_acces.personneInexistanteHelper.write(_output,_exception);
         }
         catch (Gestion_acces.ServeurAutorisationPackage.zoneInconnue _exception)
         {
@@ -121,11 +111,6 @@ public abstract class ServeurAutorisationPOA extends org.omg.PortableServer.Serv
 
             _output = handler.createReply();
 
-        }
-        catch (Gestion_acces.personneInexistante _exception)
-        {
-            _output = handler.createExceptionReply();
-            Gestion_acces.personneInexistanteHelper.write(_output,_exception);
         }
         catch (Gestion_acces.ServeurAutorisationPackage.zoneInconnue _exception)
         {
@@ -169,19 +154,11 @@ public abstract class ServeurAutorisationPOA extends org.omg.PortableServer.Serv
         org.omg.CORBA.portable.OutputStream _output;
         Gestion_acces.personne arg0_in = Gestion_acces.personneHelper.read(_is);
 
-        try
-        {
-            short[] _arg_result = getZonesResp(arg0_in);
+        short[] _arg_result = getZonesResp(arg0_in);
 
-            _output = handler.createReply();
-            Gestion_acces.listeZonesHelper.write(_output,_arg_result);
+        _output = handler.createReply();
+        Gestion_acces.listeZonesHelper.write(_output,_arg_result);
 
-        }
-        catch (Gestion_acces.personneInexistante _exception)
-        {
-            _output = handler.createExceptionReply();
-            Gestion_acces.personneInexistanteHelper.write(_output,_exception);
-        }
         return _output;
     }
 

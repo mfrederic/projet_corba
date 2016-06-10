@@ -1,4 +1,4 @@
-package Gestion_acces;
+package Gestion_acces.AnnuairePackage;
 
 /**
  * Holder class for : personneInexistante
@@ -11,7 +11,7 @@ final public class personneInexistanteHolder
     /**
      * Internal personneInexistante value
      */
-    public Gestion_acces.personneInexistante value;
+    public Gestion_acces.AnnuairePackage.personneInexistante value;
 
     /**
      * Default constructor
@@ -23,7 +23,7 @@ final public class personneInexistanteHolder
      * Constructor with value initialisation
      * @param initial the initial value
      */
-    public personneInexistanteHolder(Gestion_acces.personneInexistante initial)
+    public personneInexistanteHolder(Gestion_acces.AnnuairePackage.personneInexistante initial)
     {
         value = initial;
     }

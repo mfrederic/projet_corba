@@ -1,14 +1,13 @@
 package annuaire;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import model.Personne;
 import Gestion_acces.AnnuairePOA;
 import Gestion_acces.personne;
-import Gestion_acces.personneInexistante;
 import Gestion_acces.rolePersonne;
 import Gestion_acces.statutPersonne;
+import Gestion_acces.AnnuairePackage.personneInexistante;
 import bdd.objetsdao.PersonneDAO;
 
 public class AnnuaireImpl extends AnnuairePOA{

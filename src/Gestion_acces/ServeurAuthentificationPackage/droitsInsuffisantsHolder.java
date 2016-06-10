@@ -1,4 +1,4 @@
-package Gestion_acces;
+package Gestion_acces.ServeurAuthentificationPackage;
 
 /**
  * Holder class for : droitsInsuffisants
@@ -11,7 +11,7 @@ final public class droitsInsuffisantsHolder
     /**
      * Internal droitsInsuffisants value
      */
-    public Gestion_acces.droitsInsuffisants value;
+    public Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants value;
 
     /**
      * Default constructor
@@ -23,7 +23,7 @@ final public class droitsInsuffisantsHolder
      * Constructor with value initialisation
      * @param initial the initial value
      */
-    public droitsInsuffisantsHolder(Gestion_acces.droitsInsuffisants initial)
+    public droitsInsuffisantsHolder(Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants initial)
     {
         value = initial;
     }

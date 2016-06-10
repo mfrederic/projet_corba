@@ -4,11 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import Gestion_acces.accesRefuse;
-import Gestion_acces.droitsInsuffisants;
 import Gestion_acces.personne;
 import Gestion_acces.statutPersonne;
+import Gestion_acces.ServeurAuthentificationPackage.accesRefuse;
 import Gestion_acces.ServeurAuthentificationPackage.compteInexistant;
+import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
 import authentification.ClientServeurAuthentification;
 
 public class InterfaceEmpreinte {
@@ -69,7 +69,7 @@ public class InterfaceEmpreinte {
 	        		break;
 				} catch (droitsInsuffisants e) {
 					// TODO Auto-generated catch block
-					System.out.println(e.toString());
+					System.out.println("Droits insuffisants : " + e.raison);
 				}
 	        		break;
 	        	default:
@@ -83,37 +83,50 @@ public class InterfaceEmpreinte {
 	}
 	
 	private static void authentifier(String user, String password) {
-		
+
 		try {
 			persTemp = monAuthentification.getMonAuthentification().authentifier(user, password, cleServeur);
+			
 			if (persTemp.idPers == 0)
 				authReussie = false;
 			else
 				authReussie = true;
-		} catch (compteInexistant | droitsInsuffisants | accesRefuse e) {
+		} catch (compteInexistant e) {
 			// TODO Auto-generated catch block
-			System.out.println(e.toString());
-		}
-		
+			System.out.println("Compte inexistant : (user: " + e.user + ")");
+		} catch (droitsInsuffisants e) {
+			// TODO Auto-generated catch block
+			System.out.println("Droits insuffisants : " + e.raison);
+		} catch (accesRefuse e) {
+			// TODO Auto-generated catch block
+			System.out.println("Accès refusé : " + e.raison);
+		}		
 	}
 	
 	private static void ajouterEmpreinte(String user, String empreinte){
 		try {
 			monAuthentification.getMonAuthentification().ajouterEmpreinte(user, empreinte, cleServeur);
-		} catch (accesRefuse | compteInexistant e) {
+		} catch (accesRefuse e) {
 			// TODO Auto-generated catch block
-			System.out.println(e.toString());
+			System.out.println("Accès refusé : " + e.raison);
+		} catch (compteInexistant e) {
+			// TODO Auto-generated catch block
+			System.out.println("Compte inexistant : (user: " + e.user + ")");
 		}
 	}
 	
 	private static void modifierEmpreinte(String user, String empreinte) throws droitsInsuffisants {
 		if (persTemp.statut == statutPersonne.temporaire)
 			throw new droitsInsuffisants("Vous n'avez pas le droit de modifier votre empreinte");
+
 		try {
 			monAuthentification.getMonAuthentification().ajouterEmpreinte(user, empreinte, cleServeur);
-		} catch (accesRefuse | compteInexistant e) {
+		} catch (accesRefuse e) {
 			// TODO Auto-generated catch block
-			System.out.println(e.toString());
+			System.out.println("Accès refusé : " + e.raison);
+		} catch (compteInexistant e) {
+			// TODO Auto-generated catch block
+			System.out.println("Compte inexistant : (user: " + e.user + ")");
 		}
 	}
 

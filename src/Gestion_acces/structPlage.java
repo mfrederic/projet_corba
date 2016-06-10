@@ -1,7 +1,5 @@
 package Gestion_acces;
 
-import java.util.GregorianCalendar;
-
 /**
  * Struct definition : structPlage
  * 

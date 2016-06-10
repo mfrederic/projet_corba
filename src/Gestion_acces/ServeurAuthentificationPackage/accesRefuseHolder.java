@@ -1,4 +1,4 @@
-package Gestion_acces;
+package Gestion_acces.ServeurAuthentificationPackage;
 
 /**
  * Holder class for : accesRefuse
@@ -11,7 +11,7 @@ final public class accesRefuseHolder
     /**
      * Internal accesRefuse value
      */
-    public Gestion_acces.accesRefuse value;
+    public Gestion_acces.ServeurAuthentificationPackage.accesRefuse value;
 
     /**
      * Default constructor
@@ -23,7 +23,7 @@ final public class accesRefuseHolder
      * Constructor with value initialisation
      * @param initial the initial value
      */
-    public accesRefuseHolder(Gestion_acces.accesRefuse initial)
+    public accesRefuseHolder(Gestion_acces.ServeurAuthentificationPackage.accesRefuse initial)
     {
         value = initial;
     }

@@ -66,7 +66,7 @@ public class AnnuairePOATie extends AnnuairePOA
      * Operation identifier
      */
     public Gestion_acces.personne identifier(short id)
-        throws Gestion_acces.personneInexistante
+        throws Gestion_acces.AnnuairePackage.personneInexistante
     {
         return _tie.identifier( id);
     }
@@ -75,7 +75,7 @@ public class AnnuairePOATie extends AnnuairePOA
      * Operation demanderIdentite
      */
     public Gestion_acces.personne demanderIdentite(String ph)
-        throws Gestion_acces.personneInexistante
+        throws Gestion_acces.AnnuairePackage.personneInexistante
     {
         return _tie.demanderIdentite( ph);
     }
@@ -92,7 +92,7 @@ public class AnnuairePOATie extends AnnuairePOA
      * Operation ajouterPhoto
      */
     public void ajouterPhoto(short idPersonne, String ph)
-        throws Gestion_acces.personneInexistante
+        throws Gestion_acces.AnnuairePackage.personneInexistante
     {
         _tie.ajouterPhoto( idPersonne,  ph);
     }
@@ -101,7 +101,7 @@ public class AnnuairePOATie extends AnnuairePOA
      * Operation modifierInfos
      */
     public void modifierInfos(short idPersonne, String nom, String prenom, Gestion_acces.statutPersonne statut, Gestion_acces.rolePersonne role)
-        throws Gestion_acces.personneInexistante
+        throws Gestion_acces.AnnuairePackage.personneInexistante
     {
         _tie.modifierInfos( idPersonne,  nom,  prenom,  statut,  role);
     }

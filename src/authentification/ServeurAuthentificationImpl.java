@@ -2,14 +2,14 @@ package authentification;
 
 import model.Compte;
 import Gestion_acces.ServeurAuthentificationPOA;
-import Gestion_acces.accesRefuse;
-import Gestion_acces.droitsInsuffisants;
 import Gestion_acces.personne;
-import Gestion_acces.personneInexistante;
 import Gestion_acces.rolePersonne;
 import Gestion_acces.statutPersonne;
+import Gestion_acces.AnnuairePackage.personneInexistante;
+import Gestion_acces.ServeurAuthentificationPackage.accesRefuse;
 import Gestion_acces.ServeurAuthentificationPackage.compteDejaCree;
 import Gestion_acces.ServeurAuthentificationPackage.compteInexistant;
+import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
 import Gestion_acces.ServeurAuthentificationPackage.suppressionInterdite;
 import annuaire.ClientAnnuaire;
 import bdd.objetsdao.CompteDAO;
@@ -50,7 +50,7 @@ public class ServeurAuthentificationImpl extends ServeurAuthentificationPOA{
 						throw new accesRefuse("Empreinte et photo différentes");
 				} catch (personneInexistante e) {
 					// TODO Auto-generated catch block
-					System.out.println(e.toString());
+					System.out.println("Personne inexistante dans la base (id = " + e.id + ")");
 				}
 			}
 		} else {
@@ -87,7 +87,7 @@ public class ServeurAuthentificationImpl extends ServeurAuthentificationPOA{
 						p = monAnnuaire.getMonAnnuaire().identifier((short)cmpt.getRefPersonne());
 					} catch (personneInexistante e) {
 						// TODO Auto-generated catch block
-						System.out.println(e.toString());
+						System.out.println("Personne inexistante dans la base (id = " + e.id + ")");
 					}
 				}
 			}
@@ -160,7 +160,7 @@ public class ServeurAuthentificationImpl extends ServeurAuthentificationPOA{
 						throw new suppressionInterdite(p.role);
 				} catch (personneInexistante e) {
 					// TODO Auto-generated catch block
-					System.out.println(e.toString());
+					System.out.println("Personne inexistante dans la base (id = " + e.id + ")");
 				}			
 			}
 		} else {
@@ -181,7 +181,7 @@ public class ServeurAuthentificationImpl extends ServeurAuthentificationPOA{
 			cmpt = repoCompte.findByUser(user);
 					
 			if (cmpt != null) // Contrôle de l'inexistance du user dans la base
-				throw new compteDejaCree(user, password, (short) cmpt.getRefPersonne());
+				throw new compteDejaCree(user);
 			
 			else { // le compte n'existe pas
 				

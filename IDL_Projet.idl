@@ -22,15 +22,14 @@ module Gestion_acces {
 
 	typedef string empreinte;
 	typedef sequence<personne> listePersonnes;
-
-	exception personneInexistante {short id;};
-	exception droitsInsuffisants {string raison;}; //Si mdp user faux ou statut ou role insuffisant
-	exception accesRefuse {string raison;}; //Si le mot de passe du Serveur d'authentification est faux
+	typedef sequence<short> listeZones;
 
 	interface ServeurAuthentification {
-		exception compteDejaCree {string nom; string prenom; short id;};
+		exception compteDejaCree {string user;};
 		exception compteInexistant {string user;};
 		exception suppressionInterdite {rolePersonne role;};
+		exception droitsInsuffisants {string raison;}; //Si mdp user faux ou statut ou role insuffisant
+		exception accesRefuse {string raison;}; //Si le mot de passe du Serveur d'authentification est faux
 
 		personne demanderAuth (in empreinte emp, in photo ph, in string mdp) raises(accesRefuse); //Depuis la porte
 		personne authentifier (in string user, in string password, in string mdp) raises(compteInexistant, droitsInsuffisants, accesRefuse); // Depuis le lecteur d'empreinte, l'interface RH ou l'interface resp. zone
@@ -45,14 +44,16 @@ module Gestion_acces {
 		exception zoneInconnue {short zone;};
 		exception autorisationInexistante {short idAutorisation;};
 		
-		boolean demanderAutor (in personne p, in short zone) raises(personneInexistante, zoneInconnue); // Depuis Porte
-		void ajouterAutorisation (in personne p, in short zone, in structPlage plage) raises(personneInexistante, zoneInconnue);
-		void modifierAutorisation (in personne p, in short oldZone, in structPlage oldPlage, in short newZone, in structPlage newPlage) raises(personneInexistante, zoneInconnue, autorisationInexistante);
+		boolean demanderAutor (in personne p, in short zone) raises(zoneInconnue); // Depuis Porte
+		void ajouterAutorisation (in personne p, in short zone, in structPlage plage) raises(zoneInconnue);
+		void modifierAutorisation (in personne p, in short oldZone, in structPlage oldPlage, in short newZone, in structPlage newPlage) raises(zoneInconnue, autorisationInexistante);
 		void supprimerAutorisation (in personne p, in short zone, in structPlage plage) raises(autorisationInexistante);
+		listeZones getZonesResp(in personne resp);
 	};
 
 	interface Annuaire {
-		
+		exception personneInexistante {short id;};
+
 		personne identifier (in short id) raises(personneInexistante); // Depuis Serveur authentification
 		personne demanderIdentite (in photo ph) raises(personneInexistante); // Depuis Serveur authentification
 		short creerPersonne (in string nom, in string prenom, in statutPersonne statut, in rolePersonne role);
@@ -62,6 +63,6 @@ module Gestion_acces {
 	};
 
 	interface SrvJournal {
-		short journaliser(in string timestamp, in string typeAcces, in personne p, in boolean resultat, in string commentaire);
+		oneway void journaliser(in string timestamp, in string typeAcces, in personne p, in boolean resultat, in string commentaire);
 	};
 };

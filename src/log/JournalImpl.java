@@ -9,8 +9,12 @@ public class JournalImpl extends SrvJournalPOA{
 
 	private JournalDAO repoJournal;
 	
+	public JournalImpl() {
+		repoJournal = new JournalDAO();
+	}
+	
 	@Override
-	public short journaliser(String timestamp, String typeAcces, personne p,
+	public void journaliser(String timestamp, String typeAcces, personne p,
 			boolean resultat, String commentaire) {
 		// TODO Auto-generated method stub
 		Journal j = new Journal();
@@ -19,13 +23,9 @@ public class JournalImpl extends SrvJournalPOA{
 		j.setResultat(resultat);
 		j.setTypeAcces(typeAcces);
 		j.setTimestamp(timestamp);
-		System.out.println("test");
+		
 		j = repoJournal.create(j);
-		System.out.println("test2");
-		if (j.getIdJournal() == 0)
-			return -1;
-		else
-			return 0;		
+
 	}
 
 }

@@ -11,13 +11,13 @@ public interface AnnuaireOperations
      * Operation identifier
      */
     public Gestion_acces.personne identifier(short id)
-        throws Gestion_acces.personneInexistante;
+        throws Gestion_acces.AnnuairePackage.personneInexistante;
 
     /**
      * Operation demanderIdentite
      */
     public Gestion_acces.personne demanderIdentite(String ph)
-        throws Gestion_acces.personneInexistante;
+        throws Gestion_acces.AnnuairePackage.personneInexistante;
 
     /**
      * Operation creerPersonne
@@ -28,13 +28,13 @@ public interface AnnuaireOperations
      * Operation ajouterPhoto
      */
     public void ajouterPhoto(short idPersonne, String ph)
-        throws Gestion_acces.personneInexistante;
+        throws Gestion_acces.AnnuairePackage.personneInexistante;
 
     /**
      * Operation modifierInfos
      */
     public void modifierInfos(short idPersonne, String nom, String prenom, Gestion_acces.statutPersonne statut, Gestion_acces.rolePersonne role)
-        throws Gestion_acces.personneInexistante;
+        throws Gestion_acces.AnnuairePackage.personneInexistante;
 
     /**
      * Operation chercherPersonnes

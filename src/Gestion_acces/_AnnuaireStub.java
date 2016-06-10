@@ -24,7 +24,7 @@ public class _AnnuaireStub extends org.omg.CORBA.portable.ObjectImpl
      * Operation identifier
      */
     public Gestion_acces.personne identifier(short id)
-        throws Gestion_acces.personneInexistante
+        throws Gestion_acces.AnnuairePackage.personneInexistante
     {
         while(true)
         {
@@ -46,9 +46,9 @@ public class _AnnuaireStub extends org.omg.CORBA.portable.ObjectImpl
                 catch(org.omg.CORBA.portable.ApplicationException _exception)
                 {
                     String _exception_id = _exception.getId();
-                    if (_exception_id.equals(Gestion_acces.personneInexistanteHelper.id()))
+                    if (_exception_id.equals(Gestion_acces.AnnuairePackage.personneInexistanteHelper.id()))
                     {
-                        throw Gestion_acces.personneInexistanteHelper.read(_exception.getInputStream());
+                        throw Gestion_acces.AnnuairePackage.personneInexistanteHelper.read(_exception.getInputStream());
                     }
 
                     throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
@@ -80,7 +80,7 @@ public class _AnnuaireStub extends org.omg.CORBA.portable.ObjectImpl
      * Operation demanderIdentite
      */
     public Gestion_acces.personne demanderIdentite(String ph)
-        throws Gestion_acces.personneInexistante
+        throws Gestion_acces.AnnuairePackage.personneInexistante
     {
         while(true)
         {
@@ -102,9 +102,9 @@ public class _AnnuaireStub extends org.omg.CORBA.portable.ObjectImpl
                 catch(org.omg.CORBA.portable.ApplicationException _exception)
                 {
                     String _exception_id = _exception.getId();
-                    if (_exception_id.equals(Gestion_acces.personneInexistanteHelper.id()))
+                    if (_exception_id.equals(Gestion_acces.AnnuairePackage.personneInexistanteHelper.id()))
                     {
-                        throw Gestion_acces.personneInexistanteHelper.read(_exception.getInputStream());
+                        throw Gestion_acces.AnnuairePackage.personneInexistanteHelper.read(_exception.getInputStream());
                     }
 
                     throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
@@ -189,7 +189,7 @@ public class _AnnuaireStub extends org.omg.CORBA.portable.ObjectImpl
      * Operation ajouterPhoto
      */
     public void ajouterPhoto(short idPersonne, String ph)
-        throws Gestion_acces.personneInexistante
+        throws Gestion_acces.AnnuairePackage.personneInexistante
     {
         while(true)
         {
@@ -211,9 +211,9 @@ public class _AnnuaireStub extends org.omg.CORBA.portable.ObjectImpl
                 catch(org.omg.CORBA.portable.ApplicationException _exception)
                 {
                     String _exception_id = _exception.getId();
-                    if (_exception_id.equals(Gestion_acces.personneInexistanteHelper.id()))
+                    if (_exception_id.equals(Gestion_acces.AnnuairePackage.personneInexistanteHelper.id()))
                     {
-                        throw Gestion_acces.personneInexistanteHelper.read(_exception.getInputStream());
+                        throw Gestion_acces.AnnuairePackage.personneInexistanteHelper.read(_exception.getInputStream());
                     }
 
                     throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
@@ -246,7 +246,7 @@ public class _AnnuaireStub extends org.omg.CORBA.portable.ObjectImpl
      * Operation modifierInfos
      */
     public void modifierInfos(short idPersonne, String nom, String prenom, Gestion_acces.statutPersonne statut, Gestion_acces.rolePersonne role)
-        throws Gestion_acces.personneInexistante
+        throws Gestion_acces.AnnuairePackage.personneInexistante
     {
         while(true)
         {
@@ -271,9 +271,9 @@ public class _AnnuaireStub extends org.omg.CORBA.portable.ObjectImpl
                 catch(org.omg.CORBA.portable.ApplicationException _exception)
                 {
                     String _exception_id = _exception.getId();
-                    if (_exception_id.equals(Gestion_acces.personneInexistanteHelper.id()))
+                    if (_exception_id.equals(Gestion_acces.AnnuairePackage.personneInexistanteHelper.id()))
                     {
-                        throw Gestion_acces.personneInexistanteHelper.read(_exception.getInputStream());
+                        throw Gestion_acces.AnnuairePackage.personneInexistanteHelper.read(_exception.getInputStream());
                     }
 
                     throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);

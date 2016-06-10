@@ -39,9 +39,5 @@ public final class autorisationInexistante extends org.omg.CORBA.UserException
         super(autorisationInexistanteHelper.id() +" " +  orb_reason);
         this.idAutorisation = idAutorisation;
     }
-    
-    public String toString() {
-    	return "Aucune autorisation correspondante trouvée (id = " + this.idAutorisation + ")";
-    }
 
 }

@@ -39,9 +39,5 @@ public final class suppressionInterdite extends org.omg.CORBA.UserException
         super(suppressionInterditeHelper.id() +" " +  orb_reason);
         this.role = role;
     }
-    
-    public String toString() {
-    	return "Suppression d'empreinte interdite : rôle doit être temporaire (" + this.role + ")";
-    }
 
 }

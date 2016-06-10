@@ -66,7 +66,7 @@ public class ServeurAuthentificationPOATie extends ServeurAuthentificationPOA
      * Operation demanderAuth
      */
     public Gestion_acces.personne demanderAuth(String emp, String ph, String mdp)
-        throws Gestion_acces.accesRefuse
+        throws Gestion_acces.ServeurAuthentificationPackage.accesRefuse
     {
         return _tie.demanderAuth( emp,  ph,  mdp);
     }
@@ -75,7 +75,7 @@ public class ServeurAuthentificationPOATie extends ServeurAuthentificationPOA
      * Operation authentifier
      */
     public Gestion_acces.personne authentifier(String user, String password, String mdp)
-        throws Gestion_acces.ServeurAuthentificationPackage.compteInexistant, Gestion_acces.droitsInsuffisants, Gestion_acces.accesRefuse
+        throws Gestion_acces.ServeurAuthentificationPackage.compteInexistant, Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants, Gestion_acces.ServeurAuthentificationPackage.accesRefuse
     {
         return _tie.authentifier( user,  password,  mdp);
     }
@@ -84,7 +84,7 @@ public class ServeurAuthentificationPOATie extends ServeurAuthentificationPOA
      * Operation ajouterEmpreinte
      */
     public void ajouterEmpreinte(String user, String emp, String mdp)
-        throws Gestion_acces.accesRefuse, Gestion_acces.ServeurAuthentificationPackage.compteInexistant
+        throws Gestion_acces.ServeurAuthentificationPackage.accesRefuse, Gestion_acces.ServeurAuthentificationPackage.compteInexistant
     {
         _tie.ajouterEmpreinte( user,  emp,  mdp);
     }
@@ -93,7 +93,7 @@ public class ServeurAuthentificationPOATie extends ServeurAuthentificationPOA
      * Operation supprimerEmpreinte
      */
     public void supprimerEmpreinte(String user, String mdp)
-        throws Gestion_acces.accesRefuse, Gestion_acces.ServeurAuthentificationPackage.compteInexistant, Gestion_acces.ServeurAuthentificationPackage.suppressionInterdite
+        throws Gestion_acces.ServeurAuthentificationPackage.accesRefuse, Gestion_acces.ServeurAuthentificationPackage.compteInexistant, Gestion_acces.ServeurAuthentificationPackage.suppressionInterdite
     {
         _tie.supprimerEmpreinte( user,  mdp);
     }
@@ -102,7 +102,7 @@ public class ServeurAuthentificationPOATie extends ServeurAuthentificationPOA
      * Operation creerCompte
      */
     public void creerCompte(short idPersonne, String user, String password, String mdp)
-        throws Gestion_acces.ServeurAuthentificationPackage.compteDejaCree, Gestion_acces.accesRefuse
+        throws Gestion_acces.ServeurAuthentificationPackage.compteDejaCree, Gestion_acces.ServeurAuthentificationPackage.accesRefuse
     {
         _tie.creerCompte( idPersonne,  user,  password,  mdp);
     }
@@ -111,7 +111,7 @@ public class ServeurAuthentificationPOATie extends ServeurAuthentificationPOA
      * Operation modifierMdp
      */
     public void modifierMdp(String user, String newMdp, String mdpServeur)
-        throws Gestion_acces.ServeurAuthentificationPackage.compteInexistant, Gestion_acces.accesRefuse
+        throws Gestion_acces.ServeurAuthentificationPackage.compteInexistant, Gestion_acces.ServeurAuthentificationPackage.accesRefuse
     {
         _tie.modifierMdp( user,  newMdp,  mdpServeur);
     }

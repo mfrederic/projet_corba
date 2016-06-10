@@ -24,7 +24,7 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
      * Operation demanderAutor
      */
     public boolean demanderAutor(Gestion_acces.personne p, short zone)
-        throws Gestion_acces.personneInexistante, Gestion_acces.ServeurAutorisationPackage.zoneInconnue
+        throws Gestion_acces.ServeurAutorisationPackage.zoneInconnue
     {
         while(true)
         {
@@ -47,11 +47,6 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
                 catch(org.omg.CORBA.portable.ApplicationException _exception)
                 {
                     String _exception_id = _exception.getId();
-                    if (_exception_id.equals(Gestion_acces.personneInexistanteHelper.id()))
-                    {
-                        throw Gestion_acces.personneInexistanteHelper.read(_exception.getInputStream());
-                    }
-
                     if (_exception_id.equals(Gestion_acces.ServeurAutorisationPackage.zoneInconnueHelper.id()))
                     {
                         throw Gestion_acces.ServeurAutorisationPackage.zoneInconnueHelper.read(_exception.getInputStream());
@@ -86,7 +81,7 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
      * Operation ajouterAutorisation
      */
     public void ajouterAutorisation(Gestion_acces.personne p, short zone, Gestion_acces.structPlage plage)
-        throws Gestion_acces.personneInexistante, Gestion_acces.ServeurAutorisationPackage.zoneInconnue
+        throws Gestion_acces.ServeurAutorisationPackage.zoneInconnue
     {
         while(true)
         {
@@ -109,11 +104,6 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
                 catch(org.omg.CORBA.portable.ApplicationException _exception)
                 {
                     String _exception_id = _exception.getId();
-                    if (_exception_id.equals(Gestion_acces.personneInexistanteHelper.id()))
-                    {
-                        throw Gestion_acces.personneInexistanteHelper.read(_exception.getInputStream());
-                    }
-
                     if (_exception_id.equals(Gestion_acces.ServeurAutorisationPackage.zoneInconnueHelper.id()))
                     {
                         throw Gestion_acces.ServeurAutorisationPackage.zoneInconnueHelper.read(_exception.getInputStream());
@@ -149,7 +139,7 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
      * Operation modifierAutorisation
      */
     public void modifierAutorisation(Gestion_acces.personne p, short oldZone, Gestion_acces.structPlage oldPlage, short newZone, Gestion_acces.structPlage newPlage)
-        throws Gestion_acces.personneInexistante, Gestion_acces.ServeurAutorisationPackage.zoneInconnue, Gestion_acces.ServeurAutorisationPackage.autorisationInexistante
+        throws Gestion_acces.ServeurAutorisationPackage.zoneInconnue, Gestion_acces.ServeurAutorisationPackage.autorisationInexistante
     {
         while(true)
         {
@@ -174,11 +164,6 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
                 catch(org.omg.CORBA.portable.ApplicationException _exception)
                 {
                     String _exception_id = _exception.getId();
-                    if (_exception_id.equals(Gestion_acces.personneInexistanteHelper.id()))
-                    {
-                        throw Gestion_acces.personneInexistanteHelper.read(_exception.getInputStream());
-                    }
-
                     if (_exception_id.equals(Gestion_acces.ServeurAutorisationPackage.zoneInconnueHelper.id()))
                     {
                         throw Gestion_acces.ServeurAutorisationPackage.zoneInconnueHelper.read(_exception.getInputStream());
@@ -277,7 +262,6 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
      * Operation getZonesResp
      */
     public short[] getZonesResp(Gestion_acces.personne resp)
-        throws Gestion_acces.personneInexistante
     {
         while(true)
         {
@@ -299,11 +283,6 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
                 catch(org.omg.CORBA.portable.ApplicationException _exception)
                 {
                     String _exception_id = _exception.getId();
-                    if (_exception_id.equals(Gestion_acces.personneInexistanteHelper.id()))
-                    {
-                        throw Gestion_acces.personneInexistanteHelper.read(_exception.getInputStream());
-                    }
-
                     throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
                 }
                 finally

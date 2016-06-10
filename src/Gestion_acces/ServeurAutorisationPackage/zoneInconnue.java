@@ -40,8 +40,4 @@ public final class zoneInconnue extends org.omg.CORBA.UserException
         this.zone = zone;
     }
 
-    public String toString() {
-    	return "Zone inconnue (id = " + this.zone + ")";
-    }
-    
 }

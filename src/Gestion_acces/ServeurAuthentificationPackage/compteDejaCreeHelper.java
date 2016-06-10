@@ -73,17 +73,11 @@ public class compteDejaCreeHelper
                     return org.omg.CORBA.ORB.init().create_recursive_tc(id());
                 _working = true;
                 org.omg.CORBA.ORB orb = org.omg.CORBA.ORB.init();
-                org.omg.CORBA.StructMember []_members = new org.omg.CORBA.StructMember[3];
+                org.omg.CORBA.StructMember []_members = new org.omg.CORBA.StructMember[1];
 
                 _members[0] = new org.omg.CORBA.StructMember();
-                _members[0].name = "nom";
+                _members[0].name = "user";
                 _members[0].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_string);
-                _members[1] = new org.omg.CORBA.StructMember();
-                _members[1].name = "prenom";
-                _members[1].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_string);
-                _members[2] = new org.omg.CORBA.StructMember();
-                _members[2].name = "id";
-                _members[2].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_short);
                 _tc = orb.create_exception_tc(id(),"compteDejaCree",_members);
                 _working = false;
             }
@@ -113,9 +107,7 @@ public class compteDejaCreeHelper
 
         if (!istream.read_string().equals(id()))
          throw new org.omg.CORBA.MARSHAL();
-        new_one.nom = istream.read_string();
-        new_one.prenom = istream.read_string();
-        new_one.id = istream.read_short();
+        new_one.user = istream.read_string();
 
         return new_one;
     }
@@ -128,9 +120,7 @@ public class compteDejaCreeHelper
     public static void write(org.omg.CORBA.portable.OutputStream ostream, Gestion_acces.ServeurAuthentificationPackage.compteDejaCree value)
     {
         ostream.write_string(id());
-        ostream.write_string(value.nom);
-        ostream.write_string(value.prenom);
-        ostream.write_short(value.id);
+        ostream.write_string(value.user);
     }
 
 }

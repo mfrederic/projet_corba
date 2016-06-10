@@ -11,19 +11,19 @@ public interface ServeurAutorisationOperations
      * Operation demanderAutor
      */
     public boolean demanderAutor(Gestion_acces.personne p, short zone)
-        throws Gestion_acces.personneInexistante, Gestion_acces.ServeurAutorisationPackage.zoneInconnue;
+        throws Gestion_acces.ServeurAutorisationPackage.zoneInconnue;
 
     /**
      * Operation ajouterAutorisation
      */
     public void ajouterAutorisation(Gestion_acces.personne p, short zone, Gestion_acces.structPlage plage)
-        throws Gestion_acces.personneInexistante, Gestion_acces.ServeurAutorisationPackage.zoneInconnue;
+        throws Gestion_acces.ServeurAutorisationPackage.zoneInconnue;
 
     /**
      * Operation modifierAutorisation
      */
     public void modifierAutorisation(Gestion_acces.personne p, short oldZone, Gestion_acces.structPlage oldPlage, short newZone, Gestion_acces.structPlage newPlage)
-        throws Gestion_acces.personneInexistante, Gestion_acces.ServeurAutorisationPackage.zoneInconnue, Gestion_acces.ServeurAutorisationPackage.autorisationInexistante;
+        throws Gestion_acces.ServeurAutorisationPackage.zoneInconnue, Gestion_acces.ServeurAutorisationPackage.autorisationInexistante;
 
     /**
      * Operation supprimerAutorisation
@@ -34,7 +34,6 @@ public interface ServeurAutorisationOperations
     /**
      * Operation getZonesResp
      */
-    public short[] getZonesResp(Gestion_acces.personne resp)
-        throws Gestion_acces.personneInexistante;
+    public short[] getZonesResp(Gestion_acces.personne resp);
 
 }

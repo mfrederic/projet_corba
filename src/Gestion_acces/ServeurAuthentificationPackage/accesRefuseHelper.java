@@ -1,11 +1,11 @@
-package Gestion_acces;
+package Gestion_acces.ServeurAuthentificationPackage;
 
 /** 
- * Helper class for : personneInexistante
+ * Helper class for : accesRefuse
  *  
  * @author OpenORB Compiler
  */ 
-public class personneInexistanteHelper
+public class accesRefuseHelper
 {
     private static final boolean HAS_OPENORB;
     static {
@@ -19,21 +19,21 @@ public class personneInexistanteHelper
         HAS_OPENORB = hasOpenORB;
     }
     /**
-     * Insert personneInexistante into an any
+     * Insert accesRefuse into an any
      * @param a an any
-     * @param t personneInexistante value
+     * @param t accesRefuse value
      */
-    public static void insert(org.omg.CORBA.Any a, Gestion_acces.personneInexistante t)
+    public static void insert(org.omg.CORBA.Any a, Gestion_acces.ServeurAuthentificationPackage.accesRefuse t)
     {
-        a.insert_Streamable(new Gestion_acces.personneInexistanteHolder(t));
+        a.insert_Streamable(new Gestion_acces.ServeurAuthentificationPackage.accesRefuseHolder(t));
     }
 
     /**
-     * Extract personneInexistante from an any
+     * Extract accesRefuse from an any
      * @param a an any
-     * @return the extracted personneInexistante value
+     * @return the extracted accesRefuse value
      */
-    public static Gestion_acces.personneInexistante extract(org.omg.CORBA.Any a)
+    public static Gestion_acces.ServeurAuthentificationPackage.accesRefuse extract(org.omg.CORBA.Any a)
     {
         if (!a.type().equal(type()))
             throw new org.omg.CORBA.MARSHAL();
@@ -42,11 +42,11 @@ public class personneInexistanteHelper
             org.openorb.CORBA.Any any = (org.openorb.CORBA.Any)a;
             try {
                 org.omg.CORBA.portable.Streamable s = any.extract_Streamable();
-                if(s instanceof Gestion_acces.personneInexistanteHolder)
-                    return ((Gestion_acces.personneInexistanteHolder)s).value;
+                if(s instanceof Gestion_acces.ServeurAuthentificationPackage.accesRefuseHolder)
+                    return ((Gestion_acces.ServeurAuthentificationPackage.accesRefuseHolder)s).value;
             } catch (org.omg.CORBA.BAD_INV_ORDER ex) {
             }
-            Gestion_acces.personneInexistanteHolder h = new Gestion_acces.personneInexistanteHolder(read(a.create_input_stream()));
+            Gestion_acces.ServeurAuthentificationPackage.accesRefuseHolder h = new Gestion_acces.ServeurAuthentificationPackage.accesRefuseHolder(read(a.create_input_stream()));
             a.insert_Streamable(h);
             return h.value;
         }
@@ -60,7 +60,7 @@ public class personneInexistanteHelper
     private static boolean _working = false;
 
     /**
-     * Return the personneInexistante TypeCode
+     * Return the accesRefuse TypeCode
      * @return a TypeCode
      */
     public static org.omg.CORBA.TypeCode type()
@@ -76,9 +76,9 @@ public class personneInexistanteHelper
                 org.omg.CORBA.StructMember []_members = new org.omg.CORBA.StructMember[1];
 
                 _members[0] = new org.omg.CORBA.StructMember();
-                _members[0].name = "id";
-                _members[0].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_short);
-                _tc = orb.create_exception_tc(id(),"personneInexistante",_members);
+                _members[0].name = "raison";
+                _members[0].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_string);
+                _tc = orb.create_exception_tc(id(),"accesRefuse",_members);
                 _working = false;
             }
         }
@@ -86,7 +86,7 @@ public class personneInexistanteHelper
     }
 
     /**
-     * Return the personneInexistante IDL ID
+     * Return the accesRefuse IDL ID
      * @return an ID
      */
     public static String id()
@@ -94,33 +94,33 @@ public class personneInexistanteHelper
         return _id;
     }
 
-    private final static String _id = "IDL:Gestion_acces/personneInexistante:1.0";
+    private final static String _id = "IDL:Gestion_acces/ServeurAuthentification/accesRefuse:1.0";
 
     /**
-     * Read personneInexistante from a marshalled stream
+     * Read accesRefuse from a marshalled stream
      * @param istream the input stream
-     * @return the readed personneInexistante value
+     * @return the readed accesRefuse value
      */
-    public static Gestion_acces.personneInexistante read(org.omg.CORBA.portable.InputStream istream)
+    public static Gestion_acces.ServeurAuthentificationPackage.accesRefuse read(org.omg.CORBA.portable.InputStream istream)
     {
-        Gestion_acces.personneInexistante new_one = new Gestion_acces.personneInexistante();
+        Gestion_acces.ServeurAuthentificationPackage.accesRefuse new_one = new Gestion_acces.ServeurAuthentificationPackage.accesRefuse();
 
         if (!istream.read_string().equals(id()))
          throw new org.omg.CORBA.MARSHAL();
-        new_one.id = istream.read_short();
+        new_one.raison = istream.read_string();
 
         return new_one;
     }
 
     /**
-     * Write personneInexistante into a marshalled stream
+     * Write accesRefuse into a marshalled stream
      * @param ostream the output stream
-     * @param value personneInexistante value
+     * @param value accesRefuse value
      */
-    public static void write(org.omg.CORBA.portable.OutputStream ostream, Gestion_acces.personneInexistante value)
+    public static void write(org.omg.CORBA.portable.OutputStream ostream, Gestion_acces.ServeurAuthentificationPackage.accesRefuse value)
     {
         ostream.write_string(id());
-        ostream.write_short(value.id);
+        ostream.write_string(value.raison);
     }
 
 }

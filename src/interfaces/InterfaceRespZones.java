@@ -4,13 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import Gestion_acces.accesRefuse;
-import Gestion_acces.droitsInsuffisants;
 import Gestion_acces.personne;
-import Gestion_acces.personneInexistante;
-import Gestion_acces.statutPersonne;
 import Gestion_acces.structPlage;
+import Gestion_acces.AnnuairePackage.personneInexistante;
+import Gestion_acces.ServeurAuthentificationPackage.accesRefuse;
 import Gestion_acces.ServeurAuthentificationPackage.compteInexistant;
+import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
 import Gestion_acces.ServeurAutorisationPackage.autorisationInexistante;
 import Gestion_acces.ServeurAutorisationPackage.zoneInconnue;
 import authentification.ClientServeurAuthentification;
@@ -80,12 +79,17 @@ public class InterfaceRespZones {
 	        			if (s.length > 4)
 	        				ok = verifierStructPlage(s[1], s[2], s[3], s[4], plage);
 	        		}
+	
 					try {
 						ajouterAutorisation(Short.parseShort(s[0]), plage);
-					} catch (NumberFormatException | droitsInsuffisants e) {
+					} catch (NumberFormatException e1) {
 						// TODO Auto-generated catch block
-						e.printStackTrace();
+						e1.printStackTrace();
+					} catch (droitsInsuffisants e1) {
+						// TODO Auto-generated catch block
+						System.out.println("Droits insuffisants : " + e1.raison);
 					}
+	
 	        		break;
 	        		
 	        	case "2": 
@@ -99,12 +103,17 @@ public class InterfaceRespZones {
 	        			if (s.length > 4)
 	        				ok = verifierStructPlage(s[1], s[2], s[3], s[4], plage);
 	        		}
+
 					try {
 						supprimerAutorisation(Short.parseShort(s[0]), plage);
-					} catch (NumberFormatException | droitsInsuffisants e) {
+					} catch (NumberFormatException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
+					} catch (droitsInsuffisants e) {
+						// TODO Auto-generated catch block
+						System.out.println("Droits insuffisants : " + e.raison);
 					}
+
 	        		break;
 	        	default:
 	        		break;
@@ -136,9 +145,15 @@ public class InterfaceRespZones {
 			}
 				
 				
-		} catch (compteInexistant | personneInexistante | droitsInsuffisants | accesRefuse e) {
+		} catch (compteInexistant e) {
 			// TODO Auto-generated catch block
-			System.out.println(e.toString());
+			System.out.println("Compte inexistant : (user: " + e.user + ")");
+		} catch (droitsInsuffisants e) {
+			// TODO Auto-generated catch block
+			System.out.println("Droits insuffisants : " + e.raison);
+		} catch (accesRefuse e) {
+			// TODO Auto-generated catch block
+			System.out.println("Accès refusé : " + e.raison);
 		}
 		
 	}
@@ -154,9 +169,9 @@ public class InterfaceRespZones {
 		else {
 			try {
 				monAutorisation.getMonAutorisation().ajouterAutorisation(responsable, idZone, plage);
-			} catch (personneInexistante | zoneInconnue e) {
+			} catch (zoneInconnue e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("Zone inconnue (id = " + e.zone + ")");
 			}	
 		}
 	}
@@ -178,7 +193,7 @@ public class InterfaceRespZones {
 				monAutorisation.getMonAutorisation().supprimerAutorisation(responsable, idZone, plage);
 			} catch (autorisationInexistante e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("Aucune autorisation correspondante trouvée (id = " + e.idAutorisation + ")");
 			}
 
 		}

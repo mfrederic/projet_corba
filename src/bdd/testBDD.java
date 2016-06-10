@@ -1,19 +1,15 @@
 package bdd;
 
-import model.Autorisation;
-import model.Compte;
-import model.Personne;
-import model.Zone;
-import bdd.objetsdao.AutorisationDAO;
-import bdd.objetsdao.CompteDAO;
-import bdd.objetsdao.PersonneDAO;
-import bdd.objetsdao.ZoneDAO;
+import java.util.GregorianCalendar;
+
+import bdd.objetsdao.JournalDAO;
+import model.Journal;
 
 
 public class testBDD {
 	
 	public static void main(String[] args) {
-
+/*
 		Personne pers = new Personne("Bisault","Marie","photooo","temporaire","basique");
 		PersonneDAO repoPersonne = new PersonneDAO();
 		pers = repoPersonne.create(pers);
@@ -37,6 +33,20 @@ public class testBDD {
 		AutorisationDAO autoRepo = new AutorisationDAO();
 		aut = autoRepo.create(aut);
 		//TODO classe métier zone puis porte puis autorisation
+*/
+		JournalDAO repoJournal = new JournalDAO();
+		
+		GregorianCalendar gc = new GregorianCalendar();
+		String ts = String.valueOf(gc.YEAR) + "-" + String.valueOf(gc.MONTH) + "-" + String.valueOf(gc.DAY_OF_MONTH) + " " + String.valueOf(gc.HOUR_OF_DAY) + ":" + String.valueOf(gc.MINUTE) + ":" + String.valueOf(gc.SECOND); 
+		
+		Journal j = new Journal();
+		j.setCommentaire("test");
+		j.setRefPersonne(2);
+		j.setResultat(true);
+		j.setTypeAcces("Entrée");
+		j.setTimestamp(ts);
+		
+		j = repoJournal.create(j);
 		
 	}
 }

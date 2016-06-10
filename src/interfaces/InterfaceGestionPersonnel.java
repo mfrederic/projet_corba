@@ -4,14 +4,14 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import Gestion_acces.accesRefuse;
-import Gestion_acces.droitsInsuffisants;
 import Gestion_acces.personne;
-import Gestion_acces.personneInexistante;
 import Gestion_acces.rolePersonne;
 import Gestion_acces.statutPersonne;
+import Gestion_acces.AnnuairePackage.personneInexistante;
+import Gestion_acces.ServeurAuthentificationPackage.accesRefuse;
 import Gestion_acces.ServeurAuthentificationPackage.compteDejaCree;
 import Gestion_acces.ServeurAuthentificationPackage.compteInexistant;
+import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
 import Gestion_acces.ServeurAuthentificationPackage.suppressionInterdite;
 import annuaire.ClientAnnuaire;
 import authentification.ClientServeurAuthentification;
@@ -71,12 +71,17 @@ public class InterfaceGestionPersonnel {
 	        			if (s.length > 5)
 	        				ok = true;
 	        		}
+	        		
 					try {
 						creerCompte(s[0], s[1], statutPersonne.from_int(Integer.parseInt(s[2])), rolePersonne.from_int(Integer.parseInt(s[2])), s[4], s[5]);
-					} catch (NumberFormatException | droitsInsuffisants e) {
+					} catch (NumberFormatException e1) {
 						// TODO Auto-generated catch block
-						System.out.println(e.toString());
+						e1.printStackTrace();
+					} catch (droitsInsuffisants e1) {
+						// TODO Auto-generated catch block
+						System.out.println("Droits insuffisants : " + e1.raison);
 					}
+
 	        		break;
 	        		
 	        	case "2":
@@ -86,11 +91,15 @@ public class InterfaceGestionPersonnel {
 	        			if (s.length > 1)
 	        				ok = true;
 	        		}
+
 					try {
 						ajouterPhoto(Short.parseShort(s[0]), s[1]);
-					} catch (NumberFormatException | droitsInsuffisants e) {
+					} catch (NumberFormatException e1) {
 						// TODO Auto-generated catch block
-						System.out.println(e.toString());
+						e1.printStackTrace();
+					} catch (droitsInsuffisants e1) {
+						// TODO Auto-generated catch block
+						System.out.println("Droits insuffisants : " + e1.raison);
 					}
 	        		break;
 					
@@ -101,7 +110,7 @@ public class InterfaceGestionPersonnel {
 						supprimerEmpreinte(in.readLine());
 					} catch (droitsInsuffisants e) {
 						// TODO Auto-generated catch block
-						System.out.println(e.toString());
+						System.out.println("Droits insuffisants : " + e.raison);
 					}
 
 	        		break;
@@ -117,16 +126,25 @@ public class InterfaceGestionPersonnel {
 	}
 
 	private static void authentifier(String user, String password) {
+
 		try {
 			persTemp = monAuthentification.getMonAuthentification().authentifier(user, password, cleServeur);
+			
 			if (persTemp.idPers == 0)
 				authReussie = false;
 			else
 				authReussie = true;
-		} catch (compteInexistant | droitsInsuffisants | accesRefuse e) {
+		} catch (compteInexistant e) {
 			// TODO Auto-generated catch block
-			System.out.println(e.toString());
+			System.out.println("Compte inexistant : (user: " + e.user + ")");
+		} catch (droitsInsuffisants e) {
+			// TODO Auto-generated catch block
+			System.out.println("Droits insuffisants : " + e.raison);
+		} catch (accesRefuse e) {
+			// TODO Auto-generated catch block
+			System.out.println("Accès refusé : " + e.raison);
 		}
+
 	}
 	
 	private static void creerCompte(String nom, String prenom, statutPersonne statut, rolePersonne role, String user, String password) throws droitsInsuffisants {
@@ -138,11 +156,15 @@ public class InterfaceGestionPersonnel {
 			if (idPers == 0)
 				System.out.println("Personne impossible à créer --> compte non créé");
 			else {
+
 				try {
 					monAuthentification.getMonAuthentification().creerCompte(idPers, user, password, cleServeur);
-				} catch (compteDejaCree | accesRefuse e) {
+				} catch (compteDejaCree e) {
 					// TODO Auto-generated catch block
-					System.out.println(e.toString());
+					System.out.println("Le compte existe déjà (user: " + e.user + " )");
+				} catch (accesRefuse e) {
+					// TODO Auto-generated catch block
+					System.out.println("Accès refusé : " + e.raison);
 				}
 			}
 			
@@ -158,7 +180,7 @@ public class InterfaceGestionPersonnel {
 				monAnnuaire.getMonAnnuaire().ajouterPhoto(idPers, ph);
 			} catch (personneInexistante e) {
 				// TODO Auto-generated catch block
-				System.out.println(e.toString());
+				System.out.println("Personne inexistante dans la base (id = " + e.id + ")");
 			}
 		
 		} else {
@@ -171,10 +193,17 @@ public class InterfaceGestionPersonnel {
 
 			try {
 				monAuthentification.getMonAuthentification().supprimerEmpreinte(user, cleServeur);
-			} catch (accesRefuse | compteInexistant | suppressionInterdite e) {
+			} catch (accesRefuse e) {
 				// TODO Auto-generated catch block
-				System.out.println(e.toString());
+				System.out.println("Accès refusé : " + e.raison);
+			} catch (compteInexistant e) {
+				// TODO Auto-generated catch block
+				System.out.println("Compte inexistant : (user: " + e.user + ")");
+			} catch (suppressionInterdite e) {
+				// TODO Auto-generated catch block
+				System.out.println("Vous n'avez pas le droit de supprimer l'empreinte (role = " + e.role + ")");
 			}
+
 		
 		} else {
 			throw new droitsInsuffisants("Accès interdit : rôle doit être RH ou Accueil");

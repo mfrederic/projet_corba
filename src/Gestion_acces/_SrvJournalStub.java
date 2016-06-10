@@ -23,7 +23,7 @@ public class _SrvJournalStub extends org.omg.CORBA.portable.ObjectImpl
     /**
      * Operation journaliser
      */
-    public short journaliser(String timestamp, String typeAcces, Gestion_acces.personne p, boolean resultat, String commentaire)
+    public void journaliser(String timestamp, String typeAcces, Gestion_acces.personne p, boolean resultat, String commentaire)
     {
         while(true)
         {
@@ -32,15 +32,14 @@ public class _SrvJournalStub extends org.omg.CORBA.portable.ObjectImpl
                 org.omg.CORBA.portable.InputStream _input = null;
                 try
                 {
-                    org.omg.CORBA.portable.OutputStream _output = this._request("journaliser",true);
+                    org.omg.CORBA.portable.OutputStream _output = this._request("journaliser",false);
                     _output.write_string(timestamp);
                     _output.write_string(typeAcces);
                     Gestion_acces.personneHelper.write(_output,p);
                     _output.write_boolean(resultat);
                     _output.write_string(commentaire);
                     _input = this._invoke(_output);
-                    short _arg_ret = _input.read_short();
-                    return _arg_ret;
+                    return;
                 }
                 catch(org.omg.CORBA.portable.RemarshalException _exception)
                 {
@@ -64,7 +63,8 @@ public class _SrvJournalStub extends org.omg.CORBA.portable.ObjectImpl
                 Gestion_acces.SrvJournalOperations _self = (Gestion_acces.SrvJournalOperations) _so.servant;
                 try
                 {
-                    return _self.journaliser( timestamp,  typeAcces,  p,  resultat,  commentaire);
+                    _self.journaliser( timestamp,  typeAcces,  p,  resultat,  commentaire);
+                    return;
                 }
                 finally
                 {

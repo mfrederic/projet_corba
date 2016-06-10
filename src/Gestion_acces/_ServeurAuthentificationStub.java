@@ -24,7 +24,7 @@ public class _ServeurAuthentificationStub extends org.omg.CORBA.portable.ObjectI
      * Operation demanderAuth
      */
     public Gestion_acces.personne demanderAuth(String emp, String ph, String mdp)
-        throws Gestion_acces.accesRefuse
+        throws Gestion_acces.ServeurAuthentificationPackage.accesRefuse
     {
         while(true)
         {
@@ -48,9 +48,9 @@ public class _ServeurAuthentificationStub extends org.omg.CORBA.portable.ObjectI
                 catch(org.omg.CORBA.portable.ApplicationException _exception)
                 {
                     String _exception_id = _exception.getId();
-                    if (_exception_id.equals(Gestion_acces.accesRefuseHelper.id()))
+                    if (_exception_id.equals(Gestion_acces.ServeurAuthentificationPackage.accesRefuseHelper.id()))
                     {
-                        throw Gestion_acces.accesRefuseHelper.read(_exception.getInputStream());
+                        throw Gestion_acces.ServeurAuthentificationPackage.accesRefuseHelper.read(_exception.getInputStream());
                     }
 
                     throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
@@ -82,7 +82,7 @@ public class _ServeurAuthentificationStub extends org.omg.CORBA.portable.ObjectI
      * Operation authentifier
      */
     public Gestion_acces.personne authentifier(String user, String password, String mdp)
-        throws Gestion_acces.ServeurAuthentificationPackage.compteInexistant, Gestion_acces.droitsInsuffisants, Gestion_acces.accesRefuse
+        throws Gestion_acces.ServeurAuthentificationPackage.compteInexistant, Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants, Gestion_acces.ServeurAuthentificationPackage.accesRefuse
     {
         while(true)
         {
@@ -111,14 +111,14 @@ public class _ServeurAuthentificationStub extends org.omg.CORBA.portable.ObjectI
                         throw Gestion_acces.ServeurAuthentificationPackage.compteInexistantHelper.read(_exception.getInputStream());
                     }
 
-                    if (_exception_id.equals(Gestion_acces.droitsInsuffisantsHelper.id()))
+                    if (_exception_id.equals(Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisantsHelper.id()))
                     {
-                        throw Gestion_acces.droitsInsuffisantsHelper.read(_exception.getInputStream());
+                        throw Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisantsHelper.read(_exception.getInputStream());
                     }
 
-                    if (_exception_id.equals(Gestion_acces.accesRefuseHelper.id()))
+                    if (_exception_id.equals(Gestion_acces.ServeurAuthentificationPackage.accesRefuseHelper.id()))
                     {
-                        throw Gestion_acces.accesRefuseHelper.read(_exception.getInputStream());
+                        throw Gestion_acces.ServeurAuthentificationPackage.accesRefuseHelper.read(_exception.getInputStream());
                     }
 
                     throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
@@ -150,7 +150,7 @@ public class _ServeurAuthentificationStub extends org.omg.CORBA.portable.ObjectI
      * Operation ajouterEmpreinte
      */
     public void ajouterEmpreinte(String user, String emp, String mdp)
-        throws Gestion_acces.accesRefuse, Gestion_acces.ServeurAuthentificationPackage.compteInexistant
+        throws Gestion_acces.ServeurAuthentificationPackage.accesRefuse, Gestion_acces.ServeurAuthentificationPackage.compteInexistant
     {
         while(true)
         {
@@ -173,9 +173,9 @@ public class _ServeurAuthentificationStub extends org.omg.CORBA.portable.ObjectI
                 catch(org.omg.CORBA.portable.ApplicationException _exception)
                 {
                     String _exception_id = _exception.getId();
-                    if (_exception_id.equals(Gestion_acces.accesRefuseHelper.id()))
+                    if (_exception_id.equals(Gestion_acces.ServeurAuthentificationPackage.accesRefuseHelper.id()))
                     {
-                        throw Gestion_acces.accesRefuseHelper.read(_exception.getInputStream());
+                        throw Gestion_acces.ServeurAuthentificationPackage.accesRefuseHelper.read(_exception.getInputStream());
                     }
 
                     if (_exception_id.equals(Gestion_acces.ServeurAuthentificationPackage.compteInexistantHelper.id()))
@@ -213,7 +213,7 @@ public class _ServeurAuthentificationStub extends org.omg.CORBA.portable.ObjectI
      * Operation supprimerEmpreinte
      */
     public void supprimerEmpreinte(String user, String mdp)
-        throws Gestion_acces.accesRefuse, Gestion_acces.ServeurAuthentificationPackage.compteInexistant, Gestion_acces.ServeurAuthentificationPackage.suppressionInterdite
+        throws Gestion_acces.ServeurAuthentificationPackage.accesRefuse, Gestion_acces.ServeurAuthentificationPackage.compteInexistant, Gestion_acces.ServeurAuthentificationPackage.suppressionInterdite
     {
         while(true)
         {
@@ -235,9 +235,9 @@ public class _ServeurAuthentificationStub extends org.omg.CORBA.portable.ObjectI
                 catch(org.omg.CORBA.portable.ApplicationException _exception)
                 {
                     String _exception_id = _exception.getId();
-                    if (_exception_id.equals(Gestion_acces.accesRefuseHelper.id()))
+                    if (_exception_id.equals(Gestion_acces.ServeurAuthentificationPackage.accesRefuseHelper.id()))
                     {
-                        throw Gestion_acces.accesRefuseHelper.read(_exception.getInputStream());
+                        throw Gestion_acces.ServeurAuthentificationPackage.accesRefuseHelper.read(_exception.getInputStream());
                     }
 
                     if (_exception_id.equals(Gestion_acces.ServeurAuthentificationPackage.compteInexistantHelper.id()))
@@ -280,7 +280,7 @@ public class _ServeurAuthentificationStub extends org.omg.CORBA.portable.ObjectI
      * Operation creerCompte
      */
     public void creerCompte(short idPersonne, String user, String password, String mdp)
-        throws Gestion_acces.ServeurAuthentificationPackage.compteDejaCree, Gestion_acces.accesRefuse
+        throws Gestion_acces.ServeurAuthentificationPackage.compteDejaCree, Gestion_acces.ServeurAuthentificationPackage.accesRefuse
     {
         while(true)
         {
@@ -309,9 +309,9 @@ public class _ServeurAuthentificationStub extends org.omg.CORBA.portable.ObjectI
                         throw Gestion_acces.ServeurAuthentificationPackage.compteDejaCreeHelper.read(_exception.getInputStream());
                     }
 
-                    if (_exception_id.equals(Gestion_acces.accesRefuseHelper.id()))
+                    if (_exception_id.equals(Gestion_acces.ServeurAuthentificationPackage.accesRefuseHelper.id()))
                     {
-                        throw Gestion_acces.accesRefuseHelper.read(_exception.getInputStream());
+                        throw Gestion_acces.ServeurAuthentificationPackage.accesRefuseHelper.read(_exception.getInputStream());
                     }
 
                     throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
@@ -344,7 +344,7 @@ public class _ServeurAuthentificationStub extends org.omg.CORBA.portable.ObjectI
      * Operation modifierMdp
      */
     public void modifierMdp(String user, String newMdp, String mdpServeur)
-        throws Gestion_acces.ServeurAuthentificationPackage.compteInexistant, Gestion_acces.accesRefuse
+        throws Gestion_acces.ServeurAuthentificationPackage.compteInexistant, Gestion_acces.ServeurAuthentificationPackage.accesRefuse
     {
         while(true)
         {
@@ -372,9 +372,9 @@ public class _ServeurAuthentificationStub extends org.omg.CORBA.portable.ObjectI
                         throw Gestion_acces.ServeurAuthentificationPackage.compteInexistantHelper.read(_exception.getInputStream());
                     }
 
-                    if (_exception_id.equals(Gestion_acces.accesRefuseHelper.id()))
+                    if (_exception_id.equals(Gestion_acces.ServeurAuthentificationPackage.accesRefuseHelper.id()))
                     {
-                        throw Gestion_acces.accesRefuseHelper.read(_exception.getInputStream());
+                        throw Gestion_acces.ServeurAuthentificationPackage.accesRefuseHelper.read(_exception.getInputStream());
                     }
 
                     throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);

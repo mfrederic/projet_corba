@@ -65,9 +65,9 @@ public class SrvJournalPOATie extends SrvJournalPOA
     /**
      * Operation journaliser
      */
-    public short journaliser(String timestamp, String typeAcces, Gestion_acces.personne p, boolean resultat, String commentaire)
+    public void journaliser(String timestamp, String typeAcces, Gestion_acces.personne p, boolean resultat, String commentaire)
     {
-        return _tie.journaliser( timestamp,  typeAcces,  p,  resultat,  commentaire);
+        _tie.journaliser( timestamp,  typeAcces,  p,  resultat,  commentaire);
     }
 
 }

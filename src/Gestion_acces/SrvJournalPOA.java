@@ -51,10 +51,9 @@ public abstract class SrvJournalPOA extends org.omg.PortableServer.Servant
         boolean arg3_in = _is.read_boolean();
         String arg4_in = _is.read_string();
 
-        short _arg_result = journaliser(arg0_in, arg1_in, arg2_in, arg3_in, arg4_in);
+        journaliser(arg0_in, arg1_in, arg2_in, arg3_in, arg4_in);
 
         _output = handler.createReply();
-        _output.write_short(_arg_result);
 
         return _output;
     }

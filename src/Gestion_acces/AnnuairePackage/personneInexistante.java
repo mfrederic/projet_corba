@@ -1,4 +1,4 @@
-package Gestion_acces;
+package Gestion_acces.AnnuairePackage;
 
 /**
  * Exception definition : personneInexistante
@@ -38,10 +38,6 @@ public final class personneInexistante extends org.omg.CORBA.UserException
     {
         super(personneInexistanteHelper.id() +" " +  orb_reason);
         this.id = id;
-    }
-    
-    public String toString() {
-    	return "Personne inexistante dans la base (id = " + this.id + ")";
     }
 
 }

@@ -1,11 +1,11 @@
-package Gestion_acces;
+package Gestion_acces.AnnuairePackage;
 
 /** 
- * Helper class for : droitsInsuffisants
+ * Helper class for : personneInexistante
  *  
  * @author OpenORB Compiler
  */ 
-public class droitsInsuffisantsHelper
+public class personneInexistanteHelper
 {
     private static final boolean HAS_OPENORB;
     static {
@@ -19,21 +19,21 @@ public class droitsInsuffisantsHelper
         HAS_OPENORB = hasOpenORB;
     }
     /**
-     * Insert droitsInsuffisants into an any
+     * Insert personneInexistante into an any
      * @param a an any
-     * @param t droitsInsuffisants value
+     * @param t personneInexistante value
      */
-    public static void insert(org.omg.CORBA.Any a, Gestion_acces.droitsInsuffisants t)
+    public static void insert(org.omg.CORBA.Any a, Gestion_acces.AnnuairePackage.personneInexistante t)
     {
-        a.insert_Streamable(new Gestion_acces.droitsInsuffisantsHolder(t));
+        a.insert_Streamable(new Gestion_acces.AnnuairePackage.personneInexistanteHolder(t));
     }
 
     /**
-     * Extract droitsInsuffisants from an any
+     * Extract personneInexistante from an any
      * @param a an any
-     * @return the extracted droitsInsuffisants value
+     * @return the extracted personneInexistante value
      */
-    public static Gestion_acces.droitsInsuffisants extract(org.omg.CORBA.Any a)
+    public static Gestion_acces.AnnuairePackage.personneInexistante extract(org.omg.CORBA.Any a)
     {
         if (!a.type().equal(type()))
             throw new org.omg.CORBA.MARSHAL();
@@ -42,11 +42,11 @@ public class droitsInsuffisantsHelper
             org.openorb.CORBA.Any any = (org.openorb.CORBA.Any)a;
             try {
                 org.omg.CORBA.portable.Streamable s = any.extract_Streamable();
-                if(s instanceof Gestion_acces.droitsInsuffisantsHolder)
-                    return ((Gestion_acces.droitsInsuffisantsHolder)s).value;
+                if(s instanceof Gestion_acces.AnnuairePackage.personneInexistanteHolder)
+                    return ((Gestion_acces.AnnuairePackage.personneInexistanteHolder)s).value;
             } catch (org.omg.CORBA.BAD_INV_ORDER ex) {
             }
-            Gestion_acces.droitsInsuffisantsHolder h = new Gestion_acces.droitsInsuffisantsHolder(read(a.create_input_stream()));
+            Gestion_acces.AnnuairePackage.personneInexistanteHolder h = new Gestion_acces.AnnuairePackage.personneInexistanteHolder(read(a.create_input_stream()));
             a.insert_Streamable(h);
             return h.value;
         }
@@ -60,7 +60,7 @@ public class droitsInsuffisantsHelper
     private static boolean _working = false;
 
     /**
-     * Return the droitsInsuffisants TypeCode
+     * Return the personneInexistante TypeCode
      * @return a TypeCode
      */
     public static org.omg.CORBA.TypeCode type()
@@ -76,9 +76,9 @@ public class droitsInsuffisantsHelper
                 org.omg.CORBA.StructMember []_members = new org.omg.CORBA.StructMember[1];
 
                 _members[0] = new org.omg.CORBA.StructMember();
-                _members[0].name = "raison";
-                _members[0].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_string);
-                _tc = orb.create_exception_tc(id(),"droitsInsuffisants",_members);
+                _members[0].name = "id";
+                _members[0].type = orb.get_primitive_tc(org.omg.CORBA.TCKind.tk_short);
+                _tc = orb.create_exception_tc(id(),"personneInexistante",_members);
                 _working = false;
             }
         }
@@ -86,7 +86,7 @@ public class droitsInsuffisantsHelper
     }
 
     /**
-     * Return the droitsInsuffisants IDL ID
+     * Return the personneInexistante IDL ID
      * @return an ID
      */
     public static String id()
@@ -94,33 +94,33 @@ public class droitsInsuffisantsHelper
         return _id;
     }
 
-    private final static String _id = "IDL:Gestion_acces/droitsInsuffisants:1.0";
+    private final static String _id = "IDL:Gestion_acces/Annuaire/personneInexistante:1.0";
 
     /**
-     * Read droitsInsuffisants from a marshalled stream
+     * Read personneInexistante from a marshalled stream
      * @param istream the input stream
-     * @return the readed droitsInsuffisants value
+     * @return the readed personneInexistante value
      */
-    public static Gestion_acces.droitsInsuffisants read(org.omg.CORBA.portable.InputStream istream)
+    public static Gestion_acces.AnnuairePackage.personneInexistante read(org.omg.CORBA.portable.InputStream istream)
     {
-        Gestion_acces.droitsInsuffisants new_one = new Gestion_acces.droitsInsuffisants();
+        Gestion_acces.AnnuairePackage.personneInexistante new_one = new Gestion_acces.AnnuairePackage.personneInexistante();
 
         if (!istream.read_string().equals(id()))
          throw new org.omg.CORBA.MARSHAL();
-        new_one.raison = istream.read_string();
+        new_one.id = istream.read_short();
 
         return new_one;
     }
 
     /**
-     * Write droitsInsuffisants into a marshalled stream
+     * Write personneInexistante into a marshalled stream
      * @param ostream the output stream
-     * @param value droitsInsuffisants value
+     * @param value personneInexistante value
      */
-    public static void write(org.omg.CORBA.portable.OutputStream ostream, Gestion_acces.droitsInsuffisants value)
+    public static void write(org.omg.CORBA.portable.OutputStream ostream, Gestion_acces.AnnuairePackage.personneInexistante value)
     {
         ostream.write_string(id());
-        ostream.write_string(value.raison);
+        ostream.write_short(value.id);
     }
 
 }

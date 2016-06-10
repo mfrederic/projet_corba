@@ -65,10 +65,10 @@ public abstract class AnnuairePOA extends org.omg.PortableServer.Servant
             Gestion_acces.personneHelper.write(_output,_arg_result);
 
         }
-        catch (Gestion_acces.personneInexistante _exception)
+        catch (Gestion_acces.AnnuairePackage.personneInexistante _exception)
         {
             _output = handler.createExceptionReply();
-            Gestion_acces.personneInexistanteHelper.write(_output,_exception);
+            Gestion_acces.AnnuairePackage.personneInexistanteHelper.write(_output,_exception);
         }
         return _output;
     }
@@ -87,10 +87,10 @@ public abstract class AnnuairePOA extends org.omg.PortableServer.Servant
             Gestion_acces.personneHelper.write(_output,_arg_result);
 
         }
-        catch (Gestion_acces.personneInexistante _exception)
+        catch (Gestion_acces.AnnuairePackage.personneInexistante _exception)
         {
             _output = handler.createExceptionReply();
-            Gestion_acces.personneInexistanteHelper.write(_output,_exception);
+            Gestion_acces.AnnuairePackage.personneInexistanteHelper.write(_output,_exception);
         }
         return _output;
     }
@@ -126,10 +126,10 @@ public abstract class AnnuairePOA extends org.omg.PortableServer.Servant
             _output = handler.createReply();
 
         }
-        catch (Gestion_acces.personneInexistante _exception)
+        catch (Gestion_acces.AnnuairePackage.personneInexistante _exception)
         {
             _output = handler.createExceptionReply();
-            Gestion_acces.personneInexistanteHelper.write(_output,_exception);
+            Gestion_acces.AnnuairePackage.personneInexistanteHelper.write(_output,_exception);
         }
         return _output;
     }
@@ -151,10 +151,10 @@ public abstract class AnnuairePOA extends org.omg.PortableServer.Servant
             _output = handler.createReply();
 
         }
-        catch (Gestion_acces.personneInexistante _exception)
+        catch (Gestion_acces.AnnuairePackage.personneInexistante _exception)
         {
             _output = handler.createExceptionReply();
-            Gestion_acces.personneInexistanteHelper.write(_output,_exception);
+            Gestion_acces.AnnuairePackage.personneInexistanteHelper.write(_output,_exception);
         }
         return _output;
     }

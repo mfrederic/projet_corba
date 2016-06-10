@@ -8,19 +8,9 @@ package Gestion_acces.ServeurAuthentificationPackage;
 public final class compteDejaCree extends org.omg.CORBA.UserException
 {
     /**
-     * Exception member nom
+     * Exception member user
      */
-    public String nom;
-
-    /**
-     * Exception member prenom
-     */
-    public String prenom;
-
-    /**
-     * Exception member id
-     */
-    public short id;
+    public String user;
 
     /**
      * Default constructor
@@ -32,30 +22,22 @@ public final class compteDejaCree extends org.omg.CORBA.UserException
 
     /**
      * Constructor with fields initialization
-     * @param nom nom exception member
-     * @param prenom prenom exception member
-     * @param id id exception member
+     * @param user user exception member
      */
-    public compteDejaCree(String nom, String prenom, short id)
+    public compteDejaCree(String user)
     {
         super(compteDejaCreeHelper.id());
-        this.nom = nom;
-        this.prenom = prenom;
-        this.id = id;
+        this.user = user;
     }
 
     /**
      * Full constructor with fields initialization
-     * @param nom nom exception member
-     * @param prenom prenom exception member
-     * @param id id exception member
+     * @param user user exception member
      */
-    public compteDejaCree(String orb_reason, String nom, String prenom, short id)
+    public compteDejaCree(String orb_reason, String user)
     {
         super(compteDejaCreeHelper.id() +" " +  orb_reason);
-        this.nom = nom;
-        this.prenom = prenom;
-        this.id = id;
+        this.user = user;
     }
 
 }

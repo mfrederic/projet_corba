@@ -10,6 +10,6 @@ public interface SrvJournalOperations
     /**
      * Operation journaliser
      */
-    public short journaliser(String timestamp, String typeAcces, Gestion_acces.personne p, boolean resultat, String commentaire);
+    public void journaliser(String timestamp, String typeAcces, Gestion_acces.personne p, boolean resultat, String commentaire);
 
 }

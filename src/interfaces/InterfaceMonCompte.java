@@ -4,11 +4,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import Gestion_acces.accesRefuse;
-import Gestion_acces.droitsInsuffisants;
 import Gestion_acces.personne;
 import Gestion_acces.statutPersonne;
+import Gestion_acces.ServeurAuthentificationPackage.accesRefuse;
 import Gestion_acces.ServeurAuthentificationPackage.compteInexistant;
+import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
 import authentification.ClientServeurAuthentification;
 
 public class InterfaceMonCompte {
@@ -38,7 +38,7 @@ public class InterfaceMonCompte {
 						authentifier(s[0], s[1]);
 					} catch (droitsInsuffisants e) {
 						// TODO Auto-generated catch block
-						System.out.println(e.toString());
+						System.out.println("Droits insuffisants : " + e.raison);
 					}
 			}
 			
@@ -69,18 +69,29 @@ public class InterfaceMonCompte {
 			}
 				
 				
-		} catch (compteInexistant | droitsInsuffisants | accesRefuse e) {
+		} catch (compteInexistant e) {
 			// TODO Auto-generated catch block
-			System.out.println(e.toString());
+			System.out.println("Compte inexistant : (user: " + e.user + ")");
+		} catch (droitsInsuffisants e) {
+			// TODO Auto-generated catch block
+			System.out.println("Droits insuffisants : " + e.raison);
+		} catch (accesRefuse e) {
+			// TODO Auto-generated catch block
+			System.out.println("Accès refusé : " + e.raison);
 		}
 	}
 	
 	private static void modifierMdp(String user, String newMdp) {
+
 		try {
 			monAuthentification.getMonAuthentification().modifierMdp(user, newMdp, cleServeur);
-		} catch (compteInexistant | accesRefuse e) {
+		} catch (compteInexistant e) {
 			// TODO Auto-generated catch block
-			System.out.println(e.toString());
+			System.out.println("Compte inexistant : (user: " + e.user + ")");
+		} catch (accesRefuse e) {
+			// TODO Auto-generated catch block
+			System.out.println("Accès refusé : " + e.raison);
 		}
+
 	}
 }
