@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import model.Autorisation;
@@ -113,10 +114,20 @@ public class AutorisationDAO extends DAO<Autorisation>{
 		return null;
 	}
 	
-	public List<Autorisation> findAllByZone(int idZone) {
-		List<Autorisation> out = new ArrayList<Autorisation>();
+	public ArrayList<Autorisation> findAllByZones(ArrayList<Integer> idZones) {
+		ArrayList<Autorisation> out = new ArrayList<Autorisation>();
+		String requete = "SELECT * FROM \"Autorisation\"";
 		try {
-			ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery("SELECT * FROM \"Autorisation\" WHERE \"refZone\" = " + idZone);
+			Iterator<Integer> it = idZones.iterator();
+			int i = 0;
+			while (it.hasNext()) {
+				if (i == 0)
+					requete += " WHERE \"refZone\" = '" + it.next() + "'";
+				else
+					requete += " OR \"refZone\" = '" + it.next() + "'";
+			}
+
+			ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery(requete);
 			while (result.next()) {
 				out.add(find(result.getInt(1)));
 			}
@@ -143,30 +154,6 @@ public class AutorisationDAO extends DAO<Autorisation>{
 			return out;
 		return null;
 	}
-	
-	//retourne l'autorisation pour une personne, une zone et une plage ou null
-		public Autorisation findAllByPersonneZonePlage(int idPersonne, int idZone, float hDeb, float hFin, String jDeb, String jFin) {
-			try {
-				ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)
-						.executeQuery(
-								"SELECT * " + 
-								"FROM \"Autorisation\" " + 
-								"WHERE \"refPersonne\" = '" + idPersonne + "'" + 
-								" AND \"refZone\" = '" + idZone + "'" + 
-								" AND \"heureDebut\" = '" + hDeb + "'" + 
-								" AND \"heureFin\" = '" + hFin + "'" + 
-								" AND \"jourDebut\" = '" + jDeb + "'" + 
-								" AND \"jourFin\" = '" + jFin + "'");
-				while (result.first()) {
-					 return find(result.getInt(1));
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-			
-			return null;
-		}
-
 
 	@Override
 	public ArrayList<Autorisation> getInstances() {

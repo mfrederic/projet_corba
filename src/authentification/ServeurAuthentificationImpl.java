@@ -106,7 +106,6 @@ public class ServeurAuthentificationImpl extends ServeurAuthentificationPOA{
 			throws accesRefuse, compteInexistant {
 		// TODO Auto-generated method stub
 		System.out.println("Auth-ajouterEmpreinte");
-		short refPers = 0;
 		
 		if (cleServeur.equals(mdp)) { // Clé serveur
 			Compte cmpt = new Compte();
@@ -175,7 +174,7 @@ public class ServeurAuthentificationImpl extends ServeurAuthentificationPOA{
 		System.out.println("Auth-creerCompte");
 		
 		if (cleServeur.equals(mdp)) { // Clé serveur
-			Compte cmpt = new Compte();
+			Compte cmpt = null;
 			
 			// BD
 			cmpt = repoCompte.findByUser(user);
@@ -184,6 +183,7 @@ public class ServeurAuthentificationImpl extends ServeurAuthentificationPOA{
 				throw new compteDejaCree(user);
 			
 			else { // le compte n'existe pas
+				cmpt = new Compte();
 				
 				// BD
 				cmpt.setRefPersonne(idPersonne);

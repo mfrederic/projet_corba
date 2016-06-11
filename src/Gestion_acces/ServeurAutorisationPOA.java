@@ -37,6 +37,8 @@ public abstract class ServeurAutorisationPOA extends org.omg.PortableServer.Serv
                 return _invoke_ajouterAutorisation(_is, handler);
         } else if (opName.equals("demanderAutor")) {
                 return _invoke_demanderAutor(_is, handler);
+        } else if (opName.equals("getAutorisationsResp")) {
+                return _invoke_getAutorisationsResp(_is, handler);
         } else if (opName.equals("getZonesResp")) {
                 return _invoke_getZonesResp(_is, handler);
         } else if (opName.equals("modifierAutorisation")) {
@@ -99,23 +101,15 @@ public abstract class ServeurAutorisationPOA extends org.omg.PortableServer.Serv
             final org.omg.CORBA.portable.InputStream _is,
             final org.omg.CORBA.portable.ResponseHandler handler) {
         org.omg.CORBA.portable.OutputStream _output;
-        Gestion_acces.personne arg0_in = Gestion_acces.personneHelper.read(_is);
-        short arg1_in = _is.read_short();
-        Gestion_acces.structPlage arg2_in = Gestion_acces.structPlageHelper.read(_is);
-        short arg3_in = _is.read_short();
-        Gestion_acces.structPlage arg4_in = Gestion_acces.structPlageHelper.read(_is);
+        short arg0_in = _is.read_short();
+        Gestion_acces.structPlage arg1_in = Gestion_acces.structPlageHelper.read(_is);
 
         try
         {
-            modifierAutorisation(arg0_in, arg1_in, arg2_in, arg3_in, arg4_in);
+            modifierAutorisation(arg0_in, arg1_in);
 
             _output = handler.createReply();
 
-        }
-        catch (Gestion_acces.ServeurAutorisationPackage.zoneInconnue _exception)
-        {
-            _output = handler.createExceptionReply();
-            Gestion_acces.ServeurAutorisationPackage.zoneInconnueHelper.write(_output,_exception);
         }
         catch (Gestion_acces.ServeurAutorisationPackage.autorisationInexistante _exception)
         {
@@ -129,27 +123,34 @@ public abstract class ServeurAutorisationPOA extends org.omg.PortableServer.Serv
             final org.omg.CORBA.portable.InputStream _is,
             final org.omg.CORBA.portable.ResponseHandler handler) {
         org.omg.CORBA.portable.OutputStream _output;
-        Gestion_acces.personne arg0_in = Gestion_acces.personneHelper.read(_is);
-        short arg1_in = _is.read_short();
-        Gestion_acces.structPlage arg2_in = Gestion_acces.structPlageHelper.read(_is);
+        short arg0_in = _is.read_short();
 
         try
         {
-            supprimerAutorisation(arg0_in, arg1_in, arg2_in);
+            supprimerAutorisation(arg0_in);
 
             _output = handler.createReply();
 
-        }
-        catch (Gestion_acces.ServeurAutorisationPackage.zoneInconnue _exception)
-        {
-            _output = handler.createExceptionReply();
-            Gestion_acces.ServeurAutorisationPackage.zoneInconnueHelper.write(_output,_exception);
         }
         catch (Gestion_acces.ServeurAutorisationPackage.autorisationInexistante _exception)
         {
             _output = handler.createExceptionReply();
             Gestion_acces.ServeurAutorisationPackage.autorisationInexistanteHelper.write(_output,_exception);
         }
+        return _output;
+    }
+
+    private org.omg.CORBA.portable.OutputStream _invoke_getAutorisationsResp(
+            final org.omg.CORBA.portable.InputStream _is,
+            final org.omg.CORBA.portable.ResponseHandler handler) {
+        org.omg.CORBA.portable.OutputStream _output;
+        short[] arg0_in = Gestion_acces.listeIdZonesHelper.read(_is);
+
+        Gestion_acces.autorisation[] _arg_result = getAutorisationsResp(arg0_in);
+
+        _output = handler.createReply();
+        Gestion_acces.listeAutorisationsHelper.write(_output,_arg_result);
+
         return _output;
     }
 
@@ -162,7 +163,7 @@ public abstract class ServeurAutorisationPOA extends org.omg.PortableServer.Serv
         short[] _arg_result = getZonesResp(arg0_in);
 
         _output = handler.createReply();
-        Gestion_acces.listeZonesHelper.write(_output,_arg_result);
+        Gestion_acces.listeIdZonesHelper.write(_output,_arg_result);
 
         return _output;
     }

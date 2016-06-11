@@ -138,8 +138,8 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
     /**
      * Operation modifierAutorisation
      */
-    public void modifierAutorisation(Gestion_acces.personne p, short oldZone, Gestion_acces.structPlage oldPlage, short newZone, Gestion_acces.structPlage newPlage)
-        throws Gestion_acces.ServeurAutorisationPackage.zoneInconnue, Gestion_acces.ServeurAutorisationPackage.autorisationInexistante
+    public void modifierAutorisation(short numAutor, Gestion_acces.structPlage newPlage)
+        throws Gestion_acces.ServeurAutorisationPackage.autorisationInexistante
     {
         while(true)
         {
@@ -149,10 +149,7 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
                 try
                 {
                     org.omg.CORBA.portable.OutputStream _output = this._request("modifierAutorisation",true);
-                    Gestion_acces.personneHelper.write(_output,p);
-                    _output.write_short(oldZone);
-                    Gestion_acces.structPlageHelper.write(_output,oldPlage);
-                    _output.write_short(newZone);
+                    _output.write_short(numAutor);
                     Gestion_acces.structPlageHelper.write(_output,newPlage);
                     _input = this._invoke(_output);
                     return;
@@ -164,11 +161,6 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
                 catch(org.omg.CORBA.portable.ApplicationException _exception)
                 {
                     String _exception_id = _exception.getId();
-                    if (_exception_id.equals(Gestion_acces.ServeurAutorisationPackage.zoneInconnueHelper.id()))
-                    {
-                        throw Gestion_acces.ServeurAutorisationPackage.zoneInconnueHelper.read(_exception.getInputStream());
-                    }
-
                     if (_exception_id.equals(Gestion_acces.ServeurAutorisationPackage.autorisationInexistanteHelper.id()))
                     {
                         throw Gestion_acces.ServeurAutorisationPackage.autorisationInexistanteHelper.read(_exception.getInputStream());
@@ -189,7 +181,7 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
                 Gestion_acces.ServeurAutorisationOperations _self = (Gestion_acces.ServeurAutorisationOperations) _so.servant;
                 try
                 {
-                    _self.modifierAutorisation( p,  oldZone,  oldPlage,  newZone,  newPlage);
+                    _self.modifierAutorisation( numAutor,  newPlage);
                     return;
                 }
                 finally
@@ -203,8 +195,8 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
     /**
      * Operation supprimerAutorisation
      */
-    public void supprimerAutorisation(Gestion_acces.personne p, short zone, Gestion_acces.structPlage plage)
-        throws Gestion_acces.ServeurAutorisationPackage.zoneInconnue, Gestion_acces.ServeurAutorisationPackage.autorisationInexistante
+    public void supprimerAutorisation(short numAutor)
+        throws Gestion_acces.ServeurAutorisationPackage.autorisationInexistante
     {
         while(true)
         {
@@ -214,9 +206,7 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
                 try
                 {
                     org.omg.CORBA.portable.OutputStream _output = this._request("supprimerAutorisation",true);
-                    Gestion_acces.personneHelper.write(_output,p);
-                    _output.write_short(zone);
-                    Gestion_acces.structPlageHelper.write(_output,plage);
+                    _output.write_short(numAutor);
                     _input = this._invoke(_output);
                     return;
                 }
@@ -227,11 +217,6 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
                 catch(org.omg.CORBA.portable.ApplicationException _exception)
                 {
                     String _exception_id = _exception.getId();
-                    if (_exception_id.equals(Gestion_acces.ServeurAutorisationPackage.zoneInconnueHelper.id()))
-                    {
-                        throw Gestion_acces.ServeurAutorisationPackage.zoneInconnueHelper.read(_exception.getInputStream());
-                    }
-
                     if (_exception_id.equals(Gestion_acces.ServeurAutorisationPackage.autorisationInexistanteHelper.id()))
                     {
                         throw Gestion_acces.ServeurAutorisationPackage.autorisationInexistanteHelper.read(_exception.getInputStream());
@@ -252,8 +237,58 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
                 Gestion_acces.ServeurAutorisationOperations _self = (Gestion_acces.ServeurAutorisationOperations) _so.servant;
                 try
                 {
-                    _self.supprimerAutorisation( p,  zone,  plage);
+                    _self.supprimerAutorisation( numAutor);
                     return;
+                }
+                finally
+                {
+                    _servant_postinvoke(_so);
+                }
+            }
+        }
+    }
+
+    /**
+     * Operation getAutorisationsResp
+     */
+    public Gestion_acces.autorisation[] getAutorisationsResp(short[] zones)
+    {
+        while(true)
+        {
+            if (!this._is_local())
+            {
+                org.omg.CORBA.portable.InputStream _input = null;
+                try
+                {
+                    org.omg.CORBA.portable.OutputStream _output = this._request("getAutorisationsResp",true);
+                    Gestion_acces.listeIdZonesHelper.write(_output,zones);
+                    _input = this._invoke(_output);
+                    Gestion_acces.autorisation[] _arg_ret = Gestion_acces.listeAutorisationsHelper.read(_input);
+                    return _arg_ret;
+                }
+                catch(org.omg.CORBA.portable.RemarshalException _exception)
+                {
+                    continue;
+                }
+                catch(org.omg.CORBA.portable.ApplicationException _exception)
+                {
+                    String _exception_id = _exception.getId();
+                    throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
+                }
+                finally
+                {
+                    this._releaseReply(_input);
+                }
+            }
+            else
+            {
+                org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke("getAutorisationsResp",_opsClass);
+                if (_so == null)
+                   continue;
+                Gestion_acces.ServeurAutorisationOperations _self = (Gestion_acces.ServeurAutorisationOperations) _so.servant;
+                try
+                {
+                    return _self.getAutorisationsResp( zones);
                 }
                 finally
                 {
@@ -278,7 +313,7 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
                     org.omg.CORBA.portable.OutputStream _output = this._request("getZonesResp",true);
                     Gestion_acces.personneHelper.write(_output,resp);
                     _input = this._invoke(_output);
-                    short[] _arg_ret = Gestion_acces.listeZonesHelper.read(_input);
+                    short[] _arg_ret = Gestion_acces.listeIdZonesHelper.read(_input);
                     return _arg_ret;
                 }
                 catch(org.omg.CORBA.portable.RemarshalException _exception)

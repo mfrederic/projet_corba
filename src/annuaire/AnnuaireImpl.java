@@ -58,7 +58,6 @@ public class AnnuaireImpl extends AnnuairePOA{
 		// TODO Auto-generated method stub
 		System.out.println("Annuaire-creerPersonne");
 		Personne pers = new Personne();
-		short id = 0;
 		
 		// BD
 		pers.setNomPersonne(nom);

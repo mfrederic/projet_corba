@@ -1,12 +1,17 @@
 package interfaces;
 
+import helpers.MaPlageDate;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import Gestion_acces.autorisation;
 import Gestion_acces.personne;
 import Gestion_acces.structPlage;
-import Gestion_acces.AnnuairePackage.personneInexistante;
 import Gestion_acces.ServeurAuthentificationPackage.accesRefuse;
 import Gestion_acces.ServeurAuthentificationPackage.compteInexistant;
 import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
@@ -22,18 +27,18 @@ public class InterfaceRespZones {
 	private static ClientServeurAutorisation monAutorisation;
 	private static ClientServeurAuthentification monAuthentification;
 	
-	private static boolean authReussie;
-	private static short[] listeZoneResp;
+	private static short[] listeZonesResp;
+	private static autorisation[] listeAutorisationsResp;
 	private static personne responsable;
 	
 	public static void main(String args[]) {
 		
 		monAutorisation = new ClientServeurAutorisation();
 		monAuthentification = new ClientServeurAuthentification();
-		authReussie = false;
-		listeZoneResp = null;
-		listeZoneResp[0] = 0;
+		listeAutorisationsResp = null;
 		responsable = null;
+		
+		boolean authReussie = false;
 		
 		while (!authReussie) {
 			try {
@@ -42,7 +47,7 @@ public class InterfaceRespZones {
 				String s[] = in.readLine().split(";");
 				
 			if (s.length > 1) {				
-				authentifier(s[0], s[1]);
+				authReussie = authentifier(s[0], s[1]);
 			}
 				
 				
@@ -57,12 +62,20 @@ public class InterfaceRespZones {
 			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 	        String choix = in.readLine();
 			
-	        boolean ok = false;
     		String s[] = null;
     		
-    		structPlage plage = new structPlage();
+    		structPlage plage = null;
 	        
-	        System.out.println("Liste des zones dont vous êtes responsable :\n" + listeZoneResp.toString());
+	        System.out.println("Liste des autorisations dont vous êtes responsable (n°;zone;pers;plage) :");
+	        for (autorisation au : listeAutorisationsResp) {
+	        	MaPlageDate pl = new MaPlageDate(au.sP);
+	        	System.out.println(
+	        			au.numAuto + ";" + 
+	        			au.refZone + ";" + 
+	        			au.refPers + ";" +
+	        			pl.toString()
+	        	);
+	        }
 			
 			System.out.println("Que voulez-vous faire ?");
 			System.out.println("1. Ajouter autorisation");
@@ -73,11 +86,11 @@ public class InterfaceRespZones {
 				
 	        	case "1": 
 	        		
-	        		while (!ok) {
+	        		while (plage == null) {
 	        			System.out.println("idZone;jDeb(jj-mm-aa);jFin(jj-mm-aa);hDeb;hFin");
 		        		s = in.readLine().split(";");
 	        			if (s.length > 4)
-	        				ok = verifierStructPlage(s[1], s[2], s[3], s[4], plage);
+	        				plage = verifierStructPlage(s[1], s[2], s[3], s[4]);
 	        		}
 	
 					try {
@@ -93,19 +106,34 @@ public class InterfaceRespZones {
 	        		break;
 	        		
 	        	case "2": 
-	        		modifierAutorisation();
+	        		while (plage == null) {
+	        			System.out.println("idAutor;jDeb(jj-mm-aa);jFin(jj-mm-aa);hDeb;hFin");
+		        		s = in.readLine().split(";");
+	        			if (s.length > 4)
+	        				plage = verifierStructPlage(s[1], s[2], s[3], s[4]);
+	        		}
+	
+					try {
+						modifierAutorisation(Short.parseShort(s[0]), plage);
+					} catch (NumberFormatException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (droitsInsuffisants e1) {
+						// TODO Auto-generated catch block
+						System.out.println("Droits insuffisants : " + e1.raison);
+					}
 	        		break;
 	        		
 	        	case "3": 
+	        		boolean ok = false;
 	        		while (!ok) {
-	        			System.out.println("idZone;jDeb(jj-mm-aa);jFin(jj-mm-aa);hDeb;hFin");
+	        			System.out.println("idAutor");
 		        		s = in.readLine().split(";");
-	        			if (s.length > 4)
-	        				ok = verifierStructPlage(s[1], s[2], s[3], s[4], plage);
+		        		ok = (s.length > 0);
 	        		}
-
-					try {
-						supprimerAutorisation(Short.parseShort(s[0]), plage);
+	        		
+	        		try {
+						supprimerAutorisation(Short.parseShort(s[0]));
 					} catch (NumberFormatException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -113,8 +141,8 @@ public class InterfaceRespZones {
 						// TODO Auto-generated catch block
 						System.out.println("Droits insuffisants : " + e.raison);
 					}
-
 	        		break;
+	        		
 	        	default:
 	        		break;
 			}
@@ -124,7 +152,9 @@ public class InterfaceRespZones {
 		}        
 	}
 	
-	private static void authentifier(String user, String password) {
+	private static boolean authentifier(String user, String password) {
+		boolean authReussie = false;
+
 		try {
 			responsable = monAuthentification.getMonAuthentification().authentifier(user, password, cleServeur);
 			if (responsable.idPers == 0) {
@@ -132,13 +162,15 @@ public class InterfaceRespZones {
 				System.out.println("Erreur identification personne");
 			}
 			else {
-				listeZoneResp = monAutorisation.getMonAutorisation().getZonesResp(responsable);
+				System.out.println(responsable);
+				listeZonesResp = monAutorisation.getMonAutorisation().getZonesResp(responsable);
 				
-				if (listeZoneResp[0] == 0) {
+				if (listeZonesResp.length == 0) {
 					authReussie = false;
 					throw new droitsInsuffisants("Vous n'êtes responsable d'aucune zone");
 				}
 				else {
+					listeAutorisationsResp = monAutorisation.getMonAutorisation().getAutorisationsResp(listeZonesResp);
 					authReussie = true;
 					
 				}
@@ -156,13 +188,16 @@ public class InterfaceRespZones {
 			System.out.println("Accès refusé : " + e.raison);
 		}
 		
+		return authReussie;
+		
 	}
 	
 	private static void ajouterAutorisation(short idZone, structPlage plage) throws droitsInsuffisants {
 		boolean ok = false;
-		for (int i=0; i<listeZoneResp.length; i++) {
-			if (listeZoneResp[i] == idZone)
-				ok = true;
+		int i = 0;
+		while (i<listeZonesResp.length && !ok) {
+			ok = (listeZonesResp[i] == idZone);
+			i++;
 		}
 		if (!ok)
 			throw new droitsInsuffisants("Vous n'avez pas le droit de gérer les droits de cette zone");
@@ -176,38 +211,79 @@ public class InterfaceRespZones {
 		}
 	}
 	
-	private static void modifierAutorisation() {
-		
-	}
-
-	private static void supprimerAutorisation(short idZone, structPlage plage) throws droitsInsuffisants {
+	private static void modifierAutorisation(short numAutor, structPlage plage) throws droitsInsuffisants {
 		boolean ok = false;
-		for (int i=0; i<listeZoneResp.length; i++) {
-			if (listeZoneResp[i] == idZone)
-				ok = true;
+		int i = 0;
+		while (i<listeAutorisationsResp.length && !ok) {
+			ok = (listeAutorisationsResp[i].numAuto == numAutor);
+			i++;
 		}
 		if (!ok)
 			throw new droitsInsuffisants("Vous n'avez pas le droit de gérer les droits de cette zone");
 		else {
 			try {
-				monAutorisation.getMonAutorisation().supprimerAutorisation(responsable, idZone, plage);
+				monAutorisation.getMonAutorisation().modifierAutorisation(numAutor, plage);
 			} catch (autorisationInexistante e) {
 				// TODO Auto-generated catch block
 				System.out.println("Aucune autorisation correspondante trouvée (id = " + e.idAutorisation + ")");
 			}
-			catch (zoneInconnue e) {
-				// TODO Auto-generated catch block
-				System.out.println("Zone inconnue (id = " + e.zone + ")");
-			}
+		}
+	}
 
+	private static void supprimerAutorisation(short numAutor) throws droitsInsuffisants {
+		boolean ok = false;
+		int i = 0;
+		while (i<listeAutorisationsResp.length && !ok) {
+			ok = (listeAutorisationsResp[i].numAuto == numAutor);
+			i++;
+		}
+		if (!ok)
+			throw new droitsInsuffisants("Vous n'avez pas le droit de gérer les droits de cette zone");
+		else {
+			try {
+				monAutorisation.getMonAutorisation().supprimerAutorisation(numAutor);
+			} catch (autorisationInexistante e) {
+				// TODO Auto-generated catch block
+				System.out.println("Aucune autorisation correspondante trouvée (id = " + e.idAutorisation + ")");
+			}
 		}
 	}
 	
-	private static boolean verifierStructPlage(String jDeb, String jFin, String hDeb, String hFin, structPlage out) {
+	private static structPlage verifierStructPlage(String jDeb, String jFin, String hDeb, String hFin) {
+
+		structPlage retour = null;
 		boolean structOk = true;
+		Float heureDeb = (float)0; 
+		Float heureFin = (float)0;
 		
-		out = new structPlage(jDeb, jFin, Float.parseFloat(hDeb), Float.parseFloat(hDeb));
-		return structOk;
+		// Tests heures
+		try {
+			heureDeb = Float.parseFloat(hDeb);
+			heureFin = Float.parseFloat(hFin);
+		} catch (NumberFormatException e) {
+			System.out.println(e.toString());
+			structOk = false;
+		}
+		
+		// Tests jours
+		Date dateDeb = null;
+		Date dateFin = null;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-mm-yy");
+            dateDeb = sdf.parse(jDeb);
+            dateFin = sdf.parse(jFin);
+            if (!jDeb.equals(sdf.format(dateDeb)) || !jFin.equals(sdf.format(dateFin))) {
+                structOk = false;
+            }
+        } catch (ParseException ex) {
+            System.out.println(ex.toString());
+            structOk = false;
+        }
+		
+        if (structOk)
+        	retour = new structPlage(jDeb, jFin, heureDeb, heureFin);
+
+		return retour;
 	}
 	
 }

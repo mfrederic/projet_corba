@@ -1,5 +1,6 @@
 package interfaces;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import log.ClientJournal;
@@ -7,7 +8,6 @@ import model.Porte;
 import Gestion_acces.personne;
 import Gestion_acces.rolePersonne;
 import Gestion_acces.statutPersonne;
-import Gestion_acces.AnnuairePackage.personneInexistante;
 import Gestion_acces.ServeurAuthentificationPackage.accesRefuse;
 import Gestion_acces.ServeurAutorisationPackage.zoneInconnue;
 import authentification.ClientServeurAuthentification;
@@ -71,10 +71,10 @@ public class InterfacePorte {
 	}
 	
 	private static void journaliser(String typeAcces, personne p, boolean res, String commentaire) {
-		GregorianCalendar gc = new GregorianCalendar();
-		String ts = String.valueOf(gc.YEAR) + "-" + String.valueOf(gc.MONTH) + "-" + String.valueOf(gc.DAY_OF_MONTH) + " " + String.valueOf(gc.HOUR_OF_DAY) + ":" + String.valueOf(gc.MINUTE) + ":" + String.valueOf(gc.SECOND); 
-
-		monJournal.getMonJournal().journaliser("e", typeAcces, p, res, commentaire);
+		Calendar gc = new GregorianCalendar();
+		String ts = String.valueOf(gc.get(Calendar.YEAR)) + "-" + String.valueOf(gc.get(Calendar.MONTH)+1) + "-" + String.valueOf(gc.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(gc.get(Calendar.HOUR_OF_DAY)) + ":" + String.valueOf(gc.get(Calendar.MINUTE)) + ":" + String.valueOf(gc.get(Calendar.SECOND)); 
+		
+		monJournal.getMonJournal().journaliser(ts, typeAcces, p, res, commentaire);
 	}
 	
 }

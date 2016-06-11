@@ -105,16 +105,16 @@ public class ZoneDAO extends DAO<Zone>{
 		return pers;
 	}
 	
-	public ArrayList<Integer> getZoneByRespZone(int id){
+	public ArrayList<Short> getZoneByRespZone(int id){
 		
-		ArrayList<Integer> zones = new ArrayList<Integer>();
+		ArrayList<Short> zones = new ArrayList<Short>();
 		try {
 			ResultSet result = this.connect.createStatement(
 					ResultSet.TYPE_SCROLL_INSENSITIVE,
 					ResultSet.CONCUR_UPDATABLE).executeQuery(
 							"SELECT * FROM \"Zone\" where \"respZone\"="+id);
 			while (result.next()) {
-				zones.add(result.getInt(3));
+				zones.add((short)result.getInt(3));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

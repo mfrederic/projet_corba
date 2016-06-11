@@ -3,6 +3,7 @@ package autorisation;
 import helpers.MaPlageDate;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
@@ -10,6 +11,7 @@ import java.util.List;
 import model.Autorisation;
 import model.Zone;
 import Gestion_acces.ServeurAutorisationPOA;
+import Gestion_acces.autorisation;
 import Gestion_acces.personne;
 import Gestion_acces.structPlage;
 import Gestion_acces.ServeurAutorisationPackage.autorisationInexistante;
@@ -36,7 +38,8 @@ public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
 		Zone z = null;
 		boolean autorise = false;
 		List<MaPlageDate> listePlages = new ArrayList<MaPlageDate>();
-			
+		Calendar date = new GregorianCalendar();
+		
 		// BD
 		z = repoZone.find(zone);
 		
@@ -46,7 +49,7 @@ public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
 			listePlages = repoAutorisation.findAllByPersonneZone(p.idPers, zone);
 			Iterator<MaPlageDate> it = listePlages.iterator();
 			while (!autorise && it.hasNext()) {
-				autorise = it.next().contient(new GregorianCalendar());
+				autorise = it.next().contient(date);
 			}
 		}
 		
@@ -81,88 +84,106 @@ public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
 	}
 
 	@Override
-	public void modifierAutorisation(personne p, short oldZone,
-			structPlage oldPlage, short newZone, structPlage newPlage)
-			throws zoneInconnue, autorisationInexistante {
+	public void modifierAutorisation(short numAutor, structPlage newPlage) throws autorisationInexistante {
 		// TODO Auto-generated method stub
 		System.out.println("Autorisation-modifierAutorisation");
+
+		// BD
+		Autorisation autor = repoAutorisation.find((int) numAutor);
+		
+		if (autor == null)
+			throw new autorisationInexistante((short)0);
+		else {
+			
+			// BD
+			autor.setHeureDebut(newPlage.heureDeb);
+			autor.setHeureFin(newPlage.heureFin);
+			autor.setJourDebut(newPlage.jourDeb);
+			autor.setJourFin(newPlage.jourFin);
+			repoAutorisation.update(autor);
+		}	
+	}
+
+	@Override
+	public void supprimerAutorisation(short numAutor) throws autorisationInexistante {
+		// TODO Auto-generated method stub
+		System.out.println("Autorisation-supprimerAutorisation");
 		
 		// BD
-		Zone zOld, zNew = null;
+		Autorisation autor = repoAutorisation.find((int) numAutor);
 		
-		zOld = repoZone.find(oldZone);
-		zNew = repoZone.find(newZone);
-
-		if (zOld == null)
-			throw new zoneInconnue(oldZone);
-		else if (zNew == null) {
-			throw new zoneInconnue(newZone);
-		} else {
-			
-			Autorisation autor = repoAutorisation.findAllByPersonneZonePlage((int)(p.idPers), (int)oldZone, oldPlage.heureDeb, oldPlage.heureFin, oldPlage.jourDeb, oldPlage.jourFin);
-			
-			if (autor == null)
-				throw new autorisationInexistante((short)0);
-			else {
-				
-				// BD
-				autor.setHeureDebut(newPlage.heureDeb);
-				autor.setHeureFin(newPlage.heureFin);
-				autor.setJourDebut(newPlage.jourDeb);
-				autor.setJourFin(newPlage.jourFin);
-				autor.setRefZone(oldZone);				
-				repoAutorisation.update(autor);
-				
-			}	
+		if (autor == null)
+			throw new autorisationInexistante((short)0);
+		else {
+			// BD
+			repoAutorisation.delete(autor);
 		}
 	}
 
 	@Override
-	public void supprimerAutorisation(personne p, short zone, structPlage plage)
-			throws autorisationInexistante, zoneInconnue {
-		// TODO Auto-generated method stub
-		System.out.println("Autorisation-supprimerAutorisation");
-		// BD
-		Zone z = null;
-		
-		z = repoZone.find(zone);
-
-		if (z == null)
-			throw new zoneInconnue(zone);
-		else {
-			Autorisation autor = repoAutorisation.findAllByPersonneZonePlage((int)(p.idPers), (int)zone, plage.heureDeb, plage.heureFin, plage.jourDeb, plage.jourFin);
-			
-			if (autor == null)
-				throw new autorisationInexistante((short)0);
-			else {
-				
-				// BD
-				repoAutorisation.delete(autor);
-			}
-		}		
-	}
-
-	@Override
-	public short[] getZonesResp(personne resp) {
+	public autorisation[] getAutorisationsResp(short[] zones) {
 		// TODO Auto-generated method stub
 		System.out.println("Autorisation-getZonesResp");
 		
-		short[] listeZones = null;
-		ArrayList<Integer> zonesBD = null;
+		ArrayList<Integer> zonesBD = new ArrayList<Integer>();
+		ArrayList<Autorisation> listeAutorBD = null;
+		autorisation[] retour;
+		
+		for (short z : zones)
+			zonesBD.add((int) z);
 		
 		// BD
-		zonesBD = repoZone.getZoneByRespZone(resp.idPers);
-		listeZones = new short[zonesBD.size()];
+		if (zonesBD.size() > 0) {
+			listeAutorBD = repoAutorisation.findAllByZones(zonesBD);
+			if (listeAutorBD == null)
+				retour = new autorisation[0];
+			else
+				retour = listeAutorisationsBDtoORB(listeAutorBD);
+		}
+		else
+			retour = new autorisation[0];
 		
-		Iterator<Integer> it = zonesBD.iterator();
-		int i = 0;
-		while (it.hasNext()) {
-			listeZones[i] = (it.next()).shortValue();
-			i++;
-		}			
-		
-		return listeZones;
+		return retour;
 	}
 	
+	@Override
+	public short[] getZonesResp(personne resp) {
+		// TODO Auto-generated method stub
+		ArrayList<Short> zonesBD = new ArrayList<Short>();
+		short[] listeIdZones = new short[0];
+		int i = 0;
+
+		// BD
+		zonesBD = repoZone.getZoneByRespZone(resp.idPers);
+
+		if (zonesBD.size() > 0) {
+			listeIdZones = new short[zonesBD.size()];
+			for (short idZ : zonesBD)				
+				listeIdZones[i++] = idZ;
+		}
+
+		return listeIdZones;
+	}
 	
+	private autorisation[] listeAutorisationsBDtoORB(ArrayList<Autorisation> listeAutor) {
+		autorisation[] retour = new autorisation[listeAutor.size()];
+		Autorisation autorBD = null;
+		structPlage sP = new structPlage();
+		
+		Iterator<Autorisation> it = listeAutor.iterator();
+		int i = 0;
+				
+		while (it.hasNext()) {
+			autorBD = it.next();
+			sP.jourDeb = autorBD.getJourDebut();
+			sP.jourFin = autorBD.getJourFin();
+			sP.heureDeb = autorBD.getHeureDebut();
+			sP.heureFin = autorBD.getHeureFin();
+			retour[i] = new autorisation((short)autorBD.getNumAuto(), (short)autorBD.getRefPersonne(), sP, (short)autorBD.getRefZone());
+			i++;
+		}
+		
+		return retour;
+	}
+
 }

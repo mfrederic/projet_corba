@@ -83,19 +83,27 @@ public class ServeurAutorisationPOATie extends ServeurAutorisationPOA
     /**
      * Operation modifierAutorisation
      */
-    public void modifierAutorisation(Gestion_acces.personne p, short oldZone, Gestion_acces.structPlage oldPlage, short newZone, Gestion_acces.structPlage newPlage)
-        throws Gestion_acces.ServeurAutorisationPackage.zoneInconnue, Gestion_acces.ServeurAutorisationPackage.autorisationInexistante
+    public void modifierAutorisation(short numAutor, Gestion_acces.structPlage newPlage)
+        throws Gestion_acces.ServeurAutorisationPackage.autorisationInexistante
     {
-        _tie.modifierAutorisation( p,  oldZone,  oldPlage,  newZone,  newPlage);
+        _tie.modifierAutorisation( numAutor,  newPlage);
     }
 
     /**
      * Operation supprimerAutorisation
      */
-    public void supprimerAutorisation(Gestion_acces.personne p, short zone, Gestion_acces.structPlage plage)
-        throws Gestion_acces.ServeurAutorisationPackage.zoneInconnue, Gestion_acces.ServeurAutorisationPackage.autorisationInexistante
+    public void supprimerAutorisation(short numAutor)
+        throws Gestion_acces.ServeurAutorisationPackage.autorisationInexistante
     {
-        _tie.supprimerAutorisation( p,  zone,  plage);
+        _tie.supprimerAutorisation( numAutor);
+    }
+
+    /**
+     * Operation getAutorisationsResp
+     */
+    public Gestion_acces.autorisation[] getAutorisationsResp(short[] zones)
+    {
+        return _tie.getAutorisationsResp( zones);
     }
 
     /**
