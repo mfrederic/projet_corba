@@ -132,28 +132,27 @@ public class InterfaceGestionPersonnel {
 	public boolean authentifier(String user, String password) throws droitsInsuffisants {
 		boolean authReussie = false;
 		
-		if ((persConnectee.role == rolePersonne.accueil) || (persConnectee.role == rolePersonne.RH)) {
-			try {
-				persConnectee = monAuthentification.getMonAuthentification().authentifier(user, password, cleServeur);
-				
-				if (persConnectee.idPers == 0)
-					authReussie = false;
-				else
-					authReussie = true;
-			} catch (compteInexistant e) {
-				// TODO Auto-generated catch block
-				message = "Compte inexistant : (user: " + e.user + ")";
-			} catch (droitsInsuffisants e) {
-				// TODO Auto-generated catch block
-				message = "Droits insuffisants : " + e.raison;
-			} catch (accesRefuse e) {
-				// TODO Auto-generated catch block
-				message = "Accès refusé : " + e.raison;
+		try {
+			persConnectee = monAuthentification.getMonAuthentification().authentifier(user, password, cleServeur);
+			
+			if (persConnectee.idPers == 0)
+				authReussie = false;
+			else if ((persConnectee.role == rolePersonne.accueil) || (persConnectee.role == rolePersonne.RH)) {
+				authReussie = true;
+			} else {
+				throw new droitsInsuffisants("Accès interdit : rôle doit être RH ou Accueil");
 			}
-		
-		} else {
-			throw new droitsInsuffisants("Accès interdit : rôle doit être RH ou Accueil");
+		} catch (compteInexistant e) {
+			// TODO Auto-generated catch block
+			message = "Compte inexistant : (user: " + e.user + ")";
+		} catch (droitsInsuffisants e) {
+			// TODO Auto-generated catch block
+			message = "Droits insuffisants : " + e.raison;
+		} catch (accesRefuse e) {
+			// TODO Auto-generated catch block
+			message = "Accès refusé : " + e.raison;
 		}
+		
 		return authReussie;
 	}
 	
