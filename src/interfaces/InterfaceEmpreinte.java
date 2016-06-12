@@ -1,9 +1,5 @@
 package interfaces;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 import Gestion_acces.personne;
 import Gestion_acces.statutPersonne;
 import Gestion_acces.ServeurAuthentificationPackage.accesRefuse;
@@ -15,15 +11,14 @@ public class InterfaceEmpreinte {
 	
 	private static final String cleServeur = "stp";
 	
-	private static ClientServeurAuthentification monAuthentification;
+	private ClientServeurAuthentification monAuthentification;
 	
-	private static personne persTemp;
-	private static String userTemp;
-	private static String pswdTemp;
-	private static boolean authReussie;
+	private personne persConnectee;
+	private String userConnecte;
+	private String message;
 	
 	public static void main(String args[]) {
-		
+		/*
 		monAuthentification = new ClientServeurAuthentification();
 		persTemp = null;
 		authReussie = false;
@@ -79,55 +74,92 @@ public class InterfaceEmpreinte {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}        
-        
+      */  
 	}
 	
-	private static void authentifier(String user, String password) {
-
+	public InterfaceEmpreinte() {
+		monAuthentification = new ClientServeurAuthentification();
+		userConnecte = null;
+		persConnectee = null;
+		message = "";
+	}
+	
+	public boolean authentifier(String user, String password) {
+		boolean authReussie = false;
 		try {
-			persTemp = monAuthentification.getMonAuthentification().authentifier(user, password, cleServeur);
+			persConnectee = monAuthentification.getMonAuthentification().authentifier(user, password, cleServeur);
 			
-			if (persTemp.idPers == 0)
+			if (persConnectee.idPers == 0)
 				authReussie = false;
-			else
+			else {
 				authReussie = true;
+				userConnecte = user;
+			}
 		} catch (compteInexistant e) {
 			// TODO Auto-generated catch block
-			System.out.println("Compte inexistant : (user: " + e.user + ")");
+			message = "Compte inexistant : (user: " + e.user + ")";
 		} catch (droitsInsuffisants e) {
 			// TODO Auto-generated catch block
-			System.out.println("Droits insuffisants : " + e.raison);
+			message = "Droits insuffisants : " + e.raison;
 		} catch (accesRefuse e) {
 			// TODO Auto-generated catch block
-			System.out.println("Accès refusé : " + e.raison);
+			message = "Accès refusé : " + e.raison;
 		}		
+		return authReussie;
 	}
 	
-	private static void ajouterEmpreinte(String user, String empreinte){
+	public void ajouterEmpreinte(String user, String empreinte){
 		try {
 			monAuthentification.getMonAuthentification().ajouterEmpreinte(user, empreinte, cleServeur);
+			message = "Empreinte ajoutée avec succès";
 		} catch (accesRefuse e) {
 			// TODO Auto-generated catch block
-			System.out.println("Accès refusé : " + e.raison);
+			message = "Accès refusé : " + e.raison;
 		} catch (compteInexistant e) {
 			// TODO Auto-generated catch block
-			System.out.println("Compte inexistant : (user: " + e.user + ")");
+			message = "Compte inexistant : (user: " + e.user + ")";
 		}
 	}
 	
-	private static void modifierEmpreinte(String user, String empreinte) throws droitsInsuffisants {
-		if (persTemp.statut == statutPersonne.temporaire)
+	public void modifierEmpreinte(String user, String empreinte) throws droitsInsuffisants {
+		if (persConnectee.statut == statutPersonne.temporaire)
 			throw new droitsInsuffisants("Vous n'avez pas le droit de modifier votre empreinte");
 
 		try {
 			monAuthentification.getMonAuthentification().ajouterEmpreinte(user, empreinte, cleServeur);
+			message = "Empreinte modifiée avec succès";
 		} catch (accesRefuse e) {
 			// TODO Auto-generated catch block
-			System.out.println("Accès refusé : " + e.raison);
+			message = "Accès refusé : " + e.raison;
 		} catch (compteInexistant e) {
 			// TODO Auto-generated catch block
-			System.out.println("Compte inexistant : (user: " + e.user + ")");
+			message = "Compte inexistant : (user: " + e.user + ")";
 		}
 	}
 
+	public personne getPersConnectee() {
+		return persConnectee;
+	}
+
+	public void setPersConnectee(personne persConnectee) {
+		this.persConnectee = persConnectee;
+	}
+
+	public String getUserConnecte() {
+		return userConnecte;
+	}
+
+	public void setUserConnecte(String userConnecte) {
+		this.userConnecte = userConnecte;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	
 }

@@ -5,8 +5,10 @@ import javax.swing.JLabel;
 
 import java.awt.Color;
 import java.awt.Font;
+
 import javax.swing.JTextField;
 import javax.swing.JButton;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -38,10 +40,13 @@ public class ModifierEmpreinte extends JPanel {
 		JButton btnAjouter = new JButton("modifier");
 		btnAjouter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(textFieldEmpreinte.getText().length() == 0)
+				String empreinte = textFieldEmpreinte.getText();
+				if(empreinte.length() == 0)
 					lblError.setText("L'empreinte est obligatoire.");
-				else
-					lblError.setText(" ");
+				else {
+					window.cltEmpreintes.ajouterEmpreinte(window.cltEmpreintes.getUserConnecte(), empreinte);
+					lblError.setText(window.cltEmpreintes.getMessage());
+				}
 			}
 		});
 		btnAjouter.setBounds(10, 109, 69, 23);

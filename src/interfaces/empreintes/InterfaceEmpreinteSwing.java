@@ -1,5 +1,7 @@
 package interfaces.empreintes;
 
+import interfaces.InterfaceEmpreinte;
+
 import java.awt.Container;
 import java.awt.EventQueue;
 
@@ -8,8 +10,7 @@ import javax.swing.JFrame;
 public class InterfaceEmpreinteSwing {
 	private static final String _cleServeur = "stp";
 	
-	//private static ClientServeurAuthentification monAuthentification;
-	private String userLogin;
+	public InterfaceEmpreinte cltEmpreintes;
 	
 	private JFrame frame;
 
@@ -17,7 +18,6 @@ public class InterfaceEmpreinteSwing {
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		// monAuthentification = new ClientServeurAuthentification();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -41,6 +41,8 @@ public class InterfaceEmpreinteSwing {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		cltEmpreintes = new InterfaceEmpreinte();
+		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 274, 245);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -57,11 +59,4 @@ public class InterfaceEmpreinteSwing {
 		frame.revalidate();
 	}
 	
-	public void setUserLogin(String userlogin) {
-		this.userLogin = userlogin;
-	}
-	
-	public String getUserLogin() {
-		return this.userLogin;
-	}
 }

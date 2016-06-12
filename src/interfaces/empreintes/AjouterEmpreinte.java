@@ -38,10 +38,13 @@ public class AjouterEmpreinte extends JPanel {
 		JButton btnAjouter = new JButton("Ajouter");
 		btnAjouter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(textFieldEmpreinte.getText().length() == 0)
+				String empreinte = textFieldEmpreinte.getText();
+				if(empreinte.length() == 0)
 					lblError.setText("L'empreinte est obligatoire.");
-				else
-					lblError.setText(" ");
+				else {
+					window.cltEmpreintes.ajouterEmpreinte(window.cltEmpreintes.getUserConnecte(), empreinte);
+					lblError.setText(window.cltEmpreintes.getMessage());
+				}
 			}
 		});
 		btnAjouter.setBounds(10, 109, 69, 23);

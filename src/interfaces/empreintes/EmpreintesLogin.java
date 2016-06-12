@@ -3,7 +3,9 @@ package interfaces.empreintes;
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import javax.swing.JLabel;
+
 import java.awt.Font;
+
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
@@ -54,13 +56,14 @@ public class EmpreintesLogin extends JPanel {
 				String password = new String(passwordField.getPassword());
 				
 				if(login.length() == 0 || password.length() == 0)
-					lblError.setText("Le login et password doivent être renseignés.");
-				else if(login.equals("fred") && password.equals("test")) {
-					lblError.setText(" ");
-					window.setUserLogin(login);
+					lblError.setText("Le login et password doivent ï¿½tre renseignï¿½s.");
+			
+				else if (window.cltEmpreintes.authentifier(login, password)) {
+					lblError.setText(window.cltEmpreintes.getMessage());
 					window.setPane(new EmpreinteMenu(window));
+					
 				} else
-					lblError.setText("Le login ou password est incorrecte.");
+					lblError.setText(window.cltEmpreintes.getMessage());
 			}
 		});
 		add(btnConnexion);

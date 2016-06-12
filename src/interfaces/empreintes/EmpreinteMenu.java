@@ -39,7 +39,6 @@ public class EmpreinteMenu extends JPanel {
 		JButton btnDeconnexion = new JButton("Deconnexion");
 		btnDeconnexion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				window.setUserLogin(null);
 				window.setPane(new EmpreintesLogin(window));
 			}
 		});
