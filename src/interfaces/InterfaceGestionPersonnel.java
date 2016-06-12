@@ -1,5 +1,8 @@
 package interfaces;
 
+import java.util.ArrayList;
+
+import model.Personne;
 import Gestion_acces.personne;
 import Gestion_acces.rolePersonne;
 import Gestion_acces.statutPersonne;
@@ -126,24 +129,30 @@ public class InterfaceGestionPersonnel {
 */       
 	}
 
-	public boolean authentifier(String user, String password) {
+	public boolean authentifier(String user, String password) throws droitsInsuffisants {
 		boolean authReussie = false;
-		try {
-			persConnectee = monAuthentification.getMonAuthentification().authentifier(user, password, cleServeur);
-			
-			if (persConnectee.idPers == 0)
-				authReussie = false;
-			else
-				authReussie = true;
-		} catch (compteInexistant e) {
-			// TODO Auto-generated catch block
-			message = "Compte inexistant : (user: " + e.user + ")";
-		} catch (droitsInsuffisants e) {
-			// TODO Auto-generated catch block
-			message = "Droits insuffisants : " + e.raison;
-		} catch (accesRefuse e) {
-			// TODO Auto-generated catch block
-			message = "Accès refusé : " + e.raison;
+		
+		if ((persConnectee.role == rolePersonne.accueil) || (persConnectee.role == rolePersonne.RH)) {
+			try {
+				persConnectee = monAuthentification.getMonAuthentification().authentifier(user, password, cleServeur);
+				
+				if (persConnectee.idPers == 0)
+					authReussie = false;
+				else
+					authReussie = true;
+			} catch (compteInexistant e) {
+				// TODO Auto-generated catch block
+				message = "Compte inexistant : (user: " + e.user + ")";
+			} catch (droitsInsuffisants e) {
+				// TODO Auto-generated catch block
+				message = "Droits insuffisants : " + e.raison;
+			} catch (accesRefuse e) {
+				// TODO Auto-generated catch block
+				message = "Accès refusé : " + e.raison;
+			}
+		
+		} else {
+			throw new droitsInsuffisants("Accès interdit : rôle doit être RH ou Accueil");
 		}
 		return authReussie;
 	}
@@ -168,7 +177,6 @@ public class InterfaceGestionPersonnel {
 					message = "Accès refusé : " + e.raison;
 				}
 			}
-			
 		} else {
 			throw new droitsInsuffisants("Accès interdit : rôle doit être RH ou Accueil");
 		}
@@ -209,6 +217,33 @@ public class InterfaceGestionPersonnel {
 		} else {
 			throw new droitsInsuffisants("Accès interdit : rôle doit être RH ou Accueil");
 		}
+	}
+	
+	public void modifierInfos(short idPers, String nom, String prenom, statutPersonne statut, rolePersonne role) throws droitsInsuffisants {
+		if (persConnectee.role == rolePersonne.RH) {
+
+			try {
+				monAnnuaire.getMonAnnuaire().modifierInfos(idPers, nom, prenom, statut, role);
+			} catch (personneInexistante e) {
+				// TODO Auto-generated catch block
+				message = "Personne inexistante dans la base (id = " + e.id + ")";
+			}
+		
+		} else {
+			throw new droitsInsuffisants("Accès interdit : rôle doit être RH");
+		}
+	}
+	
+	public personne[] chercherPersonnes(String nom, String prenom) throws droitsInsuffisants {
+		// TODO Auto-generated method stub
+		personne[] retour = new personne[0];
+		if (persConnectee.role == rolePersonne.RH) {
+			retour = monAnnuaire.getMonAnnuaire().chercherPersonnes(nom, prenom);
+		
+		} else {
+			throw new droitsInsuffisants("Accès interdit : rôle doit être RH");
+		}
+		return retour;
 	}
 
 	public personne getPersConnectee() {

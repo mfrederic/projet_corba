@@ -42,7 +42,7 @@ public class InterfacePorte {
 */
 	}
 	
-	public void entrer(String emp, String ph) {
+	public void accesPorte(String emp, String ph, int typeAcces) { //1: Entrée, 2 = Sortie
 		boolean autorisation = false;		
 
 		try {
@@ -68,8 +68,10 @@ public class InterfacePorte {
 			message = "Accès refusé : " + e.raison;
 		}
 		
-
-		journaliser("Entrée", persIdentifiee, autorisation, message);
+		if (typeAcces == 1)
+			journaliser("Entrée", persIdentifiee, autorisation, message);
+		else if (typeAcces == 2)
+			journaliser("Sortie", persIdentifiee, autorisation, message);
 	}
 	
 	public void journaliser(String typeAcces, personne p, boolean res, String commentaire) {

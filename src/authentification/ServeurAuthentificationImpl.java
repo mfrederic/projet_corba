@@ -86,6 +86,7 @@ public class ServeurAuthentificationImpl extends ServeurAuthentificationPOA{
 				else { // Mot de passe bon
 					try {
 						p = monAnnuaire.getMonAnnuaire().identifier((short)cmpt.getRefPersonne());
+
 					} catch (personneInexistante e) {
 						// TODO Auto-generated catch block
 						System.out.println("Personne inexistante dans la base (id = " + e.id + ")");

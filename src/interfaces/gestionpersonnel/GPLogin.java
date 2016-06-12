@@ -13,12 +13,13 @@ import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
+import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
+
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class GPLogin extends JPanel {
-	private String userLogin;
 	
 	private JLabel lblError;
 	private JTextField textFieldLogin;
@@ -63,13 +64,18 @@ public class GPLogin extends JPanel {
 				
 				if(login.length() == 0 || password.length() == 0)
 					lblError.setText("Le login et password doivent etre renseignes.");
-			
-				else if (window.getCltGestPers().authentifier(login, password)) {
-					lblError.setText(window.getCltGestPers().getMessage());
-					window.setPane(new GPMenu(window));
-					
-				} else
-					lblError.setText(window.getCltGestPers().getMessage());
+				else
+					try {
+						if (window.getCltGestPers().authentifier(login, password)) {
+							lblError.setText(window.getCltGestPers().getMessage());
+							window.setPane(new GPMenu(window));
+							
+						} else
+							lblError.setText(window.getCltGestPers().getMessage());
+					} catch (droitsInsuffisants e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 			}
 		});
 		add(btnConnexion);

@@ -163,7 +163,7 @@ public class AnnuaireImpl extends AnnuairePOA{
 		default :
 			role = rolePersonne.basique;
 			break;
-	}
+		}
 		return new personne((short) p.getIdPersonne(), p.getNomPersonne(), p.getPrenomPersonne(), p.getPhotoPersonne(), statut, role);	
 	}
 
