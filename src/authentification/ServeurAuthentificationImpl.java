@@ -10,6 +10,7 @@ import Gestion_acces.ServeurAuthentificationPackage.accesRefuse;
 import Gestion_acces.ServeurAuthentificationPackage.compteDejaCree;
 import Gestion_acces.ServeurAuthentificationPackage.compteInexistant;
 import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
+import Gestion_acces.ServeurAuthentificationPackage.empreinteDejaExistante;
 import Gestion_acces.ServeurAuthentificationPackage.suppressionInterdite;
 import annuaire.ClientAnnuaire;
 import bdd.objetsdao.CompteDAO;
@@ -103,7 +104,7 @@ public class ServeurAuthentificationImpl extends ServeurAuthentificationPOA{
 
 	@Override
 	public void ajouterEmpreinte(String user, String emp, String mdp)
-			throws accesRefuse, compteInexistant {
+			throws accesRefuse, compteInexistant, empreinteDejaExistante {
 		// TODO Auto-generated method stub
 		System.out.println("Auth-ajouterEmpreinte");
 		
@@ -115,7 +116,37 @@ public class ServeurAuthentificationImpl extends ServeurAuthentificationPOA{
 					
 			if (cmpt == null) // Contrôle de l'existance du user dans la base
 				throw new compteInexistant(user);
-			else { // le compte existe
+			else if(cmpt.getEmpreinte() == null) { // le compte existe et pas d'empreinte
+				
+				// BD
+				cmpt.setEmpreinte(emp);
+				repoCompte.update(cmpt);
+
+				System.out.println("Empreinte ajoutée");
+			} else {
+				throw new empreinteDejaExistante(cmpt.getEmpreinte());
+			}
+		} else {
+			throw new accesRefuse("Mot de passe serveur faux");
+		}
+		
+	}
+	
+	@Override
+	public void modifierEmpreinte(String user, String emp, String mdp)
+			throws droitsInsuffisants, accesRefuse, compteInexistant {
+		// TODO Auto-generated method stub
+		System.out.println("Auth-ajouterEmpreinte");
+		
+		if (cleServeur.equals(mdp)) { // Clé serveur
+			Compte cmpt = new Compte();
+			
+			// BD
+			cmpt = repoCompte.findByUser(user);
+					
+			if (cmpt == null) // Contrôle de l'existance du user dans la base
+				throw new compteInexistant(user);
+			else { // le compte existe et pas d'empreinte
 				
 				// BD
 				cmpt.setEmpreinte(emp);

@@ -1,9 +1,12 @@
 package bdd;
 
-import java.util.GregorianCalendar;
+import helpers.MaPlageDate;
 
-import bdd.objetsdao.JournalDAO;
-import model.Journal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import Gestion_acces.structPlage;
 
 
 public class testBDD {
@@ -33,20 +36,56 @@ public class testBDD {
 		AutorisationDAO autoRepo = new AutorisationDAO();
 		aut = autoRepo.create(aut);
 		//TODO classe métier zone puis porte puis autorisation
+
+		structPlage sP = new structPlage();
+		MaPlageDate mP;
+		boolean ok;
+		
+		sP = verifierStructPlage("09-11-16", "09-11-16", "90", "7");
+		
+		mP = new MaPlageDate(sP);
+		System.out.println(sP);
+		if (sP==null)
+			System.out.println("nOK");
+		else
+			System.out.println(mP.toString());
 */
-		JournalDAO repoJournal = new JournalDAO();
-		
-		GregorianCalendar gc = new GregorianCalendar();
-		String ts = String.valueOf(gc.YEAR) + "-" + String.valueOf(gc.MONTH) + "-" + String.valueOf(gc.DAY_OF_MONTH) + " " + String.valueOf(gc.HOUR_OF_DAY) + ":" + String.valueOf(gc.MINUTE) + ":" + String.valueOf(gc.SECOND); 
-		
-		Journal j = new Journal();
-		j.setCommentaire("test");
-		j.setRefPersonne(2);
-		j.setResultat(true);
-		j.setTypeAcces("Entrée");
-		j.setTimestamp(ts);
-		
-		j = repoJournal.create(j);
-		
 	}
+/*	
+	private static structPlage verifierStructPlage(String jDeb, String jFin, String hDeb, String hFin) {
+		structPlage retour = null;
+		boolean structOk = true;
+		Float heureDeb = (float)0; 
+		Float heureFin = (float)0;
+		
+		// Tests heures
+		try {
+			heureDeb = Float.parseFloat(hDeb);
+			heureFin = Float.parseFloat(hDeb);
+		} catch (NumberFormatException e) {
+			System.out.println(e.toString());
+			structOk = false;
+		}
+		
+		// Tests jours
+		Date dateDeb = null;
+		Date dateFin = null;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-mm-yy");
+            dateDeb = sdf.parse(jDeb);
+            dateFin = sdf.parse(jFin);
+            if (!jDeb.equals(sdf.format(dateDeb)) || !jFin.equals(sdf.format(dateFin))) {
+                structOk = false;
+            }
+        } catch (ParseException ex) {
+            System.out.println(ex.toString());
+            structOk = false;
+        }
+		
+        if (structOk)
+        	retour = new structPlage(jDeb, jFin, heureDeb, heureFin);
+        
+		return retour;
+	}
+*/
 }

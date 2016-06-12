@@ -10,8 +10,8 @@ public interface ServeurAutorisationOperations
     /**
      * Operation demanderAutor
      */
-    public boolean demanderAutor(Gestion_acces.personne p, short zone)
-        throws Gestion_acces.ServeurAutorisationPackage.zoneInconnue;
+    public boolean demanderAutor(Gestion_acces.personne p, short idPorte)
+        throws Gestion_acces.ServeurAutorisationPackage.porteInconnue;
 
     /**
      * Operation ajouterAutorisation

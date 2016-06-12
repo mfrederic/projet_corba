@@ -1,16 +1,16 @@
 package interfaces.empreintes;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-
 import java.awt.Color;
 import java.awt.Font;
-
-import javax.swing.JTextField;
-import javax.swing.JButton;
-
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
 
 public class ModifierEmpreinte extends JPanel {
 	private static final long serialVersionUID = 5003639343730043476L;
@@ -44,8 +44,13 @@ public class ModifierEmpreinte extends JPanel {
 				if(empreinte.length() == 0)
 					lblError.setText("L'empreinte est obligatoire.");
 				else {
-					window.cltEmpreintes.ajouterEmpreinte(window.cltEmpreintes.getUserConnecte(), empreinte);
-					lblError.setText(window.cltEmpreintes.getMessage());
+					try {
+						window.getCltEmpreintes().modifierEmpreinte(window.getCltEmpreintes().getUserConnecte(), empreinte);
+					} catch (droitsInsuffisants e1) {
+						// TODO Auto-generated catch block
+						lblError.setText(window.getCltEmpreintes().getMessage());
+					}
+					lblError.setText(window.getCltEmpreintes().getMessage());
 				}
 			}
 		});

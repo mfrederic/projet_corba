@@ -23,7 +23,13 @@ public interface ServeurAuthentificationOperations
      * Operation ajouterEmpreinte
      */
     public void ajouterEmpreinte(String user, String emp, String mdp)
-        throws Gestion_acces.ServeurAuthentificationPackage.accesRefuse, Gestion_acces.ServeurAuthentificationPackage.compteInexistant;
+        throws Gestion_acces.ServeurAuthentificationPackage.accesRefuse, Gestion_acces.ServeurAuthentificationPackage.compteInexistant, Gestion_acces.ServeurAuthentificationPackage.empreinteDejaExistante;
+
+    /**
+     * Operation modifierEmpreinte
+     */
+    public void modifierEmpreinte(String user, String emp, String mdp)
+        throws Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants, Gestion_acces.ServeurAuthentificationPackage.accesRefuse, Gestion_acces.ServeurAuthentificationPackage.compteInexistant;
 
     /**
      * Operation supprimerEmpreinte

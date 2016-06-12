@@ -38,11 +38,12 @@ module Gestion_acces {
 		exception suppressionInterdite {rolePersonne role;};
 		exception droitsInsuffisants {string raison;}; //Si mdp user faux ou statut ou role insuffisant
 		exception accesRefuse {string raison;}; //Si le mot de passe du Serveur d'authentification est faux
+		exception empreinteDejaExistante {string emp;};
 
 		personne demanderAuth (in empreinte emp, in photo ph, in string mdp) raises(accesRefuse); //Depuis la porte
 		personne authentifier (in string user, in string password, in string mdp) raises(compteInexistant, droitsInsuffisants, accesRefuse); // Depuis le lecteur d'empreinte, l'interface RH ou l'interface resp. zone
-		void ajouterEmpreinte (in string user, in empreinte emp, in string mdp) raises(accesRefuse, compteInexistant);
-		//void modifierEmpreinte (in string user, in empreinte emp, in string mdp) raises( droitsInsuffisants, accesRefuse, compteInexistant);
+		void ajouterEmpreinte (in string user, in empreinte emp, in string mdp) raises(accesRefuse, compteInexistant, empreinteDejaExistante);
+		void modifierEmpreinte (in string user, in empreinte emp, in string mdp) raises( droitsInsuffisants, accesRefuse, compteInexistant);
 		void supprimerEmpreinte (in string user, in string mdp) raises(accesRefuse, compteInexistant, suppressionInterdite);
 		void creerCompte (in short idPersonne, in string user, in string password, in string mdp) raises(compteDejaCree, accesRefuse);
 		void modifierMdp (in string user, in string newMdp, in string mdpServeur) raises(compteInexistant, accesRefuse);
@@ -50,9 +51,10 @@ module Gestion_acces {
 
 	interface ServeurAutorisation {
 		exception zoneInconnue {short zone;};
+		exception porteInconnue {short idPorte;};
 		exception autorisationInexistante {short idAutorisation;};
 		
-		boolean demanderAutor (in personne p, in short zone) raises(zoneInconnue); // Depuis Porte
+		boolean demanderAutor (in personne p, in short idPorte) raises(porteInconnue); // Depuis Porte
 		void ajouterAutorisation (in personne p, in short zone, in structPlage plage) raises(zoneInconnue);
 		void modifierAutorisation (in short numAutor, in structPlage newPlage) raises(autorisationInexistante);
 		void supprimerAutorisation (in short numAutor) raises(autorisationInexistante);

@@ -60,7 +60,7 @@ public class SupprimerEmpreinte extends JPanel {
 		btnSupprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					supprimerEmpreinte((String) comboBox.getSelectedItem());
+					window.getCltGestPers().supprimerEmpreinte((String) comboBox.getSelectedItem());
 				} catch (droitsInsuffisants e1) {
 					lblError.setText("Droits insuffisants : " + e1.raison);
 				}
@@ -79,25 +79,6 @@ public class SupprimerEmpreinte extends JPanel {
 		add(btnAnnuler);
 
 		
-	}
-	
-	private void supprimerEmpreinte(String user) throws droitsInsuffisants {
-		if ((window.getPersTemp().role == rolePersonne.accueil) || (window.getPersTemp().role == rolePersonne.RH)){
-
-			try {
-				window.getMonAuthentification().getMonAuthentification().supprimerEmpreinte(user, window.getCleserveur());
-			} catch (accesRefuse e) {
-				lblError.setText("Acces refuse : " + e.raison);
-			} catch (compteInexistant e) {
-				lblError.setText("Compte inexistant : (user: " + e.user + ")");
-			} catch (suppressionInterdite e) {
-				lblError.setText("Vous n'avez pas le droit de supprimer l'empreinte (role = " + e.role + ")");
-			}
-
-		
-		} else {
-			throw new droitsInsuffisants("Acces interdit : role doit etre RH ou Accueil");
-		}
 	}
 
 }

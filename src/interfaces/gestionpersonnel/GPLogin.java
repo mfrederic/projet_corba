@@ -1,9 +1,13 @@
 package interfaces.gestionpersonnel;
 
+import interfaces.empreintes.EmpreinteMenu;
+
 import javax.swing.JPanel;
 import javax.swing.SpringLayout;
 import javax.swing.JLabel;
+
 import java.awt.Font;
+
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
@@ -58,13 +62,14 @@ public class GPLogin extends JPanel {
 				String password = new String(passwordField.getPassword());
 				
 				if(login.length() == 0 || password.length() == 0)
-					lblError.setText("Le login et password doivent être renseignés.");
-				else if(login.equals("fred") && password.equals("test")) {
-					lblError.setText(" ");
-					window.setUserLogin(login);
+					lblError.setText("Le login et password doivent etre renseignes.");
+			
+				else if (window.getCltGestPers().authentifier(login, password)) {
+					lblError.setText(window.getCltGestPers().getMessage());
 					window.setPane(new GPMenu(window));
+					
 				} else
-					lblError.setText("Le login ou password est incorrecte.");
+					lblError.setText(window.getCltGestPers().getMessage());
 			}
 		});
 		add(btnConnexion);

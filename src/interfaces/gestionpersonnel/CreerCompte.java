@@ -109,7 +109,7 @@ public class CreerCompte extends JPanel {
 				lblError.setText("");
 				
 				try {
-					creerCompte(
+					window.getCltGestPers().creerCompte(
 							textFieldNom.getText(),
 							textFieldPrenom.getText(),
 							statutPersonne.from_int(Integer.parseInt(textFieldStatut.getText())),
@@ -162,36 +162,11 @@ public class CreerCompte extends JPanel {
 			errorFields += "Password, ";
 		
 		if(errorFields.length() > 0) {
-			lblError.setText("<html>Le(s) champ(s) <br>" + errorFields + " <br>doivent être renseignés.</html>");
+			lblError.setText("<html>Le(s) champ(s) <br>" + errorFields + " <br>doivent ï¿½tre renseignï¿½s.</html>");
 			return false;
 		}
 		
 		return true;
 	}
 	
-	private void creerCompte(String nom, String prenom, statutPersonne statut, rolePersonne role, String user, String password) throws droitsInsuffisants {
-		short idPers = 0;
-
-		if ((this.window.getPersTemp().role == rolePersonne.accueil) || (this.window.getPersTemp().role == rolePersonne.RH)){
-
-			idPers = window.getMonAnnuaire().getMonAnnuaire().creerPersonne(nom, prenom, statut, role);
-			if (idPers == 0)
-				lblError.setText("Personne impossible à creer --> compte non cree");
-			else {
-
-				try {
-					window.getMonAuthentification().getMonAuthentification().creerCompte(idPers, user, password, window.getCleserveur());
-				} catch (compteDejaCree e) {
-					// TODO Auto-generated catch block
-					lblError.setText("Le compte existe deja  (user: " + e.user + " )");
-				} catch (accesRefuse e) {
-					// TODO Auto-generated catch block
-					lblError.setText("Acces refuse : " + e.raison);
-				}
-			}
-			
-		} else {
-			throw new droitsInsuffisants("Acces interdit : role doit etre RH ou Accueil");
-		}
-	}
 }

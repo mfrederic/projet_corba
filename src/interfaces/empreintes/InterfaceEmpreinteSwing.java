@@ -8,9 +8,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 
 public class InterfaceEmpreinteSwing {
-	private static final String _cleServeur = "stp";
 	
-	public InterfaceEmpreinte cltEmpreintes;
+	private InterfaceEmpreinte cltEmpreintes;
 	
 	private JFrame frame;
 
@@ -57,6 +56,10 @@ public class InterfaceEmpreinteSwing {
 	public void setPane(Container c) {
 		frame.setContentPane(c);
 		frame.revalidate();
+	}
+
+	public InterfaceEmpreinte getCltEmpreintes() {
+		return cltEmpreintes;
 	}
 	
 }

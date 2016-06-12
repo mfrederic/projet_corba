@@ -3,31 +3,32 @@ package interfaces;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import log.ClientJournal;
-import model.Porte;
 import Gestion_acces.personne;
-import Gestion_acces.rolePersonne;
-import Gestion_acces.statutPersonne;
 import Gestion_acces.ServeurAuthentificationPackage.accesRefuse;
-import Gestion_acces.ServeurAutorisationPackage.zoneInconnue;
+import Gestion_acces.ServeurAutorisationPackage.porteInconnue;
 import authentification.ClientServeurAuthentification;
 import autorisation.ClientServeurAutorisation;
 
 public class InterfacePorte {
-
-	private static Porte porte;
 	
 	private static final String cleServeur = "stp";
 	
-	private static ClientServeurAuthentification monAuthentification;
-	private static ClientServeurAutorisation monAutorisation;
-	private static log.ClientJournal monJournal;
+	private ClientServeurAuthentification monAuthentification;
+	private ClientServeurAutorisation monAutorisation;
+	private log.ClientJournal monJournal;
 	
-	private static personne persTemp;
-	private static String message = "";
+	private personne persIdentifiee;
+	private String message;
+	private short idPorte;
+	
+	public InterfacePorte() {
+		persIdentifiee = null;
+		message = "";
+		idPorte = 0;
+	}
 
 	public static void main(String args[]) {
-
+/*
 		porte = new Porte(1,"Porte1",1);
 		persTemp = new personne((short)0,"nom","prenom","photo",statutPersonne.permanent,rolePersonne.basique);
 		
@@ -38,26 +39,27 @@ public class InterfacePorte {
 		entrer("EmpreinteDeMarie","photooo");
 		
 		System.out.println(message);
+*/
 	}
 	
-	private static void entrer(String emp, String ph) {
+	public void entrer(String emp, String ph) {
 		boolean autorisation = false;		
 
 		try {
-			persTemp = monAuthentification.getMonAuthentification().demanderAuth(emp, ph, cleServeur);
+			persIdentifiee = monAuthentification.getMonAuthentification().demanderAuth(emp, ph, cleServeur);
 			
-			if (persTemp.idPers == 0)
+			if (persIdentifiee.idPers == 0)
 				message = "Accès refusé : personne inconnue";
 			else {
 				try {
-					autorisation = monAutorisation.getMonAutorisation().demanderAutor(persTemp, (short)porte.getRefZone());
-				} catch (zoneInconnue e) {
+					autorisation = monAutorisation.getMonAutorisation().demanderAutor(persIdentifiee, idPorte);;
+				} catch (porteInconnue e) {
 					// TODO Auto-generated catch block
-					System.out.println("Zone inconnue (id = " + e.zone + ")");
+					message = "Porte inconnue (id = " + e.idPorte + ")";
 				}
 				
 				if (autorisation)
-					message = "Bienvenue " + persTemp.prenom + " " + persTemp.nom;
+					message = "Bienvenue " + persIdentifiee.prenom + " " + persIdentifiee.nom;
 				else
 					message = "Accès refusé : personne non autorisée à entrer";
 			}
@@ -67,14 +69,39 @@ public class InterfacePorte {
 		}
 		
 
-		journaliser("Entrée", persTemp, autorisation, message);
+		journaliser("Entrée", persIdentifiee, autorisation, message);
 	}
 	
-	private static void journaliser(String typeAcces, personne p, boolean res, String commentaire) {
+	public void journaliser(String typeAcces, personne p, boolean res, String commentaire) {
 		Calendar gc = new GregorianCalendar();
 		String ts = String.valueOf(gc.get(Calendar.YEAR)) + "-" + String.valueOf(gc.get(Calendar.MONTH)+1) + "-" + String.valueOf(gc.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(gc.get(Calendar.HOUR_OF_DAY)) + ":" + String.valueOf(gc.get(Calendar.MINUTE)) + ":" + String.valueOf(gc.get(Calendar.SECOND)); 
 		
 		monJournal.getMonJournal().journaliser(ts, typeAcces, p, res, commentaire);
 	}
+
+	public personne getPersIdentifiee() {
+		return persIdentifiee;
+	}
+
+	public void setPersIdentifiee(personne persIdentifiee) {
+		this.persIdentifiee = persIdentifiee;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public short getIdPorte() {
+		return idPorte;
+	}
+
+	public void setIdPorte(short idPorte) {
+		this.idPorte = idPorte;
+	}
+	
 	
 }

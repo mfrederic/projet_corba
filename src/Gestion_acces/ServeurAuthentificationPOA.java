@@ -41,6 +41,8 @@ public abstract class ServeurAuthentificationPOA extends org.omg.PortableServer.
                 return _invoke_creerCompte(_is, handler);
         } else if (opName.equals("demanderAuth")) {
                 return _invoke_demanderAuth(_is, handler);
+        } else if (opName.equals("modifierEmpreinte")) {
+                return _invoke_modifierEmpreinte(_is, handler);
         } else if (opName.equals("modifierMdp")) {
                 return _invoke_modifierMdp(_is, handler);
         } else if (opName.equals("supprimerEmpreinte")) {
@@ -123,6 +125,44 @@ public abstract class ServeurAuthentificationPOA extends org.omg.PortableServer.
 
             _output = handler.createReply();
 
+        }
+        catch (Gestion_acces.ServeurAuthentificationPackage.accesRefuse _exception)
+        {
+            _output = handler.createExceptionReply();
+            Gestion_acces.ServeurAuthentificationPackage.accesRefuseHelper.write(_output,_exception);
+        }
+        catch (Gestion_acces.ServeurAuthentificationPackage.compteInexistant _exception)
+        {
+            _output = handler.createExceptionReply();
+            Gestion_acces.ServeurAuthentificationPackage.compteInexistantHelper.write(_output,_exception);
+        }
+        catch (Gestion_acces.ServeurAuthentificationPackage.empreinteDejaExistante _exception)
+        {
+            _output = handler.createExceptionReply();
+            Gestion_acces.ServeurAuthentificationPackage.empreinteDejaExistanteHelper.write(_output,_exception);
+        }
+        return _output;
+    }
+
+    private org.omg.CORBA.portable.OutputStream _invoke_modifierEmpreinte(
+            final org.omg.CORBA.portable.InputStream _is,
+            final org.omg.CORBA.portable.ResponseHandler handler) {
+        org.omg.CORBA.portable.OutputStream _output;
+        String arg0_in = _is.read_string();
+        String arg1_in = Gestion_acces.empreinteHelper.read(_is);
+        String arg2_in = _is.read_string();
+
+        try
+        {
+            modifierEmpreinte(arg0_in, arg1_in, arg2_in);
+
+            _output = handler.createReply();
+
+        }
+        catch (Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants _exception)
+        {
+            _output = handler.createExceptionReply();
+            Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisantsHelper.write(_output,_exception);
         }
         catch (Gestion_acces.ServeurAuthentificationPackage.accesRefuse _exception)
         {

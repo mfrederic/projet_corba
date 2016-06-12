@@ -13,14 +13,20 @@ import authentification.ClientServeurAuthentification;
 
 public class InterfaceMonCompte {
 
-	private static ClientServeurAuthentification monAuthentification;
+	private ClientServeurAuthentification monAuthentification;
 	
 	private static final String cleServeur = "stp";
-
-	private static boolean authReussie;
+	
+	private String message;
+	private String userConnecte;
+	
+	public InterfaceMonCompte() {
+		message = "";
+		userConnecte = "";
+	}
 	
 	public static void main(String args[]) {
-
+/*
 		monAuthentification = new ClientServeurAuthentification();
 		
 		authReussie = false;
@@ -49,26 +55,29 @@ public class InterfaceMonCompte {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
+		}
+*/	
 	}
 	
-	private static void authentifier(String user, String password) throws droitsInsuffisants {
+	public boolean authentifier(String user, String password) throws droitsInsuffisants {
+		boolean authReussie = false;
 		try {
 			personne p = monAuthentification.getMonAuthentification().authentifier(user, password, cleServeur);
 			if (p.idPers == 0) {
 				authReussie = false;
-				System.out.println("Erreur identification personne");
+				message = "Erreur identification personne";
 			}
 			else {
-				if (p.statut == statutPersonne.permanent)
+				if (p.statut == statutPersonne.permanent) {
 					authReussie = true;
+					userConnecte = user;
+				}
 				else {
 					authReussie = false;
 					throw new droitsInsuffisants("Rôle doit être permanent");
 				}
 			}
-				
-				
+						
 		} catch (compteInexistant e) {
 			// TODO Auto-generated catch block
 			System.out.println("Compte inexistant : (user: " + e.user + ")");
@@ -79,9 +88,10 @@ public class InterfaceMonCompte {
 			// TODO Auto-generated catch block
 			System.out.println("Accès refusé : " + e.raison);
 		}
+		return authReussie;
 	}
 	
-	private static void modifierMdp(String user, String newMdp) {
+	public void modifierMdp(String user, String newMdp) {
 
 		try {
 			monAuthentification.getMonAuthentification().modifierMdp(user, newMdp, cleServeur);
@@ -94,4 +104,22 @@ public class InterfaceMonCompte {
 		}
 
 	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public String getUserConnecte() {
+		return userConnecte;
+	}
+
+	public void setUserConnecte(String userConnecte) {
+		this.userConnecte = userConnecte;
+	}
+	
+	
 }

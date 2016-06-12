@@ -84,9 +84,18 @@ public class ServeurAuthentificationPOATie extends ServeurAuthentificationPOA
      * Operation ajouterEmpreinte
      */
     public void ajouterEmpreinte(String user, String emp, String mdp)
-        throws Gestion_acces.ServeurAuthentificationPackage.accesRefuse, Gestion_acces.ServeurAuthentificationPackage.compteInexistant
+        throws Gestion_acces.ServeurAuthentificationPackage.accesRefuse, Gestion_acces.ServeurAuthentificationPackage.compteInexistant, Gestion_acces.ServeurAuthentificationPackage.empreinteDejaExistante
     {
         _tie.ajouterEmpreinte( user,  emp,  mdp);
+    }
+
+    /**
+     * Operation modifierEmpreinte
+     */
+    public void modifierEmpreinte(String user, String emp, String mdp)
+        throws Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants, Gestion_acces.ServeurAuthentificationPackage.accesRefuse, Gestion_acces.ServeurAuthentificationPackage.compteInexistant
+    {
+        _tie.modifierEmpreinte( user,  emp,  mdp);
     }
 
     /**

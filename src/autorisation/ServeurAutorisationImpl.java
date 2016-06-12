@@ -9,44 +9,49 @@ import java.util.Iterator;
 import java.util.List;
 
 import model.Autorisation;
+import model.Porte;
 import model.Zone;
 import Gestion_acces.ServeurAutorisationPOA;
 import Gestion_acces.autorisation;
 import Gestion_acces.personne;
 import Gestion_acces.structPlage;
 import Gestion_acces.ServeurAutorisationPackage.autorisationInexistante;
+import Gestion_acces.ServeurAutorisationPackage.porteInconnue;
 import Gestion_acces.ServeurAutorisationPackage.zoneInconnue;
 import bdd.objetsdao.AutorisationDAO;
+import bdd.objetsdao.PorteDAO;
 import bdd.objetsdao.ZoneDAO;
 
 public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
 	
+	private PorteDAO repoPorte;
 	private ZoneDAO repoZone;
 	private AutorisationDAO repoAutorisation;
 	
 	public ServeurAutorisationImpl() {
+		repoPorte = new PorteDAO();
 		repoZone = new ZoneDAO();
 		repoAutorisation = new AutorisationDAO();
 	}
 
 	@Override
-	public boolean demanderAutor(personne p, short zone)
-			throws zoneInconnue {
+	public boolean demanderAutor(personne p, short porte)
+			throws porteInconnue {
 		// TODO Auto-generated method stub
 		System.out.println("Autorisation-demanderAutor");
 		
-		Zone z = null;
+		Porte porteBD = null;
 		boolean autorise = false;
 		List<MaPlageDate> listePlages = new ArrayList<MaPlageDate>();
 		Calendar date = new GregorianCalendar();
 		
 		// BD
-		z = repoZone.find(zone);
+		porteBD = repoPorte.find(porte);
 		
-		if (z == null)
-			throw new zoneInconnue(zone);
+		if (porteBD == null)
+			throw new porteInconnue(porte);
 		else {
-			listePlages = repoAutorisation.findAllByPersonneZone(p.idPers, zone);
+			listePlages = repoAutorisation.findAllByPersonneZone(p.idPers, porteBD.getRefZone());
 			Iterator<MaPlageDate> it = listePlages.iterator();
 			while (!autorise && it.hasNext()) {
 				autorise = it.next().contient(date);

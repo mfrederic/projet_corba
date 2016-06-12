@@ -78,7 +78,7 @@ public class AjouterPhoto extends JPanel {
 				}
 				
 				try {
-					ajouterPhoto((short) comboBox.getSelectedIndex(), textFieldValeur.getText());
+					window.getCltGestPers().ajouterPhoto((short) comboBox.getSelectedIndex(), textFieldValeur.getText());
 				} catch (NumberFormatException e1) {
 					e1.printStackTrace();
 				} catch (droitsInsuffisants e1) {
@@ -104,20 +104,5 @@ public class AjouterPhoto extends JPanel {
 		btnRetour.setBounds(173, 13, 89, 23);
 		add(btnRetour);
 
-	}
-	
-	private void ajouterPhoto(short idPers, String ph) throws droitsInsuffisants {
-		if (window.getPersTemp().role == rolePersonne.RH) {
-
-			try {
-				window.getMonAnnuaire().getMonAnnuaire().ajouterPhoto(idPers, ph);
-			} catch (personneInexistante e) {
-				// TODO Auto-generated catch block
-				lblError.setText("Personne inexistante dans la base (id = " + e.id + ")");
-			}
-		
-		} else {
-			throw new droitsInsuffisants("Acces interdit : role doit etre RH");
-		}
 	}
 }

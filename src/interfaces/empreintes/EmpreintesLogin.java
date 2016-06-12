@@ -1,19 +1,15 @@
 package interfaces.empreintes;
 
-import javax.swing.JPanel;
-import javax.swing.SpringLayout;
-import javax.swing.JLabel;
-
-import java.awt.Font;
-
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-
 import java.awt.Color;
-import java.awt.event.ActionListener;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 public class EmpreintesLogin extends JPanel {
 	private JLabel lblError;
@@ -58,12 +54,12 @@ public class EmpreintesLogin extends JPanel {
 				if(login.length() == 0 || password.length() == 0)
 					lblError.setText("Le login et password doivent �tre renseign�s.");
 			
-				else if (window.cltEmpreintes.authentifier(login, password)) {
-					lblError.setText(window.cltEmpreintes.getMessage());
+				else if (window.getCltEmpreintes().authentifier(login, password)) {
+					lblError.setText(window.getCltEmpreintes().getMessage());
 					window.setPane(new EmpreinteMenu(window));
 					
 				} else
-					lblError.setText(window.cltEmpreintes.getMessage());
+					lblError.setText(window.getCltEmpreintes().getMessage());
 			}
 		});
 		add(btnConnexion);

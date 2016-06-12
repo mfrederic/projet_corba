@@ -1,9 +1,5 @@
 package interfaces;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
 import Gestion_acces.personne;
 import Gestion_acces.rolePersonne;
 import Gestion_acces.statutPersonne;
@@ -17,17 +13,22 @@ import annuaire.ClientAnnuaire;
 import authentification.ClientServeurAuthentification;
 
 public class InterfaceGestionPersonnel {
-	private static ClientServeurAuthentification monAuthentification;
-	private static ClientAnnuaire monAnnuaire;
+	private ClientServeurAuthentification monAuthentification;
+	private ClientAnnuaire monAnnuaire;
 	
 	private static final String cleServeur = "stp";
 	
-	private static personne persTemp;
-	private static boolean authReussie;
+	private personne persConnectee;
+	private String message;
 	
+	public InterfaceGestionPersonnel() {
+		monAuthentification = new ClientServeurAuthentification();
+		monAnnuaire = new ClientAnnuaire();
+		persConnectee = null;
+	}
 	
 	public static void main(String args[]) {
-
+/*
 		monAuthentification = new ClientServeurAuthentification();
 		monAnnuaire = new ClientAnnuaire();
 		
@@ -122,49 +123,49 @@ public class InterfaceGestionPersonnel {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}        
-        
+*/       
 	}
 
-	private static void authentifier(String user, String password) {
-
+	public boolean authentifier(String user, String password) {
+		boolean authReussie = false;
 		try {
-			persTemp = monAuthentification.getMonAuthentification().authentifier(user, password, cleServeur);
+			persConnectee = monAuthentification.getMonAuthentification().authentifier(user, password, cleServeur);
 			
-			if (persTemp.idPers == 0)
+			if (persConnectee.idPers == 0)
 				authReussie = false;
 			else
 				authReussie = true;
 		} catch (compteInexistant e) {
 			// TODO Auto-generated catch block
-			System.out.println("Compte inexistant : (user: " + e.user + ")");
+			message = "Compte inexistant : (user: " + e.user + ")";
 		} catch (droitsInsuffisants e) {
 			// TODO Auto-generated catch block
-			System.out.println("Droits insuffisants : " + e.raison);
+			message = "Droits insuffisants : " + e.raison;
 		} catch (accesRefuse e) {
 			// TODO Auto-generated catch block
-			System.out.println("Accès refusé : " + e.raison);
+			message = "Accès refusé : " + e.raison;
 		}
-
+		return authReussie;
 	}
 	
-	private static void creerCompte(String nom, String prenom, statutPersonne statut, rolePersonne role, String user, String password) throws droitsInsuffisants {
+	public void creerCompte(String nom, String prenom, statutPersonne statut, rolePersonne role, String user, String password) throws droitsInsuffisants {
 		short idPers = 0;
 		
-		if ((persTemp.role == rolePersonne.accueil) || (persTemp.role == rolePersonne.RH)){
+		if ((persConnectee.role == rolePersonne.accueil) || (persConnectee.role == rolePersonne.RH)){
 
 			idPers = monAnnuaire.getMonAnnuaire().creerPersonne(nom, prenom, statut, role);
 			if (idPers == 0)
-				System.out.println("Personne impossible à créer --> compte non créé");
+				message = "Personne impossible à créer --> compte non créé";
 			else {
 
 				try {
 					monAuthentification.getMonAuthentification().creerCompte(idPers, user, password, cleServeur);
 				} catch (compteDejaCree e) {
 					// TODO Auto-generated catch block
-					System.out.println("Le compte existe déjà (user: " + e.user + " )");
+					message = "Le compte existe déjà (user: " + e.user + " )";
 				} catch (accesRefuse e) {
 					// TODO Auto-generated catch block
-					System.out.println("Accès refusé : " + e.raison);
+					message = "Accès refusé : " + e.raison;
 				}
 			}
 			
@@ -173,14 +174,14 @@ public class InterfaceGestionPersonnel {
 		}
 	}
 	
-	private static void ajouterPhoto(short idPers, String ph) throws droitsInsuffisants {
-		if (persTemp.role == rolePersonne.RH) {
+	public void ajouterPhoto(short idPers, String ph) throws droitsInsuffisants {
+		if (persConnectee.role == rolePersonne.RH) {
 
 			try {
 				monAnnuaire.getMonAnnuaire().ajouterPhoto(idPers, ph);
 			} catch (personneInexistante e) {
 				// TODO Auto-generated catch block
-				System.out.println("Personne inexistante dans la base (id = " + e.id + ")");
+				message = "Personne inexistante dans la base (id = " + e.id + ")";
 			}
 		
 		} else {
@@ -188,20 +189,20 @@ public class InterfaceGestionPersonnel {
 		}
 	}
 	
-	private static void supprimerEmpreinte(String user) throws droitsInsuffisants {
-		if ((persTemp.role == rolePersonne.accueil) || (persTemp.role == rolePersonne.RH)){
+	public void supprimerEmpreinte(String user) throws droitsInsuffisants {
+		if ((persConnectee.role == rolePersonne.accueil) || (persConnectee.role == rolePersonne.RH)){
 
 			try {
 				monAuthentification.getMonAuthentification().supprimerEmpreinte(user, cleServeur);
 			} catch (accesRefuse e) {
 				// TODO Auto-generated catch block
-				System.out.println("Accès refusé : " + e.raison);
+				message = "Accès refusé : " + e.raison;
 			} catch (compteInexistant e) {
 				// TODO Auto-generated catch block
-				System.out.println("Compte inexistant : (user: " + e.user + ")");
+				message = "Compte inexistant : (user: " + e.user + ")";
 			} catch (suppressionInterdite e) {
 				// TODO Auto-generated catch block
-				System.out.println("Vous n'avez pas le droit de supprimer l'empreinte (role = " + e.role + ")");
+				message = "Vous n'avez pas le droit de supprimer l'empreinte (role = " + e.role + ")";
 			}
 
 		
@@ -209,4 +210,22 @@ public class InterfaceGestionPersonnel {
 			throw new droitsInsuffisants("Accès interdit : rôle doit être RH ou Accueil");
 		}
 	}
+
+	public personne getPersConnectee() {
+		return persConnectee;
+	}
+
+	public void setPersConnectee(personne persConnectee) {
+		this.persConnectee = persConnectee;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	
+	
 }

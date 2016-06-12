@@ -5,6 +5,7 @@ import Gestion_acces.statutPersonne;
 import Gestion_acces.ServeurAuthentificationPackage.accesRefuse;
 import Gestion_acces.ServeurAuthentificationPackage.compteInexistant;
 import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
+import Gestion_acces.ServeurAuthentificationPackage.empreinteDejaExistante;
 import authentification.ClientServeurAuthentification;
 
 public class InterfaceEmpreinte {
@@ -118,6 +119,9 @@ public class InterfaceEmpreinte {
 		} catch (compteInexistant e) {
 			// TODO Auto-generated catch block
 			message = "Compte inexistant : (user: " + e.user + ")";
+		} catch (empreinteDejaExistante e) {
+			// TODO Auto-generated catch block
+			message = "Empreinte déjà existante : (" + e.emp + ")";
 		}
 	}
 	
@@ -126,7 +130,7 @@ public class InterfaceEmpreinte {
 			throw new droitsInsuffisants("Vous n'avez pas le droit de modifier votre empreinte");
 
 		try {
-			monAuthentification.getMonAuthentification().ajouterEmpreinte(user, empreinte, cleServeur);
+			monAuthentification.getMonAuthentification().modifierEmpreinte(user, empreinte, cleServeur);
 			message = "Empreinte modifiée avec succès";
 		} catch (accesRefuse e) {
 			// TODO Auto-generated catch block

@@ -54,7 +54,6 @@ public class GPMenu extends JPanel {
 		JButton btnNewButton = new JButton("Deconnexion");
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				window.setUserLogin(null);
 				window.setPane(new GPLogin(window));
 			}
 		});

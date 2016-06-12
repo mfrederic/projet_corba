@@ -150,7 +150,7 @@ public class _ServeurAuthentificationStub extends org.omg.CORBA.portable.ObjectI
      * Operation ajouterEmpreinte
      */
     public void ajouterEmpreinte(String user, String emp, String mdp)
-        throws Gestion_acces.ServeurAuthentificationPackage.accesRefuse, Gestion_acces.ServeurAuthentificationPackage.compteInexistant
+        throws Gestion_acces.ServeurAuthentificationPackage.accesRefuse, Gestion_acces.ServeurAuthentificationPackage.compteInexistant, Gestion_acces.ServeurAuthentificationPackage.empreinteDejaExistante
     {
         while(true)
         {
@@ -183,6 +183,11 @@ public class _ServeurAuthentificationStub extends org.omg.CORBA.portable.ObjectI
                         throw Gestion_acces.ServeurAuthentificationPackage.compteInexistantHelper.read(_exception.getInputStream());
                     }
 
+                    if (_exception_id.equals(Gestion_acces.ServeurAuthentificationPackage.empreinteDejaExistanteHelper.id()))
+                    {
+                        throw Gestion_acces.ServeurAuthentificationPackage.empreinteDejaExistanteHelper.read(_exception.getInputStream());
+                    }
+
                     throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
                 }
                 finally
@@ -199,6 +204,74 @@ public class _ServeurAuthentificationStub extends org.omg.CORBA.portable.ObjectI
                 try
                 {
                     _self.ajouterEmpreinte( user,  emp,  mdp);
+                    return;
+                }
+                finally
+                {
+                    _servant_postinvoke(_so);
+                }
+            }
+        }
+    }
+
+    /**
+     * Operation modifierEmpreinte
+     */
+    public void modifierEmpreinte(String user, String emp, String mdp)
+        throws Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants, Gestion_acces.ServeurAuthentificationPackage.accesRefuse, Gestion_acces.ServeurAuthentificationPackage.compteInexistant
+    {
+        while(true)
+        {
+            if (!this._is_local())
+            {
+                org.omg.CORBA.portable.InputStream _input = null;
+                try
+                {
+                    org.omg.CORBA.portable.OutputStream _output = this._request("modifierEmpreinte",true);
+                    _output.write_string(user);
+                    Gestion_acces.empreinteHelper.write(_output,emp);
+                    _output.write_string(mdp);
+                    _input = this._invoke(_output);
+                    return;
+                }
+                catch(org.omg.CORBA.portable.RemarshalException _exception)
+                {
+                    continue;
+                }
+                catch(org.omg.CORBA.portable.ApplicationException _exception)
+                {
+                    String _exception_id = _exception.getId();
+                    if (_exception_id.equals(Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisantsHelper.id()))
+                    {
+                        throw Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisantsHelper.read(_exception.getInputStream());
+                    }
+
+                    if (_exception_id.equals(Gestion_acces.ServeurAuthentificationPackage.accesRefuseHelper.id()))
+                    {
+                        throw Gestion_acces.ServeurAuthentificationPackage.accesRefuseHelper.read(_exception.getInputStream());
+                    }
+
+                    if (_exception_id.equals(Gestion_acces.ServeurAuthentificationPackage.compteInexistantHelper.id()))
+                    {
+                        throw Gestion_acces.ServeurAuthentificationPackage.compteInexistantHelper.read(_exception.getInputStream());
+                    }
+
+                    throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
+                }
+                finally
+                {
+                    this._releaseReply(_input);
+                }
+            }
+            else
+            {
+                org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke("modifierEmpreinte",_opsClass);
+                if (_so == null)
+                   continue;
+                Gestion_acces.ServeurAuthentificationOperations _self = (Gestion_acces.ServeurAuthentificationOperations) _so.servant;
+                try
+                {
+                    _self.modifierEmpreinte( user,  emp,  mdp);
                     return;
                 }
                 finally

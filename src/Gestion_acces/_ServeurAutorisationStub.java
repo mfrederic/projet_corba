@@ -23,8 +23,8 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
     /**
      * Operation demanderAutor
      */
-    public boolean demanderAutor(Gestion_acces.personne p, short zone)
-        throws Gestion_acces.ServeurAutorisationPackage.zoneInconnue
+    public boolean demanderAutor(Gestion_acces.personne p, short idPorte)
+        throws Gestion_acces.ServeurAutorisationPackage.porteInconnue
     {
         while(true)
         {
@@ -35,7 +35,7 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
                 {
                     org.omg.CORBA.portable.OutputStream _output = this._request("demanderAutor",true);
                     Gestion_acces.personneHelper.write(_output,p);
-                    _output.write_short(zone);
+                    _output.write_short(idPorte);
                     _input = this._invoke(_output);
                     boolean _arg_ret = _input.read_boolean();
                     return _arg_ret;
@@ -47,9 +47,9 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
                 catch(org.omg.CORBA.portable.ApplicationException _exception)
                 {
                     String _exception_id = _exception.getId();
-                    if (_exception_id.equals(Gestion_acces.ServeurAutorisationPackage.zoneInconnueHelper.id()))
+                    if (_exception_id.equals(Gestion_acces.ServeurAutorisationPackage.porteInconnueHelper.id()))
                     {
-                        throw Gestion_acces.ServeurAutorisationPackage.zoneInconnueHelper.read(_exception.getInputStream());
+                        throw Gestion_acces.ServeurAutorisationPackage.porteInconnueHelper.read(_exception.getInputStream());
                     }
 
                     throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
@@ -67,7 +67,7 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
                 Gestion_acces.ServeurAutorisationOperations _self = (Gestion_acces.ServeurAutorisationOperations) _so.servant;
                 try
                 {
-                    return _self.demanderAutor( p,  zone);
+                    return _self.demanderAutor( p,  idPorte);
                 }
                 finally
                 {

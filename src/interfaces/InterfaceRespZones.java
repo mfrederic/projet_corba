@@ -24,15 +24,15 @@ public class InterfaceRespZones {
 
 	private static final String cleServeur = "stp";
 	
-	private static ClientServeurAutorisation monAutorisation;
-	private static ClientServeurAuthentification monAuthentification;
+	private ClientServeurAutorisation monAutorisation;
+	private ClientServeurAuthentification monAuthentification;
 	
-	private static short[] listeZonesResp;
-	private static autorisation[] listeAutorisationsResp;
-	private static personne responsable;
+	private short[] listeZonesResp;
+	private autorisation[] listeAutorisationsResp;
+	private personne responsable;
 	
 	public static void main(String args[]) {
-		
+/*		
 		monAutorisation = new ClientServeurAutorisation();
 		monAuthentification = new ClientServeurAuthentification();
 		listeAutorisationsResp = null;
@@ -149,10 +149,11 @@ public class InterfaceRespZones {
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}        
+		}
+*/        
 	}
 	
-	private static boolean authentifier(String user, String password) {
+	public boolean authentifier(String user, String password) {
 		boolean authReussie = false;
 
 		try {
@@ -192,7 +193,7 @@ public class InterfaceRespZones {
 		
 	}
 	
-	private static void ajouterAutorisation(short idZone, structPlage plage) throws droitsInsuffisants {
+	public void ajouterAutorisation(short idZone, structPlage plage) throws droitsInsuffisants {
 		boolean ok = false;
 		int i = 0;
 		while (i<listeZonesResp.length && !ok) {
@@ -211,7 +212,7 @@ public class InterfaceRespZones {
 		}
 	}
 	
-	private static void modifierAutorisation(short numAutor, structPlage plage) throws droitsInsuffisants {
+	public void modifierAutorisation(short numAutor, structPlage plage) throws droitsInsuffisants {
 		boolean ok = false;
 		int i = 0;
 		while (i<listeAutorisationsResp.length && !ok) {
@@ -230,7 +231,7 @@ public class InterfaceRespZones {
 		}
 	}
 
-	private static void supprimerAutorisation(short numAutor) throws droitsInsuffisants {
+	public void supprimerAutorisation(short numAutor) throws droitsInsuffisants {
 		boolean ok = false;
 		int i = 0;
 		while (i<listeAutorisationsResp.length && !ok) {
@@ -249,7 +250,7 @@ public class InterfaceRespZones {
 		}
 	}
 	
-	private static structPlage verifierStructPlage(String jDeb, String jFin, String hDeb, String hFin) {
+	private structPlage verifierStructPlage(String jDeb, String jFin, String hDeb, String hFin) {
 
 		structPlage retour = null;
 		boolean structOk = true;
