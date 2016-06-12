@@ -1,14 +1,15 @@
 package interfaces.gestionpersonnel;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-
 import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import Gestion_acces.rolePersonne;
 
 public class GPMenu extends JPanel {
 	private static final long serialVersionUID = -1032838324223332591L;
@@ -24,23 +25,28 @@ public class GPMenu extends JPanel {
 		lblGestionCompte.setBounds(10, 11, 230, 26);
 		add(lblGestionCompte);
 		
+		JPanel panel = new JPanel();
+		panel.setBounds(10, 36, 190, 140);
+		panel.setLayout(new GridLayout(0, 1, 0, 0));
+		add(panel);
+		
 		JButton btnCrerUnCompte = new JButton("Cr\u00E9er un compte");
 		btnCrerUnCompte.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				window.setPane(new CreerCompte(window));
 			}
 		});
-		btnCrerUnCompte.setBounds(10, 48, 160, 23);
-		add(btnCrerUnCompte);
+		panel.add(btnCrerUnCompte);
 		
-		JButton btnAjouterPhoto = new JButton("Ajouter photo");
-		btnAjouterPhoto.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				window.setPane(new AjouterPhoto(window));
-			}
-		});
-		btnAjouterPhoto.setBounds(10, 82, 160, 23);
-		add(btnAjouterPhoto);
+		if(window.getCltGestPers().getPersConnectee().role == rolePersonne.RH) {
+			JButton btnAjouterPhoto = new JButton("Ajouter photo");
+			btnAjouterPhoto.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					window.setPane(new AjouterPhoto(window));
+				}
+			});
+			panel.add(btnAjouterPhoto);
+		}
 		
 		JButton btnSupprimerEmpreinte = new JButton("Supprimer empreinte");
 		btnSupprimerEmpreinte.addActionListener(new ActionListener() {
@@ -48,8 +54,7 @@ public class GPMenu extends JPanel {
 				window.setPane(new SupprimerEmpreinte(window));
 			}
 		});
-		btnSupprimerEmpreinte.setBounds(10, 116, 160, 23);
-		add(btnSupprimerEmpreinte);
+		panel.add(btnSupprimerEmpreinte);
 		
 		JButton btnNewButton = new JButton("Deconnexion");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -57,9 +62,6 @@ public class GPMenu extends JPanel {
 				window.setPane(new GPLogin(window));
 			}
 		});
-		btnNewButton.setBounds(10, 150, 160, 23);
-		add(btnNewButton);
-
+		panel.add(btnNewButton);
 	}
-
 }
