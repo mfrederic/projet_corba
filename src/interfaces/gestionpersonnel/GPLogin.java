@@ -36,7 +36,8 @@ public class GPLogin extends JPanel {
 		add(label_1);
 		
 		textFieldLogin = new JTextField();
-		textFieldLogin.setBounds(121, 36, 100, 20);
+		label_1.setLabelFor(textFieldLogin);
+		textFieldLogin.setBounds(104, 36, 163, 20);
 		textFieldLogin.setColumns(10);
 		add(textFieldLogin);
 		
@@ -45,11 +46,12 @@ public class GPLogin extends JPanel {
 		add(label_2);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(121, 67, 100, 20);
+		label_2.setLabelFor(passwordField);
+		passwordField.setBounds(104, 66, 163, 20);
 		add(passwordField);
 		
 		JButton btnConnexion = new JButton("Connexion");
-		btnConnexion.setBounds(86, 127, 83, 23);
+		btnConnexion.setBounds(147, 98, 120, 23);
 		btnConnexion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String login = textFieldLogin.getText();
@@ -59,10 +61,8 @@ public class GPLogin extends JPanel {
 					lblError.setText("Le login et password doivent être renseignés.");
 				else if(login.equals("fred") && password.equals("test")) {
 					lblError.setText(" ");
-					/*
 					window.setUserLogin(login);
-					window.setPane(new EmpreinteMenu(window));
-					*/
+					window.setPane(new GPMenu(window));
 				} else
 					lblError.setText("Le login ou password est incorrecte.");
 			}
@@ -70,7 +70,7 @@ public class GPLogin extends JPanel {
 		add(btnConnexion);
 		
 		lblError = new JLabel(" ");
-		lblError.setBounds(10, 94, 257, 32);
+		lblError.setBounds(10, 132, 257, 32);
 		lblError.setFont(new Font("Calibri", Font.PLAIN, 10));
 		lblError.setForeground(Color.RED);
 		add(lblError);
