@@ -37,9 +37,7 @@ public class Porte {
 
 	@Override
 	public String toString(){
-		return 	"id: " + getIdPorte() + "\n" 
-		+		"libelle porte: " + getLibellePorte() + "\n" 
-		+		"ref zone: " + getRefZone() + "\n";
+		return getLibellePorte();
 		
 	}
 	

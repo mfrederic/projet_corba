@@ -16,7 +16,7 @@ public class PorteDAO extends DAO<Porte>{
 	public Porte find(int id) {
 		Porte port = new Porte();
 		try {
-			ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery("SELECT * FROM \"Compte\" WHERE \"idPorte\" = " + id);
+			ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery("SELECT * FROM \"Porte\" WHERE \"idPorte\" = " + id);
 			if (result.first()) {
 				port.setRefZone(result.getInt(1));
 				port.setIdPorte(result.getInt(2));
