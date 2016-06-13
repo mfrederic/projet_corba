@@ -68,8 +68,6 @@ public class CompteDAO extends DAO<Compte>{
 									" where \"refPersonne\"="+ obj.getRefPersonne(),
 							Statement.RETURN_GENERATED_KEYS
 							);
-		
-			
 			
 			prepare.setInt(1, obj.getRefPersonne());
 			prepare.setString(2, obj.getUser());		
@@ -78,6 +76,7 @@ public class CompteDAO extends DAO<Compte>{
 				prepare.setString(4, null);
 			else
 				prepare.setString(4, obj.getEmpreinte());
+			
 			prepare.executeUpdate();
 			ResultSet rs = prepare.getGeneratedKeys();
 			rs.next();

@@ -26,7 +26,7 @@ public class PersonneDAO extends DAO<Personne>{
 					pers.setPrenomPersonne(new String());
 				else
 					pers.setPrenomPersonne(result.getString(2));
-				
+
 				if(result.getString(3)==null)
 					pers.setPhotoPersonne(new String());
 				else 
@@ -39,7 +39,7 @@ public class PersonneDAO extends DAO<Personne>{
 					pers.setRolePersonne(new String());
 				else 
 					pers.setRolePersonne(result.getString(5));
-				
+
 				pers.setIdPersonne(result.getInt(6));
 			}
 			else return null;
@@ -62,28 +62,28 @@ public class PersonneDAO extends DAO<Personne>{
 				prepare.setString(1, null);
 			else
 				prepare.setString(1, obj.getNomPersonne());
-			
+
 			if(obj.getPrenomPersonne().equals("") )
 				prepare.setString(2, null);
 			else
 				prepare.setString(2, obj.getPrenomPersonne());	
-			
-		
+
+
 			if(obj.getPhotoPersonne().equals("") )
 				prepare.setString(3, null);
 			else
 				prepare.setString(3, obj.getPhotoPersonne());	
-			
+
 			if(obj.getStatutPersonne().equals("") )
 				prepare.setString(4, null);
 			else
 				prepare.setString(4, obj.getStatutPersonne());	
-			
+
 			if(obj.getRolePersonne().equals("") )
 				prepare.setString(5, null);
 			else
 				prepare.setString(5, obj.getRolePersonne());	
-			
+
 			prepare.executeUpdate();
 			ResultSet rs = prepare.getGeneratedKeys();
 			rs.next();
@@ -102,16 +102,28 @@ public class PersonneDAO extends DAO<Personne>{
 					this.connect.prepareStatement(
 							"UPDATE  \"Personne\"  SET (\"nomPersonne\",\"prenomPersonne\",\"photoPersonne\",\"statutPersonne\",\"rolePersonne\") = (?, ?, ?,?,?)"+
 									" where \"idPersonne\"="+ obj.getIdPersonne(),
-							Statement.RETURN_GENERATED_KEYS
+									Statement.RETURN_GENERATED_KEYS
 							);
-		
-			
-			
-			prepare.setString(1, obj.getNomPersonne());
-			prepare.setString(2, obj.getPrenomPersonne());		
-			prepare.setString(3, obj.getPhotoPersonne());
-			prepare.setString(4, obj.getStatutPersonne());
-			prepare.setString(5, obj.getRolePersonne());
+			if(obj.getNomPersonne().equals(""))
+				prepare.setString(1, null);
+			else
+				prepare.setString(1, obj.getNomPersonne());
+			if(obj.getPrenomPersonne().equals(""))
+				prepare.setString(2, null);		
+			else
+				prepare.setString(2, obj.getPrenomPersonne());		
+			if(obj.getPhotoPersonne().equals(""))
+				prepare.setString(3, null);
+			else 
+				prepare.setString(3, obj.getPhotoPersonne());
+			if(obj.getStatutPersonne().equals(""))
+				prepare.setString(4, null);
+			else 
+				prepare.setString(4, obj.getStatutPersonne());
+			if(obj.getRolePersonne().equals(""))
+				prepare.setString(5, null);
+			else 
+				prepare.setString(5, obj.getRolePersonne());
 			prepare.executeUpdate();
 			ResultSet rs = prepare.getGeneratedKeys();
 			rs.next();
@@ -151,7 +163,7 @@ public class PersonneDAO extends DAO<Personne>{
 		}
 		return pers;
 	}
-	
+
 	//retourne la liste de personnes ou null si inconnu
 	public ArrayList<Personne> getByNomPrenom(String nom, String prenom) {
 		ArrayList<Personne> pers = new ArrayList<Personne>();
@@ -167,16 +179,16 @@ public class PersonneDAO extends DAO<Personne>{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 		return pers;
 	}
-	
+
 	//retourne la personne ou null si photo inconnue
 	public Personne findByPicture(String photo) {
 		try {
 			ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)
 					.executeQuery("SELECT * FROM \"Personne\" WHERE \"photoPersonne\" = '" + photo + "'");
-				
+
 			if (result.first()) {
 				return find(result.getInt(6));
 			}
