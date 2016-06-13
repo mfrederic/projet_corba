@@ -79,10 +79,11 @@ public class AjouterPhoto extends JPanel {
 				
 				try {
 					window.getCltGestPers().ajouterPhoto((short) comboBox.getSelectedIndex(), textFieldValeur.getText());
+					lblError.setText(window.getCltGestPers().getMessage());
 				} catch (NumberFormatException e1) {
 					e1.printStackTrace();
 				} catch (droitsInsuffisants e1) {
-					lblError.setText("Droits insuffisants : " + e1.raison);
+					lblError.setText(e1.raison);
 				}
 			}
 		});

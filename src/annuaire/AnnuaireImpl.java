@@ -64,6 +64,8 @@ public class AnnuaireImpl extends AnnuairePOA{
 		pers.setPrenomPersonne(prenom);
 		pers.setStatutPersonne(statut.toString());
 		pers.setRolePersonne(role.toString());
+		pers.setPhotoPersonne(new String());
+
 		pers = repoPersonne.create(pers);
 
 		return (short) pers.getIdPersonne();
@@ -83,7 +85,11 @@ public class AnnuaireImpl extends AnnuairePOA{
 		else {
 			
 			// BD
-			pers.setPhotoPersonne(ph);
+			pers.setNomPersonne(pers.getNomPersonne());
+			pers.setPrenomPersonne(pers.getNomPersonne());
+			pers.setStatutPersonne(pers.getStatutPersonne().toString());
+			pers.setRolePersonne(pers.getRolePersonne().toString());
+			pers.setPhotoPersonne(ph);			
 			repoPersonne.update(pers);
 			System.out.println("Photo changée");
 		}
@@ -109,7 +115,10 @@ public class AnnuaireImpl extends AnnuairePOA{
 			pers.setPrenomPersonne(prenom);
 			pers.setStatutPersonne(statut.toString());
 			pers.setRolePersonne(role.toString());
-
+			if (pers.getPhotoPersonne() == null)
+				pers.setPhotoPersonne(new String());
+			else
+				pers.setPhotoPersonne(pers.getPhotoPersonne());
 			System.out.println("Infos modifiées");
 		}
 	}

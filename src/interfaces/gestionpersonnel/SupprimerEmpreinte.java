@@ -61,8 +61,9 @@ public class SupprimerEmpreinte extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					window.getCltGestPers().supprimerEmpreinte((String) comboBox.getSelectedItem());
+					lblError.setText(window.getCltGestPers().getMessage());
 				} catch (droitsInsuffisants e1) {
-					lblError.setText("Droits insuffisants : " + e1.raison);
+					lblError.setText(e1.raison);
 				}
 			}
 		});

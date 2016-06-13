@@ -184,7 +184,7 @@ public class ServeurAuthentificationImpl extends ServeurAuthentificationPOA{
 						System.out.println("Empreinte supprimée");
 						
 						// BD
-						cmpt.setEmpreinte(null);
+						cmpt.setEmpreinte(new String());
 						cmpt = repoCompte.update(cmpt);
 						
 					} else
@@ -221,6 +221,7 @@ public class ServeurAuthentificationImpl extends ServeurAuthentificationPOA{
 				cmpt.setRefPersonne(idPersonne);
 				cmpt.setPassword(password);
 				cmpt.setUser(user);
+				cmpt.setEmpreinte(new String());
 				cmpt = repoCompte.create(cmpt);
 
 				System.out.println("Compte créé");
