@@ -23,29 +23,29 @@ public class EmpreintesLogin extends JPanel {
 		setLayout(null);
 		
 		JLabel label = new JLabel("Connexion");
-		label.setBounds(10, 10, 81, 23);
+		label.setBounds(58, 6, 99, 22);
 		label.setFont(new Font("Calibri", Font.BOLD, 18));
 		add(label);
 		
-		JLabel label_1 = new JLabel("Login");
-		label_1.setBounds(10, 39, 84, 14);
-		add(label_1);
+		JLabel lblUser = new JLabel("User");
+		lblUser.setBounds(10, 46, 28, 16);
+		add(lblUser);
 		
 		textFieldLogin = new JTextField();
-		textFieldLogin.setBounds(121, 36, 100, 20);
+		textFieldLogin.setBounds(84, 44, 114, 20);
 		textFieldLogin.setColumns(10);
 		add(textFieldLogin);
 		
 		JLabel label_2 = new JLabel("Password");
-		label_2.setBounds(10, 69, 84, 14);
+		label_2.setBounds(10, 69, 59, 16);
 		add(label_2);
 		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(121, 67, 100, 20);
+		passwordField.setBounds(84, 67, 114, 20);
 		add(passwordField);
 		
 		JButton btnConnexion = new JButton("Connexion");
-		btnConnexion.setBounds(86, 127, 83, 23);
+		btnConnexion.setBounds(84, 99, 114, 29);
 		btnConnexion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String login = textFieldLogin.getText();

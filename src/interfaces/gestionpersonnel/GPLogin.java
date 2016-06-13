@@ -32,7 +32,7 @@ public class GPLogin extends JPanel {
 		setLayout(null);
 		
 		JLabel label = new JLabel("Connexion");
-		label.setBounds(10, 10, 81, 23);
+		label.setBounds(10, 10, 99, 22);
 		label.setFont(new Font("Calibri", Font.BOLD, 18));
 		add(label);
 		

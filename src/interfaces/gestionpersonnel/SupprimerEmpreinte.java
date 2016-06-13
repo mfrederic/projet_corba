@@ -45,7 +45,7 @@ public class SupprimerEmpreinte extends JPanel {
 		
 		JComboBox<String> comboBox = new JComboBox<String>();
 		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Fred", "Marie", "R\u00E9my"}));
-		comboBox.setBounds(10, 75, 284, 20);
+		comboBox.setBounds(10, 76, 284, 20);
 		add(comboBox);
 		
 		lblError = new JLabel("");
@@ -67,7 +67,7 @@ public class SupprimerEmpreinte extends JPanel {
 				}
 			}
 		});
-		btnSupprimer.setBounds(205, 106, 89, 23);
+		btnSupprimer.setBounds(206, 117, 89, 23);
 		add(btnSupprimer);
 		
 		JButton btnAnnuler = new JButton("Annuler");
@@ -76,7 +76,7 @@ public class SupprimerEmpreinte extends JPanel {
 				window.setPane(new GPMenu(window));
 			}
 		});
-		btnAnnuler.setBounds(106, 106, 89, 23);
+		btnAnnuler.setBounds(118, 117, 89, 23);
 		add(btnAnnuler);
 
 		

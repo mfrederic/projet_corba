@@ -29,31 +29,31 @@ public class MonCompteLogin extends JPanel {
 		setLayout(null);
 		
 		JLabel label = new JLabel("Connexion");
-		label.setBounds(10, 10, 211, 23);
+		label.setBounds(64, 6, 99, 22);
 		label.setFont(new Font("Calibri", Font.BOLD, 18));
 		add(label);
 		
-		JLabel label_1 = new JLabel("Login");
-		label_1.setBounds(10, 39, 84, 14);
-		add(label_1);
+		JLabel lblUser = new JLabel("User");
+		lblUser.setBounds(10, 42, 28, 16);
+		add(lblUser);
 		
 		textFieldLogin = new JTextField();
-		label_1.setLabelFor(textFieldLogin);
-		textFieldLogin.setBounds(121, 36, 100, 20);
+		lblUser.setLabelFor(textFieldLogin);
+		textFieldLogin.setBounds(89, 40, 130, 20);
 		textFieldLogin.setColumns(10);
 		add(textFieldLogin);
 		
 		JLabel label_2 = new JLabel("Password");
-		label_2.setBounds(10, 69, 84, 14);
+		label_2.setBounds(10, 69, 59, 16);
 		add(label_2);
 		
 		passwordField = new JPasswordField();
 		label_2.setLabelFor(passwordField);
-		passwordField.setBounds(121, 67, 100, 20);
+		passwordField.setBounds(89, 67, 130, 20);
 		add(passwordField);
 		
 		JButton btnConnexion = new JButton("Connexion");
-		btnConnexion.setBounds(121, 98, 100, 23);
+		btnConnexion.setBounds(107, 99, 112, 29);
 		btnConnexion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String login = textFieldLogin.getText();

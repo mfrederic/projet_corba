@@ -80,13 +80,13 @@ public class InterfacePorteSwing {
 		currentPorte = null;
 		
 		frame = new JFrame();
-		frame.setBounds(100, 100, 445, 324);
+		frame.setBounds(100, 100, 369, 269);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblOuvrirLaPorte = new JLabel("Ouvrir la porte");
 		lblOuvrirLaPorte.setFont(new Font("Calibri", Font.BOLD, 18));
-		lblOuvrirLaPorte.setBounds(10, 11, 136, 29);
+		lblOuvrirLaPorte.setBounds(10, 11, 138, 22);
 		frame.getContentPane().add(lblOuvrirLaPorte);
 		
 		JLabel lblEmpreinte = new JLabel("Empreinte");
@@ -97,7 +97,7 @@ public class InterfacePorteSwing {
 		textFieldEmpreinte = new JTextField();
 		textFieldEmpreinte.setFont(new Font("Calibri", Font.PLAIN, 11));
 		lblEmpreinte.setLabelFor(textFieldEmpreinte);
-		textFieldEmpreinte.setBounds(120, 48, 136, 20);
+		textFieldEmpreinte.setBounds(82, 51, 107, 20);
 		frame.getContentPane().add(textFieldEmpreinte);
 		textFieldEmpreinte.setColumns(10);
 		
@@ -109,7 +109,7 @@ public class InterfacePorteSwing {
 		textFieldPhoto = new JTextField();
 		textFieldPhoto.setFont(new Font("Calibri", Font.PLAIN, 11));
 		lblPhoto.setLabelFor(textFieldPhoto);
-		textFieldPhoto.setBounds(120, 80, 136, 20);
+		textFieldPhoto.setBounds(82, 80, 107, 20);
 		frame.getContentPane().add(textFieldPhoto);
 		
 		JButton btnOuvrir = new JButton("Ouvrir");
@@ -133,11 +133,12 @@ public class InterfacePorteSwing {
 				lblError.setText(cltPorte.getMessage());
 			}
 		});
-		btnOuvrir.setBounds(120, 150, 136, 23);
+		btnOuvrir.setBounds(219, 153, 79, 29);
 		frame.getContentPane().add(btnOuvrir);
 		
 		comboBox = new JComboBox<Porte>(setComboBoxModel(listePorte));
 		comboBox.setFont(new Font("Calibri", Font.PLAIN, 11));
+		comboBox.setSelectedIndex(0);
 		comboBox.addActionListener (new ActionListener () {
 		    public void actionPerformed(ActionEvent e) {
 		    	currentPorte = (Porte)comboBox.getSelectedItem();
@@ -146,7 +147,7 @@ public class InterfacePorteSwing {
 		    }
 		});
 		comboBox.setEditable(true);
-		comboBox.setBounds(156, 16, 100, 20);
+		comboBox.setBounds(160, 15, 107, 20);
 		frame.getContentPane().add(comboBox);
 		
 		lblZone = new JLabel("");
@@ -162,7 +163,7 @@ public class InterfacePorteSwing {
 		textFieldTimestamp = new JTextField(ts);
 		textFieldTimestamp.setFont(new Font("Calibri", Font.PLAIN, 11));
 		textFieldTimestamp.setEditable(false);
-		textFieldTimestamp.setBounds(156, 121, 100, 20);
+		textFieldTimestamp.setBounds(144, 121, 152, 20);
 		frame.getContentPane().add(textFieldTimestamp);
 		textFieldTimestamp.setColumns(10);
 		
@@ -202,7 +203,7 @@ public class InterfacePorteSwing {
 			}
 		});
 		btnQuitter.setFont(new Font("Calibri", Font.PLAIN, 11));
-		btnQuitter.setBounds(10, 150, 89, 23);
+		btnQuitter.setBounds(136, 153, 82, 29);
 		frame.getContentPane().add(btnQuitter);
 		
 		//setPane(new MonCompteLogin(this));

@@ -29,23 +29,23 @@ public class MonCompteUpdate extends JPanel {
 		
 		JLabel lblModifierLePassword = new JLabel("Modifier le password");
 		lblModifierLePassword.setFont(new Font("Calibri", Font.BOLD, 18));
-		lblModifierLePassword.setBounds(10, 11, 216, 14);
+		lblModifierLePassword.setBounds(44, 6, 196, 22);
 		add(lblModifierLePassword);
 		
 		JLabel lblNouveau = new JLabel("Nouveau");
-		lblNouveau.setBounds(20, 39, 101, 14);
+		lblNouveau.setBounds(10, 43, 55, 16);
 		add(lblNouveau);
 		
 		JLabel lblNouveaubis = new JLabel("Nouveau (bis)");
-		lblNouveaubis.setBounds(20, 70, 101, 14);
+		lblNouveaubis.setBounds(10, 71, 86, 16);
 		add(lblNouveaubis);
 		
 		passwordField_1 = new JPasswordField();
-		passwordField_1.setBounds(125, 36, 158, 20);
+		passwordField_1.setBounds(125, 45, 158, 20);
 		add(passwordField_1);
 		
 		passwordFieldBis = new JPasswordField();
-		passwordFieldBis.setBounds(125, 67, 158, 20);
+		passwordFieldBis.setBounds(125, 69, 158, 20);
 		add(passwordFieldBis);
 		
 		JButton btnEnregistrer = new JButton("Enregistrer");
@@ -64,7 +64,7 @@ public class MonCompteUpdate extends JPanel {
 				
 			}
 		});
-		btnEnregistrer.setBounds(156, 98, 127, 23);
+		btnEnregistrer.setBounds(171, 98, 112, 29);
 		add(btnEnregistrer);
 		
 		JButton btnRetour = new JButton("Deconnexion");
@@ -73,7 +73,7 @@ public class MonCompteUpdate extends JPanel {
 				window.setPane(new MonCompteLogin(window));
 			}
 		});
-		btnRetour.setBounds(10, 98, 127, 23);
+		btnRetour.setBounds(42, 98, 127, 29);
 		add(btnRetour);
 		
 		lblError = new JLabel("");

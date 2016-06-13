@@ -1,8 +1,5 @@
 package interfaces;
 
-import java.util.ArrayList;
-
-import model.Personne;
 import Gestion_acces.personne;
 import Gestion_acces.rolePersonne;
 import Gestion_acces.statutPersonne;
