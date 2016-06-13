@@ -18,11 +18,28 @@ public class PersonneDAO extends DAO<Personne>{
 		try {
 			ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery("SELECT * FROM \"Personne\" WHERE \"idPersonne\" = " + id);
 			if (result.first()) {
-				pers.setNomPersonne(result.getString(1));
-				pers.setPrenomPersonne(result.getString(2));
-				pers.setPhotoPersonne(result.getString(3));
-				pers.setStatutPersonne(result.getString(4));
-				pers.setRolePersonne(result.getString(5));
+				if(result.getString(1)==null)
+					pers.setNomPersonne(new String());
+				else
+					pers.setNomPersonne(result.getString(1));
+				if(result.getString(2)==null)
+					pers.setPrenomPersonne(new String());
+				else
+					pers.setPrenomPersonne(result.getString(2));
+				
+				if(result.getString(3)==null)
+					pers.setPhotoPersonne(new String());
+				else 
+					pers.setPhotoPersonne(result.getString(3));
+				if(result.getString(4)== null)
+					pers.setStatutPersonne(new String());
+				else
+					pers.setStatutPersonne(result.getString(4));
+				if(result.getString(5)==null)
+					pers.setRolePersonne(new String());
+				else 
+					pers.setRolePersonne(result.getString(5));
+				
 				pers.setIdPersonne(result.getInt(6));
 			}
 			else return null;
@@ -41,14 +58,32 @@ public class PersonneDAO extends DAO<Personne>{
 							"INSERT INTO \"Personne\" (\"nomPersonne\",\"prenomPersonne\",\"photoPersonne\",\"statutPersonne\",\"rolePersonne\") VALUES(?, ?, ?,?,?)",
 							Statement.RETURN_GENERATED_KEYS
 							);
+			if(obj.getNomPersonne().equals("") )
+				prepare.setString(1, null);
+			else
+				prepare.setString(1, obj.getNomPersonne());
+			
+			if(obj.getPrenomPersonne().equals("") )
+				prepare.setString(2, null);
+			else
+				prepare.setString(2, obj.getPrenomPersonne());	
+			
 		
+			if(obj.getPhotoPersonne().equals("") )
+				prepare.setString(3, null);
+			else
+				prepare.setString(3, obj.getPhotoPersonne());	
 			
+			if(obj.getStatutPersonne().equals("") )
+				prepare.setString(4, null);
+			else
+				prepare.setString(4, obj.getStatutPersonne());	
 			
-			prepare.setString(1, obj.getNomPersonne());
-			prepare.setString(2, obj.getPrenomPersonne());		
-			prepare.setString(3, obj.getPhotoPersonne());
-			prepare.setString(4, obj.getStatutPersonne());
-			prepare.setString(5, obj.getRolePersonne());
+			if(obj.getRolePersonne().equals("") )
+				prepare.setString(5, null);
+			else
+				prepare.setString(5, obj.getRolePersonne());	
+			
 			prepare.executeUpdate();
 			ResultSet rs = prepare.getGeneratedKeys();
 			rs.next();
@@ -132,6 +167,7 @@ public class PersonneDAO extends DAO<Personne>{
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		return pers;
 	}
 	

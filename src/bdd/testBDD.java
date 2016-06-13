@@ -12,7 +12,9 @@ import Gestion_acces.structPlage;
 public class testBDD {
 	
 	public static void main(String[] args) {
-/*
+		
+
+		/*
 		Personne pers = new Personne("Bisault","Marie","photooo","temporaire","basique");
 		PersonneDAO repoPersonne = new PersonneDAO();
 		pers = repoPersonne.create(pers);

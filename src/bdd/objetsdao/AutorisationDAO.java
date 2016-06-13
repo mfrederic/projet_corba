@@ -26,8 +26,14 @@ public class AutorisationDAO extends DAO<Autorisation>{
 				autor.setRefZone(result.getInt(3));
 				autor.setHeureDebut(result.getFloat(4));
 				autor.setHeureFin(result.getFloat(5));
-				autor.setJourDebut(result.getString(6));
-				autor.setJourFin(result.getString(7));
+				if(result.getString(6)==null)
+					autor.setJourDebut(new String());
+				else
+					autor.setJourDebut(result.getString(6));
+				if(result.getString(7)==null)
+					autor.setJourFin(new String());
+				else
+					autor.setJourFin(result.getString(7));
 			}
 			else return null;
 
@@ -49,8 +55,16 @@ public class AutorisationDAO extends DAO<Autorisation>{
 			prepare.setInt(2, obj.getRefZone());		
 			prepare.setFloat(3, obj.getHeureDebut());
 			prepare.setFloat(4, obj.getHeureFin());
-			prepare.setString(5, obj.getJourDebut());
-			prepare.setString(6, obj.getJourFin());		
+			if(obj.getJourDebut().equals(""))
+				prepare.setString(5, null);
+			else 
+				prepare.setString(5, obj.getJourDebut());
+			
+			if(obj.getJourFin().equals(""))
+				prepare.setString(6, null);
+			else 
+				prepare.setString(6, obj.getJourFin());
+			
 			prepare.executeUpdate();
 			ResultSet rs = prepare.getGeneratedKeys();
 			rs.next();
