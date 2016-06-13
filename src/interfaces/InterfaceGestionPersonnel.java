@@ -168,6 +168,7 @@ public class InterfaceGestionPersonnel {
 
 				try {
 					monAuthentification.getMonAuthentification().creerCompte(idPers, user, password, cleServeur);
+					message = "La personne et le compte associés ont été créés avec succès";
 				} catch (compteDejaCree e) {
 					// TODO Auto-generated catch block
 					message = "Le compte existe déjà (user: " + e.user + " )";
@@ -186,6 +187,7 @@ public class InterfaceGestionPersonnel {
 
 			try {
 				monAnnuaire.getMonAnnuaire().ajouterPhoto(idPers, ph);
+				message = "Photo ajoutée avec succès";
 			} catch (personneInexistante e) {
 				// TODO Auto-generated catch block
 				message = "Personne inexistante dans la base (id = " + e.id + ")";
@@ -201,6 +203,7 @@ public class InterfaceGestionPersonnel {
 
 			try {
 				monAuthentification.getMonAuthentification().supprimerEmpreinte(user, cleServeur);
+				message = "Empreinte supprimée avec succès";
 			} catch (accesRefuse e) {
 				// TODO Auto-generated catch block
 				message = "Accès refusé : " + e.raison;
@@ -223,6 +226,7 @@ public class InterfaceGestionPersonnel {
 
 			try {
 				monAnnuaire.getMonAnnuaire().modifierInfos(idPers, nom, prenom, statut, role);
+				message = "Infos mises à jour";
 			} catch (personneInexistante e) {
 				// TODO Auto-generated catch block
 				message = "Personne inexistante dans la base (id = " + e.id + ")";
@@ -238,7 +242,7 @@ public class InterfaceGestionPersonnel {
 		personne[] retour = new personne[0];
 		if (persConnectee.role == rolePersonne.RH) {
 			retour = monAnnuaire.getMonAnnuaire().chercherPersonnes(nom, prenom);
-		
+			
 		} else {
 			throw new droitsInsuffisants("Accès interdit : rôle doit être RH");
 		}
