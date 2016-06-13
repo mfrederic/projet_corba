@@ -14,6 +14,7 @@ import model.Zone;
 import Gestion_acces.ServeurAutorisationPOA;
 import Gestion_acces.autorisation;
 import Gestion_acces.personne;
+import Gestion_acces.statutPersonne;
 import Gestion_acces.structPlage;
 import Gestion_acces.ServeurAutorisationPackage.autorisationInexistante;
 import Gestion_acces.ServeurAutorisationPackage.porteInconnue;
@@ -52,10 +53,17 @@ public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
 			throw new porteInconnue(porte);
 		else {
 			listePlages = repoAutorisation.findAllByPersonneZone(p.idPers, porteBD.getRefZone());
-			Iterator<MaPlageDate> it = listePlages.iterator();
-			while (!autorise && it.hasNext()) {
-				autorise = it.next().contient(date);
+			if (p.statut == statutPersonne.permanent) { // Personne permanente
+				if (listePlages != null)
+					autorise = true;
+				
+			} else { // Personne temporaire
+					Iterator<MaPlageDate> it = listePlages.iterator();
+					while (!autorise && it.hasNext()) {
+						autorise = it.next().contient(date);					
+					}
 			}
+		
 		}
 		
 		return autorise;

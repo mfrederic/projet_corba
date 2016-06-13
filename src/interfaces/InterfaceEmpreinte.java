@@ -18,66 +18,6 @@ public class InterfaceEmpreinte {
 	private String userConnecte;
 	private String message;
 	
-	public static void main(String args[]) {
-		/*
-		monAuthentification = new ClientServeurAuthentification();
-		persTemp = null;
-		authReussie = false;
-		
-		while (!authReussie) {
-			try {
-				System.out.println("user;password");
-				BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-				String s[] = in.readLine().split(";");
-				
-			if (s.length > 1) {		
-				userTemp = s[0];
-				pswdTemp = s[1];
-				authentifier(userTemp, pswdTemp);
-			}
-				
-				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}		
-			
-		}
-		
-		System.out.println("Que voulez-vous faire ?");
-		System.out.println("1. Ajouter empreinte");
-		System.out.println("2. Modifier empreinte");
-        
-		try {
-			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-	        String choix = in.readLine();
-			
-			switch (choix) {
-	        	case "1": 
-        			System.out.println("empreinte");
-        			choix = in.readLine();
-	        		ajouterEmpreinte(userTemp, choix);
-	        		break;
-	        	case "2": try {
-	        		System.out.println("empreinte");
-        			choix = in.readLine();
-	        		modifierEmpreinte(userTemp, choix);
-	        		break;
-				} catch (droitsInsuffisants e) {
-					// TODO Auto-generated catch block
-					System.out.println("Droits insuffisants : " + e.raison);
-				}
-	        		break;
-	        	default:
-	        		break;
-			}
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}        
-      */  
-	}
-	
 	public InterfaceEmpreinte() {
 		monAuthentification = new ClientServeurAuthentification();
 		userConnecte = null;

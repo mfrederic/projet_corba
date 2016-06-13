@@ -1,6 +1,9 @@
 package helpers;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import Gestion_acces.structPlage;
@@ -19,6 +22,10 @@ public class MaPlageDate {
 	
 	public MaPlageDate(String jourDeb, String jourFin, float heureDeb, float heureFin) {
 		this.structPlage = new structPlage(jourDeb, jourFin, heureDeb, heureFin);
+	}
+	
+	public MaPlageDate(String jourDeb, String jourFin, String heureDeb, String heureFin) {
+		this.structPlage = verifierStructPlage(jourDeb, jourFin, heureDeb, heureFin);
 	}
 	
 	public String toString() {
@@ -42,4 +49,42 @@ public class MaPlageDate {
     	
 		return contient;    	
     }
+    
+    private structPlage verifierStructPlage(String jDeb, String jFin, String hDeb, String hFin) {
+
+		structPlage retour = null;
+		boolean structOk = true;
+		Float heureDeb = (float)0; 
+		Float heureFin = (float)0;
+		
+		// Tests heures
+		try {
+			heureDeb = Float.parseFloat(hDeb);
+			heureFin = Float.parseFloat(hFin);
+		} catch (NumberFormatException e) {
+			System.out.println(e.toString());
+			structOk = false;
+		}
+		
+		// Tests jours
+		Date dateDeb = null;
+		Date dateFin = null;
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("dd-mm-yy");
+            dateDeb = sdf.parse(jDeb);
+            dateFin = sdf.parse(jFin);
+            if (!jDeb.equals(sdf.format(dateDeb)) || !jFin.equals(sdf.format(dateFin))) {
+                structOk = false;
+            }
+        } catch (ParseException ex) {
+            System.out.println(ex.toString());
+            structOk = false;
+        }
+		
+        if (structOk)
+        	retour = new structPlage(jDeb, jFin, heureDeb, heureFin);
+
+		return retour;
+	}
+	
 }

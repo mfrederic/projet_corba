@@ -59,7 +59,9 @@ public class MonCompteUpdate extends JPanel {
 					return;
 				}
 				
-				modifierMdp(window.getCltEmpreintes().getUserConnecte(), password);
+				window.getCltMonCompte().modifierMdp(window.getCltMonCompte().getUserConnecte(), password);
+				lblError.setText(window.getCltMonCompte().getMessage());
+				
 			}
 		});
 		btnEnregistrer.setBounds(156, 98, 127, 23);
@@ -82,16 +84,4 @@ public class MonCompteUpdate extends JPanel {
 		add(lblError);
 	}
 	
-	private void modifierMdp(String user, String newMdp) {
-		try {
-			window.getMonAuthentification().getMonAuthentification().modifierMdp(user, newMdp, window.getCleserveur());
-			lblError.setText("Mot de passe modifie avec succes.");
-		} catch (compteInexistant e) {
-			lblError.setText("Compte inexistant : (user: " + e.user + ")");
-		} catch (accesRefuse e) {
-			lblError.setText("Acces refuse : " + e.raison);
-		}
-
-	}
-
 }

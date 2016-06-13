@@ -1,19 +1,17 @@
 package interfaces.moncompte;
 
 import interfaces.InterfaceEmpreinte;
+import interfaces.InterfaceMonCompte;
 
 import java.awt.Container;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
-import authentification.ClientServeurAuthentification;
-
 public class InterfaceMonCompteSwing {
 	private static final String _cleServeur = "stp";
 	
-	private InterfaceEmpreinte cltEmpreintes;
-	private ClientServeurAuthentification monAuthentification;
+	private InterfaceMonCompte cltMonCompte;
 	
 	private JFrame frame;
 
@@ -44,8 +42,7 @@ public class InterfaceMonCompteSwing {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		cltEmpreintes = new InterfaceEmpreinte();
-		setMonAuthentification(new ClientServeurAuthentification());
+		cltMonCompte = new InterfaceMonCompte();
 		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 274, 245);
@@ -67,20 +64,8 @@ public class InterfaceMonCompteSwing {
 		return _cleServeur;
 	}
 
-	public InterfaceEmpreinte getCltEmpreintes() {
-		return cltEmpreintes;
-	}
-
-	public void setCltEmpreintes(InterfaceEmpreinte cltEmpreintes) {
-		this.cltEmpreintes = cltEmpreintes;
-	}
-
-	public ClientServeurAuthentification getMonAuthentification() {
-		return monAuthentification;
-	}
-
-	public void setMonAuthentification(ClientServeurAuthentification monAuthentification) {
-		this.monAuthentification = monAuthentification;
+	public InterfaceMonCompte getCltMonCompte() {
+		return cltMonCompte;
 	}
 	
 }

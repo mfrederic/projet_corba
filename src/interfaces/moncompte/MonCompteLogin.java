@@ -8,6 +8,9 @@ import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
+
+import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
+
 import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -58,13 +61,18 @@ public class MonCompteLogin extends JPanel {
 				
 				if(login.length() == 0 || password.length() == 0)
 					lblError.setText("Le login et password doivent etre renseignes.");
-			
-				else if (window.getCltEmpreintes().authentifier(login, password)) {
-					lblError.setText(window.getCltEmpreintes().getMessage());
-					window.setPane(new MonCompteUpdate(window));
-					
-				} else
-					lblError.setText(window.getCltEmpreintes().getMessage());
+				else
+					try {
+						if (window.getCltMonCompte().authentifier(login, password)) {
+							lblError.setText(window.getCltMonCompte().getMessage());
+							window.setPane(new MonCompteUpdate(window));
+							
+						} else
+							lblError.setText(window.getCltMonCompte().getMessage());
+					} catch (droitsInsuffisants e1) {
+						// TODO Auto-generated catch block
+						lblError.setText(e1.raison);
+					}
 			}
 		});
 		add(btnConnexion);

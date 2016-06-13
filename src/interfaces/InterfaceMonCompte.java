@@ -25,40 +25,6 @@ public class InterfaceMonCompte {
 		userConnecte = "";
 	}
 	
-	public static void main(String args[]) {
-/*
-		monAuthentification = new ClientServeurAuthentification();
-		
-		authReussie = false;
-		
-		try {
-			String[] s = null;
-			
-			while (!authReussie) {
-				System.out.println("user;password");
-				BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-				s = in.readLine().split(";");
-				
-				if (s.length > 1)
-					try {
-						authentifier(s[0], s[1]);
-					} catch (droitsInsuffisants e) {
-						// TODO Auto-generated catch block
-						System.out.println("Droits insuffisants : " + e.raison);
-					}
-			}
-			
-			System.out.println("Nouveau mot de passe :");
-			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-			modifierMdp(s[0], in.readLine());
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-*/	
-	}
-	
 	public boolean authentifier(String user, String password) throws droitsInsuffisants {
 		boolean authReussie = false;
 		try {
@@ -95,6 +61,7 @@ public class InterfaceMonCompte {
 
 		try {
 			monAuthentification.getMonAuthentification().modifierMdp(user, newMdp, cleServeur);
+			message = "Mot de passe modifié avec succès";
 		} catch (compteInexistant e) {
 			// TODO Auto-generated catch block
 			System.out.println("Compte inexistant : (user: " + e.user + ")");
