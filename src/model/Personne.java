@@ -90,6 +90,22 @@ public class Personne {
 		+		"role: " + getRolePersonne()+ "\n"; 
 		
 	}
+	@Override
+	public  boolean equals(Object o) {  
+		if(!(o instanceof Personne))
+		{
+			return false;
+		}
+		
+		Personne personne = (Personne)o;
+		if(personne.getIdPersonne()!=0 || this.getIdPersonne()!=0)
+			if(this.getNomPersonne()==personne.getNomPersonne())
+				if(this.getPrenomPersonne()==personne.getPrenomPersonne())
+					return true;
+		else
+			return personne.getIdPersonne()==this.getIdPersonne();
+		return false;
+	}
 }
 
 
