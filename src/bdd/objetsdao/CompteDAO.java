@@ -19,7 +19,10 @@ public class CompteDAO extends DAO<Compte>{
 			if (result.first()) {
 				compt.setUser(result.getString(1));
 				compt.setPassword(result.getString(2));
-				compt.setEmpreinte(result.getString(3));
+				if(result.getString(3)==null)
+					compt.setEmpreinte(new String());
+				else
+					compt.setEmpreinte(result.getString(3));
 				compt.setRefPersonne(result.getInt(4));
 			}
 			else return null;
@@ -41,7 +44,10 @@ public class CompteDAO extends DAO<Compte>{
 			prepare.setInt(1, obj.getRefPersonne());
 			prepare.setString(2, obj.getUser());		
 			prepare.setString(3, obj.getPassword());
-			prepare.setString(4, obj.getEmpreinte());
+			if(obj.getEmpreinte().equals(""))
+				prepare.setString(4,null);
+			else
+				prepare.setString(4, obj.getEmpreinte());
 			prepare.executeUpdate();
 			ResultSet rs = prepare.getGeneratedKeys();
 			rs.next();
@@ -68,7 +74,10 @@ public class CompteDAO extends DAO<Compte>{
 			prepare.setInt(1, obj.getRefPersonne());
 			prepare.setString(2, obj.getUser());		
 			prepare.setString(3, obj.getPassword());
-			prepare.setString(4, obj.getEmpreinte());
+			if(obj.getEmpreinte().equals(""))
+				prepare.setString(4, null);
+			else
+				prepare.setString(4, obj.getEmpreinte());
 			prepare.executeUpdate();
 			ResultSet rs = prepare.getGeneratedKeys();
 			rs.next();

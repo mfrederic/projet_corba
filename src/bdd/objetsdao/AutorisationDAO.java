@@ -90,8 +90,14 @@ public class AutorisationDAO extends DAO<Autorisation>{
 			prepare.setInt(3, obj.getRefZone());
 			prepare.setFloat(4, obj.getHeureDebut());
 			prepare.setFloat(5, obj.getHeureFin());
-			prepare.setString(6, obj.getJourDebut());
-			prepare.setString(7, obj.getJourFin());
+			if(obj.getJourDebut().equals(""))
+				prepare.setString(6, null);
+			else
+				prepare.setString(6, obj.getJourDebut());
+			if(obj.getJourFin().equals(""))
+				prepare.setString(7, null);
+			else
+				prepare.setString(7, obj.getJourFin());
 			prepare.executeUpdate();
 			ResultSet rs = prepare.getGeneratedKeys();
 			rs.next();
