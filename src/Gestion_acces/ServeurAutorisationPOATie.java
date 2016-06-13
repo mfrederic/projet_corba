@@ -65,10 +65,10 @@ public class ServeurAutorisationPOATie extends ServeurAutorisationPOA
     /**
      * Operation demanderAutor
      */
-    public boolean demanderAutor(Gestion_acces.personne p, short idPorte)
+    public boolean demanderAutor(Gestion_acces.personne p, short idPorte, String date)
         throws Gestion_acces.ServeurAutorisationPackage.porteInconnue
     {
-        return _tie.demanderAutor( p,  idPorte);
+        return _tie.demanderAutor( p,  idPorte,  date);
     }
 
     /**

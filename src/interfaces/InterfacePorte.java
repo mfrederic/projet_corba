@@ -23,6 +23,7 @@ public class InterfacePorte {
 	private personne persIdentifiee;
 	private String message;
 	private Porte porte;
+	private GregorianCalendar date;
 	
 	public InterfacePorte() {
 		monAuthentification = new ClientServeurAuthentification();
@@ -32,9 +33,10 @@ public class InterfacePorte {
 		persIdentifiee = null;
 		message = "";
 		porte = null;
+		date = new GregorianCalendar();
 	}
 	
-	public void accesPorte(String emp, String ph, int typeAcces, structPlage sp) { //1: Entrée, 2 = Sortie
+	public void accesPorte(String emp, String ph, int typeAcces, String date) { //1: Entrée, 2 = Sortie
 		boolean autorisation = false;		
 
 		try {
@@ -44,7 +46,7 @@ public class InterfacePorte {
 				message = "Accès refusé : personne inconnue";
 			else {
 				try {
-					autorisation = monAutorisation.getMonAutorisation().demanderAutor(persIdentifiee, (short)porte.getIdPorte());
+					autorisation = monAutorisation.getMonAutorisation().demanderAutor(persIdentifiee, (short)porte.getIdPorte(), date);
 				} catch (porteInconnue e) {
 					// TODO Auto-generated catch block
 					message = "Porte inconnue (id = " + e.idPorte + ")";

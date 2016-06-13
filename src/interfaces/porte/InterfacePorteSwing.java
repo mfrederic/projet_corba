@@ -129,7 +129,7 @@ public class InterfacePorteSwing {
 					return;
 				}
 			
-				//cltPorte.accesPorte(empreinte, photo, 1, new MaPlageDate());
+				cltPorte.accesPorte(empreinte, photo, 1, textFieldTimestamp.getText());
 				lblError.setText(cltPorte.getMessage());
 			}
 		});
@@ -157,8 +157,8 @@ public class InterfacePorteSwing {
 		separator.setBounds(10, 111, 246, 2);
 		frame.getContentPane().add(separator);
 
-		Calendar gc = new GregorianCalendar();
-		String ts = String.valueOf(gc.get(Calendar.YEAR)) + "-" + String.valueOf(gc.get(Calendar.MONTH)+1) + "-" + String.valueOf(gc.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(gc.get(Calendar.HOUR_OF_DAY)) + ":" + String.valueOf(gc.get(Calendar.MINUTE)) + ":" + String.valueOf(gc.get(Calendar.SECOND)); 
+		GregorianCalendar gc = new GregorianCalendar();
+		String ts = MaPlageDate.gregorianToString(gc);
 		textFieldTimestamp = new JTextField(ts);
 		textFieldTimestamp.setFont(new Font("Calibri", Font.PLAIN, 11));
 		textFieldTimestamp.setEditable(false);
@@ -173,8 +173,8 @@ public class InterfacePorteSwing {
 		chckbxDateAutomatique.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Calendar gc = new GregorianCalendar();
-				String ts = String.valueOf(gc.get(Calendar.YEAR)) + "-" + String.valueOf(gc.get(Calendar.MONTH)+1) + "-" + String.valueOf(gc.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(gc.get(Calendar.HOUR_OF_DAY)) + ":" + String.valueOf(gc.get(Calendar.MINUTE)) + ":" + String.valueOf(gc.get(Calendar.SECOND)); 
+				GregorianCalendar gc = new GregorianCalendar();
+				String ts = MaPlageDate.gregorianToString(gc);
 				
 				if(chckbxDateAutomatique.isSelected()) {
 					textFieldTimestamp.setText(ts);

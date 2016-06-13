@@ -1,8 +1,8 @@
 package testUnitaire;
 
-import bdd.objetsdao.PersonneDAO;
 import junit.framework.TestCase;
 import junit.textui.TestRunner;
+import bdd.objetsdao.PersonneDAO;
 
 public class PersonneDAOTest extends TestCase {
 

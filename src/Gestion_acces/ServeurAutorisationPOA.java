@@ -57,10 +57,11 @@ public abstract class ServeurAutorisationPOA extends org.omg.PortableServer.Serv
         org.omg.CORBA.portable.OutputStream _output;
         Gestion_acces.personne arg0_in = Gestion_acces.personneHelper.read(_is);
         short arg1_in = _is.read_short();
+        String arg2_in = _is.read_string();
 
         try
         {
-            boolean _arg_result = demanderAutor(arg0_in, arg1_in);
+            boolean _arg_result = demanderAutor(arg0_in, arg1_in, arg2_in);
 
             _output = handler.createReply();
             _output.write_boolean(_arg_result);

@@ -23,7 +23,7 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
     /**
      * Operation demanderAutor
      */
-    public boolean demanderAutor(Gestion_acces.personne p, short idPorte)
+    public boolean demanderAutor(Gestion_acces.personne p, short idPorte, String date)
         throws Gestion_acces.ServeurAutorisationPackage.porteInconnue
     {
         while(true)
@@ -36,6 +36,7 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
                     org.omg.CORBA.portable.OutputStream _output = this._request("demanderAutor",true);
                     Gestion_acces.personneHelper.write(_output,p);
                     _output.write_short(idPorte);
+                    _output.write_string(date);
                     _input = this._invoke(_output);
                     boolean _arg_ret = _input.read_boolean();
                     return _arg_ret;
@@ -67,7 +68,7 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
                 Gestion_acces.ServeurAutorisationOperations _self = (Gestion_acces.ServeurAutorisationOperations) _so.servant;
                 try
                 {
-                    return _self.demanderAutor( p,  idPorte);
+                    return _self.demanderAutor( p,  idPorte,  date);
                 }
                 finally
                 {

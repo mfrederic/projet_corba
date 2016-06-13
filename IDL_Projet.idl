@@ -3,10 +3,10 @@ module Gestion_acces {
 	enum rolePersonne {RH, accueil, basique};
 
 	struct structPlage {
-		string jourDeb; //jj-mm-aa
-		string jourFin; //jj-mm-aa
-		float heureDeb; //heures centième
-		float heureFin; //heures centième
+		string jourDeb; // dd/MM/yyyy
+		string jourFin; // dd/MM/yyyy
+		float heureDeb; // heures centième
+		float heureFin; // heures centième
 	};
 
 	typedef string photo;
@@ -54,7 +54,7 @@ module Gestion_acces {
 		exception porteInconnue {short idPorte;};
 		exception autorisationInexistante {short idAutorisation;};
 		
-		boolean demanderAutor (in personne p, in short idPorte) raises(porteInconnue); // Depuis Porte
+		boolean demanderAutor (in personne p, in short idPorte, in string date) raises(porteInconnue); // Depuis Porte
 		void ajouterAutorisation (in personne p, in short zone, in structPlage plage) raises(zoneInconnue);
 		void modifierAutorisation (in short numAutor, in structPlage newPlage) raises(autorisationInexistante);
 		void supprimerAutorisation (in short numAutor) raises(autorisationInexistante);

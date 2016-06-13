@@ -2,6 +2,7 @@ package autorisation;
 
 import helpers.MaPlageDate;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -36,7 +37,7 @@ public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
 	}
 
 	@Override
-	public boolean demanderAutor(personne p, short porte)
+	public boolean demanderAutor(personne p, short porte, String date)
 			throws porteInconnue {
 		// TODO Auto-generated method stub
 		System.out.println("Autorisation-demanderAutor");
@@ -44,8 +45,14 @@ public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
 		Porte porteBD = null;
 		boolean autorise = false;
 		List<MaPlageDate> listePlages = new ArrayList<MaPlageDate>();
-		Calendar date = new GregorianCalendar();
-		
+		GregorianCalendar d = new GregorianCalendar();
+		try {
+			d = MaPlageDate.stringToDateTime(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(d.toString());
 		// BD
 		porteBD = repoPorte.find(porte);
 		
@@ -60,7 +67,7 @@ public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
 			} else { // Personne temporaire
 					Iterator<MaPlageDate> it = listePlages.iterator();
 					while (!autorise && it.hasNext()) {
-						autorise = it.next().contient(date);					
+						autorise = it.next().contient(d);					
 					}
 			}
 		

@@ -1,5 +1,6 @@
 package helpers;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -24,16 +25,12 @@ public class MaPlageDate {
 		this.structPlage = new structPlage(jourDeb, jourFin, heureDeb, heureFin);
 	}
 	
-	public MaPlageDate(String jourDeb, String jourFin, String heureDeb, String heureFin) {
-		this.structPlage = verifierStructPlage(jourDeb, jourFin, heureDeb, heureFin);
-	}
-	
 	public String toString() {
 		return "Début : " + this.structPlage.jourDeb + " " + this.structPlage.jourDeb + "\n" + 
 				"Fin : " + this.structPlage.jourFin + " " + this.structPlage.jourFin;
 	}
     
-    public boolean contient (Calendar gc) {
+    public boolean contient (GregorianCalendar gc) {
     	boolean contient = false;
    	
     	String[] dateDeb = structPlage.jourDeb.split("-");
@@ -50,41 +47,19 @@ public class MaPlageDate {
 		return contient;    	
     }
     
-    private structPlage verifierStructPlage(String jDeb, String jFin, String hDeb, String hFin) {
-
-		structPlage retour = null;
-		boolean structOk = true;
-		Float heureDeb = (float)0; 
-		Float heureFin = (float)0;
-		
-		// Tests heures
-		try {
-			heureDeb = Float.parseFloat(hDeb);
-			heureFin = Float.parseFloat(hFin);
-		} catch (NumberFormatException e) {
-			System.out.println(e.toString());
-			structOk = false;
-		}
-		
-		// Tests jours
-		Date dateDeb = null;
-		Date dateFin = null;
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-mm-yy");
-            dateDeb = sdf.parse(jDeb);
-            dateFin = sdf.parse(jFin);
-            if (!jDeb.equals(sdf.format(dateDeb)) || !jFin.equals(sdf.format(dateFin))) {
-                structOk = false;
-            }
-        } catch (ParseException ex) {
-            System.out.println(ex.toString());
-            structOk = false;
-        }
-		
-        if (structOk)
-        	retour = new structPlage(jDeb, jFin, heureDeb, heureFin);
-
-		return retour;
-	}
-	
+    public static GregorianCalendar stringToDateTime(String s) throws ParseException {
+    	DateFormat df = new SimpleDateFormat("dd/MM/yyyy-HH:mm");
+    	Date date = df.parse(s);
+    	GregorianCalendar cal =  new GregorianCalendar();
+    	cal.setTime(date);
+    	return cal;
+    }
+   
+    public static String gregorianToString(GregorianCalendar a){
+    	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy-HH:mm");
+    	java.util.Date dateDate = a.getTime();
+    	String retour = dateFormat.format(dateDate);
+    	return retour;
+    }
+    
 }

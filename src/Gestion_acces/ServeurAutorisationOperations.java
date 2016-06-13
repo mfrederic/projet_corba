@@ -10,7 +10,7 @@ public interface ServeurAutorisationOperations
     /**
      * Operation demanderAutor
      */
-    public boolean demanderAutor(Gestion_acces.personne p, short idPorte)
+    public boolean demanderAutor(Gestion_acces.personne p, short idPorte, String date)
         throws Gestion_acces.ServeurAutorisationPackage.porteInconnue;
 
     /**
