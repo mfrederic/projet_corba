@@ -31,11 +31,9 @@ public class MaPlageDate {
 		boolean contient = false;
 
 		if (structPlage.jourDeb.isEmpty() || structPlage.jourFin.isEmpty()) {// Personnel permanent
-
-
 			//Conversion du calendar en heure-centieme
 			int min =gc.get(Calendar.HOUR);
-			float centi = (float)gc.get(Calendar.MINUTE)*(float)100/(float)60/(float)100;
+			float centi = (float)gc.get(Calendar.MINUTE)/(float)60;
 			float timestamp = (float)min+centi;
 			
 			System.out.println(timestamp);
