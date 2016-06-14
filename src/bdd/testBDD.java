@@ -37,19 +37,14 @@ public class testBDD {
 		aut = autoRepo.create(aut);
 		*/
 		
-		String pren = new String();
-
-		System.out.println(pren);
-		System.out.println(pren == null);
-		System.out.println(pren == "");
-		System.out.println(pren.isEmpty());
-		
-		String nom = "";
-
-		System.out.println(nom);
-		System.out.println(nom == null);
-		System.out.println(nom == "");
-		System.out.println(nom.isEmpty());
+		String date = "14/06/16-19:09:00";
+		MaPlageDate mp = new MaPlageDate(new String(), new String(), (float)6.5, (float)20.5);
+		try {
+			System.out.println(mp.contient(MaPlageDate.stringToDateTime(date)));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	

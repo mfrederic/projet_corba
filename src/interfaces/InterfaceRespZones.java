@@ -12,11 +12,13 @@ import java.util.Date;
 import Gestion_acces.autorisation;
 import Gestion_acces.personne;
 import Gestion_acces.structPlage;
+import Gestion_acces.AnnuairePackage.personneInexistante;
 import Gestion_acces.ServeurAuthentificationPackage.accesRefuse;
 import Gestion_acces.ServeurAuthentificationPackage.compteInexistant;
 import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
 import Gestion_acces.ServeurAutorisationPackage.autorisationInexistante;
 import Gestion_acces.ServeurAutorisationPackage.zoneInconnue;
+import annuaire.ClientAnnuaire;
 import authentification.ClientServeurAuthentification;
 import autorisation.ClientServeurAutorisation;
 
@@ -26,6 +28,7 @@ public class InterfaceRespZones {
 	
 	private ClientServeurAutorisation monAutorisation;
 	private ClientServeurAuthentification monAuthentification;
+	private ClientAnnuaire monAnnuaire;
 	
 	private short[] listeZonesResp;
 	private autorisation[] listeAutorisationsResp;
@@ -71,7 +74,7 @@ public class InterfaceRespZones {
 		
 	}
 	
-	public void ajouterAutorisation(short idZone, structPlage plage) throws droitsInsuffisants {
+	public void ajouterAutorisation(short idPersonne, short idZone, structPlage plage) throws droitsInsuffisants, personneInexistante {
 		boolean ok = false;
 		int i = 0;
 		while (i<listeZonesResp.length && !ok) {
@@ -82,7 +85,14 @@ public class InterfaceRespZones {
 			throw new droitsInsuffisants("Vous n'avez pas le droit de gérer les droits de cette zone");
 		else {
 			try {
-				monAutorisation.getMonAutorisation().ajouterAutorisation(responsable, idZone, plage);
+				// Cherche personne
+				personne p = null;
+				p = monAnnuaire.getMonAnnuaire().identifier(idPersonne);
+				if (p == null)
+					throw new personneInexistante(idPersonne);
+				else
+					monAutorisation.getMonAutorisation().ajouterAutorisation(p, idZone, plage);				
+				
 			} catch (zoneInconnue e) {
 				// TODO Auto-generated catch block
 				System.out.println("Zone inconnue (id = " + e.zone + ")");

@@ -16,11 +16,7 @@ public class MaPlageDate {
 	public MaPlageDate() {
 		this.structPlage = new structPlage();
 	}
-	
-	public MaPlageDate(structPlage sP) {
-		this.structPlage = sP;
-	}
-	
+
 	public MaPlageDate(String jourDeb, String jourFin, float heureDeb, float heureFin) {
 		this.structPlage = new structPlage(jourDeb, jourFin, heureDeb, heureFin);
 	}
@@ -33,16 +29,20 @@ public class MaPlageDate {
     public boolean contient (GregorianCalendar gc) {
     	boolean contient = false;
    	
-    	String[] dateDeb = structPlage.jourDeb.split("-");
-    	String[] dateFin = structPlage.jourFin.split("-");
-    	
-    	Calendar calDeb = new GregorianCalendar(Integer.parseInt(dateDeb[2]), Integer.parseInt(dateDeb[1]), 
-    			Integer.parseInt(dateDeb[0]), (int)structPlage.heureDeb, (int)(structPlage.heureDeb-(int)structPlage.heureDeb)*60);
-    	Calendar calFin = new GregorianCalendar(Integer.parseInt(dateFin[2]), Integer.parseInt(dateFin[1]), 
-    			Integer.parseInt(dateFin[0]), (int)structPlage.heureFin, (int)(structPlage.heureFin-(int)structPlage.heureFin)*60);
-
-    	if (gc.after(calDeb) && gc.before(calFin))
-    		contient = true;
+    	if (structPlage.jourDeb.isEmpty() || structPlage.jourFin.isEmpty()) {// Personnel permanent
+    		// Comparer heures uniquement
+    	}
+    	else {
+	    	String[] dateDeb = structPlage.jourDeb.split("/");
+	    	String[] dateFin = structPlage.jourFin.split("/");
+	    	
+	    	Calendar calDeb = new GregorianCalendar(Integer.parseInt(dateDeb[2]), Integer.parseInt(dateDeb[1]), 
+	    			Integer.parseInt(dateDeb[0]), (int)structPlage.heureDeb, (int)(structPlage.heureDeb-(int)structPlage.heureDeb)*60);
+	    	Calendar calFin = new GregorianCalendar(Integer.parseInt(dateFin[2]), Integer.parseInt(dateFin[1]), 
+	    			Integer.parseInt(dateFin[0]), (int)structPlage.heureFin, (int)(structPlage.heureFin-(int)structPlage.heureFin)*60);
+	
+	    	contient = (gc.after(calDeb) && gc.before(calFin));
+    	}
     	
 		return contient;    	
     }

@@ -47,14 +47,14 @@ public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
 		Porte porteBD = null;
 		boolean autorise = false;
 		List<MaPlageDate> listePlages = new ArrayList<MaPlageDate>();
-		GregorianCalendar d = new GregorianCalendar();
+		GregorianCalendar dateGc = new GregorianCalendar();
 		try {
-			d = MaPlageDate.stringToDateTime(date);
+			dateGc = MaPlageDate.stringToDateTime(date);
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(d.toString());
+		System.out.println(dateGc.toString());
 		// BD
 		porteBD = repoPorte.find(porte);
 		
@@ -62,15 +62,17 @@ public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
 			throw new porteInconnue(porte);
 		else {
 			listePlages = repoAutorisation.findAllByPersonneZone(p.idPers, porteBD.getRefZone());
-			if (p.statut == statutPersonne.permanent) { // Personne permanente
-				if (listePlages != null)
-					autorise = true;
-				
-			} else { // Personne temporaire
+			if (listePlages != null) {
+				if (p.statut == statutPersonne.permanent) { // Personne permanente
+					if (listePlages != null)
+						autorise = true;
+					
+				} else { // Personne temporaire
 					Iterator<MaPlageDate> it = listePlages.iterator();
 					while (!autorise && it.hasNext()) {
-						autorise = it.next().contient(d);					
+						autorise = it.next().contient(dateGc);					
 					}
+				}
 			}
 		
 		}
