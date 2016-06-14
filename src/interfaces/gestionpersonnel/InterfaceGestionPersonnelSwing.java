@@ -11,11 +11,11 @@ import javax.swing.JFrame;
 import model.Personne;
 import Gestion_acces.personne;
 
-public class interfaceGestionPersonnelSwing {
+public class InterfaceGestionPersonnelSwing {
 
 	private InterfaceGestionPersonnel cltGestPers;
 	
-	private JFrame frame;
+	private JFrame frmGestionDuPersonnel;
 
 	/**
 	 * Launch the application.
@@ -24,8 +24,8 @@ public class interfaceGestionPersonnelSwing {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					interfaceGestionPersonnelSwing window = new interfaceGestionPersonnelSwing();
-					window.frame.setVisible(true);
+					InterfaceGestionPersonnelSwing window = new InterfaceGestionPersonnelSwing();
+					window.frmGestionDuPersonnel.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -36,7 +36,7 @@ public class interfaceGestionPersonnelSwing {
 	/**
 	 * Create the application.
 	 */
-	public interfaceGestionPersonnelSwing() {
+	public InterfaceGestionPersonnelSwing() {
 		initialize();
 	}
 
@@ -46,20 +46,21 @@ public class interfaceGestionPersonnelSwing {
 	private void initialize() {
 		cltGestPers = new InterfaceGestionPersonnel();
 		
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmGestionDuPersonnel = new JFrame();
+		frmGestionDuPersonnel.setTitle("Gestion du Personnel");
+		frmGestionDuPersonnel.setBounds(100, 100, 585, 405);
+		frmGestionDuPersonnel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		frame.setContentPane(new GPLogin(this));
+		frmGestionDuPersonnel.setContentPane(new GPLogin(this));
 	}
 	
 	public JFrame getFrame() {
-		return this.frame;
+		return this.frmGestionDuPersonnel;
 	}
 	
 	public void setPane(Container c) {
-		frame.setContentPane(c);
-		frame.revalidate();
+		frmGestionDuPersonnel.setContentPane(c);
+		frmGestionDuPersonnel.revalidate();
 	}
 	
 	public InterfaceGestionPersonnel getCltGestPers() {
