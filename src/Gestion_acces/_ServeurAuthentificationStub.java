@@ -285,7 +285,7 @@ public class _ServeurAuthentificationStub extends org.omg.CORBA.portable.ObjectI
     /**
      * Operation supprimerEmpreinte
      */
-    public void supprimerEmpreinte(String user, String mdp)
+    public void supprimerEmpreinte(short idPersonne, String mdp)
         throws Gestion_acces.ServeurAuthentificationPackage.accesRefuse, Gestion_acces.ServeurAuthentificationPackage.compteInexistant, Gestion_acces.ServeurAuthentificationPackage.suppressionInterdite
     {
         while(true)
@@ -296,7 +296,7 @@ public class _ServeurAuthentificationStub extends org.omg.CORBA.portable.ObjectI
                 try
                 {
                     org.omg.CORBA.portable.OutputStream _output = this._request("supprimerEmpreinte",true);
-                    _output.write_string(user);
+                    _output.write_short(idPersonne);
                     _output.write_string(mdp);
                     _input = this._invoke(_output);
                     return;
@@ -338,7 +338,7 @@ public class _ServeurAuthentificationStub extends org.omg.CORBA.portable.ObjectI
                 Gestion_acces.ServeurAuthentificationOperations _self = (Gestion_acces.ServeurAuthentificationOperations) _so.servant;
                 try
                 {
-                    _self.supprimerEmpreinte( user,  mdp);
+                    _self.supprimerEmpreinte( idPersonne,  mdp);
                     return;
                 }
                 finally
@@ -416,7 +416,7 @@ public class _ServeurAuthentificationStub extends org.omg.CORBA.portable.ObjectI
     /**
      * Operation supprimerCompte
      */
-    public short supprimerCompte(String user, String mdp)
+    public void supprimerCompte(short idPersonne, String mdp)
         throws Gestion_acces.ServeurAuthentificationPackage.accesRefuse, Gestion_acces.ServeurAuthentificationPackage.compteInexistant
     {
         while(true)
@@ -427,11 +427,10 @@ public class _ServeurAuthentificationStub extends org.omg.CORBA.portable.ObjectI
                 try
                 {
                     org.omg.CORBA.portable.OutputStream _output = this._request("supprimerCompte",true);
-                    _output.write_string(user);
+                    _output.write_short(idPersonne);
                     _output.write_string(mdp);
                     _input = this._invoke(_output);
-                    short _arg_ret = _input.read_short();
-                    return _arg_ret;
+                    return;
                 }
                 catch(org.omg.CORBA.portable.RemarshalException _exception)
                 {
@@ -465,7 +464,8 @@ public class _ServeurAuthentificationStub extends org.omg.CORBA.portable.ObjectI
                 Gestion_acces.ServeurAuthentificationOperations _self = (Gestion_acces.ServeurAuthentificationOperations) _so.servant;
                 try
                 {
-                    return _self.supprimerCompte( user,  mdp);
+                    _self.supprimerCompte( idPersonne,  mdp);
+                    return;
                 }
                 finally
                 {

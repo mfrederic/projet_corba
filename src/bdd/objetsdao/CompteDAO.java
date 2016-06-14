@@ -140,6 +140,20 @@ public class CompteDAO extends DAO<Compte>{
 		}
 		return null;
 	}
+	
+	public Compte findById(short idPersonne) {
+		try {
+			ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE)
+					.executeQuery("SELECT * FROM \"Compte\" WHERE \"refPersonne\" = '" + idPersonne + "'");
+				
+			if (result.first()) {
+				return find(result.getInt(4));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	@Override
 	public ArrayList<Compte> getInstances() {

@@ -54,14 +54,14 @@ public class InterfaceGestionPersonnel {
 		return authReussie;
 	}
 	
-	public void creerCompte(String nom, String prenom, statutPersonne statut, rolePersonne role, String user, String password) throws droitsInsuffisants {
+	public void creerPersonne(String nom, String prenom, statutPersonne statut, rolePersonne role, String user, String password) throws droitsInsuffisants {
 		short idPers = 0;
 		
 		if ((persConnectee.role == rolePersonne.accueil) || (persConnectee.role == rolePersonne.RH)){
 
 			idPers = monAnnuaire.getMonAnnuaire().creerPersonne(nom, prenom, statut, role);
 			if (idPers == 0)
-				message = "Personne impossible a creer --> compte non cree";
+				message = "Personne impossible a creer --> compte n'a pas pu être créé";
 			else {
 
 				try {
@@ -80,13 +80,13 @@ public class InterfaceGestionPersonnel {
 		}
 	}
 	
-	public void supprimerCompte(String user) throws droitsInsuffisants {
+	public void supprimerPersonne(short idPersonne) throws droitsInsuffisants {
 		short idPers = 0;
 		
 		if ((persConnectee.role == rolePersonne.accueil) || (persConnectee.role == rolePersonne.RH)){
 
 			try {
-				idPers = monAuthentification.getMonAuthentification().supprimerCompte(user, cleServeur);
+				monAuthentification.getMonAuthentification().supprimerCompte(idPersonne, cleServeur);
 				
 				if (idPers > 0)
 					try {
@@ -125,11 +125,11 @@ public class InterfaceGestionPersonnel {
 		}
 	}
 	
-	public void supprimerEmpreinte(String user) throws droitsInsuffisants {
-		if ((persConnectee.role == rolePersonne.accueil) || (persConnectee.role == rolePersonne.RH)){
+	public void supprimerEmpreinte(short idPersonne) throws droitsInsuffisants {
+		if (persConnectee.role == rolePersonne.accueil) {
 
 			try {
-				monAuthentification.getMonAuthentification().supprimerEmpreinte(user, cleServeur);
+				monAuthentification.getMonAuthentification().supprimerEmpreinte(idPersonne, cleServeur);
 				message = "Empreinte supprimee avec succes";
 			} catch (accesRefuse e) {
 				// TODO Auto-generated catch block
@@ -144,7 +144,7 @@ public class InterfaceGestionPersonnel {
 
 		
 		} else {
-			throw new droitsInsuffisants("Acces interdit : role doit etre RH ou Accueil");
+			throw new droitsInsuffisants("Acces interdit : role doit etre Accueil");
 		}
 	}
 	
@@ -167,11 +167,11 @@ public class InterfaceGestionPersonnel {
 	public personne[] chercherPersonnes(String nom, String prenom) throws droitsInsuffisants {
 		// TODO Auto-generated method stub
 		personne[] retour = new personne[0];
-		if (persConnectee.role == rolePersonne.RH) {
+		if ((persConnectee.role == rolePersonne.RH) || (persConnectee.role == rolePersonne.accueil)) {
 			retour = monAnnuaire.getMonAnnuaire().chercherPersonnes(nom, prenom);
 			
 		} else {
-			throw new droitsInsuffisants("Acces interdit : role doit etre RH");
+			throw new droitsInsuffisants("Acces interdit : role doit etre RH ou accueil");
 		}
 		return retour;
 	}

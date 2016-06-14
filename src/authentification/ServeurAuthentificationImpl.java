@@ -161,7 +161,7 @@ public class ServeurAuthentificationImpl extends ServeurAuthentificationPOA{
 	}
 
 	@Override
-	public void supprimerEmpreinte(String user, String mdp)
+	public void supprimerEmpreinte(short idPersonne, String mdp)
 			throws accesRefuse, compteInexistant, suppressionInterdite {
 		// TODO Auto-generated method stub
 		System.out.println("Auth-supprimerEmpreinte");
@@ -171,14 +171,14 @@ public class ServeurAuthentificationImpl extends ServeurAuthentificationPOA{
 			Compte cmpt = new Compte();
 			
 			// BD
-			cmpt = repoCompte.findByUser(user);
+			cmpt = repoCompte.findById(idPersonne);
 			
 			if (cmpt == null) // Contrôle de l'existance du user dans la base
-				throw new compteInexistant(user);
+				throw new compteInexistant("");
 			else { // le compte existe
 				
 				try {
-					p = monAnnuaire.getMonAnnuaire().identifier((short) cmpt.getRefPersonne());
+					p = monAnnuaire.getMonAnnuaire().identifier(idPersonne);
 					
 					if (p.statut == statutPersonne.temporaire) {
 						System.out.println("Empreinte supprimée");
@@ -232,23 +232,21 @@ public class ServeurAuthentificationImpl extends ServeurAuthentificationPOA{
 	}
 
 	@Override
-	public short supprimerCompte(String user, String mdp) throws accesRefuse,
+	public void supprimerCompte(short idPersonne, String mdp) throws accesRefuse,
 			compteInexistant {
 		// TODO Auto-generated method stub
 		System.out.println("Auth-supprimerCompte");
-		short idPers = 0;
 		
 		if (cleServeur.equals(mdp)) { // Clé serveur
 			Compte cmpt = null;
 			
 			// BD
-			cmpt = repoCompte.findByUser(user);
+			cmpt = repoCompte.findById(idPersonne);
 					
 			if (cmpt == null) // Contrôle de l'existance du user dans la base
-				throw new compteInexistant(user);
+				throw new compteInexistant("");
 			
 			else { // le compte existe
-				idPers = (short) cmpt.getRefPersonne();
 				// Suppression du compte
 				repoCompte.delete(cmpt);				
 			}
@@ -256,7 +254,6 @@ public class ServeurAuthentificationImpl extends ServeurAuthentificationPOA{
 			throw new accesRefuse("Mot de passe serveur faux");
 		}
 		
-		return idPers;
 	}
 	
 	@Override

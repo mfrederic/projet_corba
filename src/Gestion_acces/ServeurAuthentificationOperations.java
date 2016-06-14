@@ -34,7 +34,7 @@ public interface ServeurAuthentificationOperations
     /**
      * Operation supprimerEmpreinte
      */
-    public void supprimerEmpreinte(String user, String mdp)
+    public void supprimerEmpreinte(short idPersonne, String mdp)
         throws Gestion_acces.ServeurAuthentificationPackage.accesRefuse, Gestion_acces.ServeurAuthentificationPackage.compteInexistant, Gestion_acces.ServeurAuthentificationPackage.suppressionInterdite;
 
     /**
@@ -46,7 +46,7 @@ public interface ServeurAuthentificationOperations
     /**
      * Operation supprimerCompte
      */
-    public short supprimerCompte(String user, String mdp)
+    public void supprimerCompte(short idPersonne, String mdp)
         throws Gestion_acces.ServeurAuthentificationPackage.accesRefuse, Gestion_acces.ServeurAuthentificationPackage.compteInexistant;
 
     /**

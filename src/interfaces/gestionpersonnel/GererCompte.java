@@ -67,8 +67,8 @@ public class GererCompte extends JPanel {
 		listPersonnes = null;
 		try {
 			listPersonnes = window.getCltGestPers().chercherPersonnes(new String(), new String());
-		} catch (Exception e2) {
-			e2.printStackTrace();
+		} catch (droitsInsuffisants e2) {
+			lblError.setText(e2.raison);
 		}
 		
 		PersonneModel personneModel = new PersonneModel(listPersonnes);

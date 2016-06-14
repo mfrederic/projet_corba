@@ -101,10 +101,10 @@ public class ServeurAuthentificationPOATie extends ServeurAuthentificationPOA
     /**
      * Operation supprimerEmpreinte
      */
-    public void supprimerEmpreinte(String user, String mdp)
+    public void supprimerEmpreinte(short idPersonne, String mdp)
         throws Gestion_acces.ServeurAuthentificationPackage.accesRefuse, Gestion_acces.ServeurAuthentificationPackage.compteInexistant, Gestion_acces.ServeurAuthentificationPackage.suppressionInterdite
     {
-        _tie.supprimerEmpreinte( user,  mdp);
+        _tie.supprimerEmpreinte( idPersonne,  mdp);
     }
 
     /**
@@ -119,10 +119,10 @@ public class ServeurAuthentificationPOATie extends ServeurAuthentificationPOA
     /**
      * Operation supprimerCompte
      */
-    public short supprimerCompte(String user, String mdp)
+    public void supprimerCompte(short idPersonne, String mdp)
         throws Gestion_acces.ServeurAuthentificationPackage.accesRefuse, Gestion_acces.ServeurAuthentificationPackage.compteInexistant
     {
-        return _tie.supprimerCompte( user,  mdp);
+        _tie.supprimerCompte( idPersonne,  mdp);
     }
 
     /**

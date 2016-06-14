@@ -51,9 +51,9 @@ module Gestion_acces {
 		personne authentifier (in string user, in string password, in string mdp) raises(compteInexistant, droitsInsuffisants, accesRefuse); // Depuis le lecteur d'empreinte, l'interface RH ou l'interface resp. zone
 		void ajouterEmpreinte (in string user, in empreinte emp, in string mdp) raises(accesRefuse, compteInexistant, empreinteDejaExistante);
 		void modifierEmpreinte (in string user, in empreinte emp, in string mdp) raises( droitsInsuffisants, accesRefuse, compteInexistant);
-		void supprimerEmpreinte (in string user, in string mdp) raises(accesRefuse, compteInexistant, suppressionInterdite);
+		void supprimerEmpreinte (in short idPersonne, in string mdp) raises(accesRefuse, compteInexistant, suppressionInterdite);
 		void creerCompte (in short idPersonne, in string user, in string password, in string mdp) raises(compteDejaCree, accesRefuse);
-		short supprimerCompte (in string user, in string mdp) raises(accesRefuse, compteInexistant);
+		void supprimerCompte (in short idPersonne, in string mdp) raises(accesRefuse, compteInexistant);
 		void modifierMdp (in string user, in string newMdp, in string mdpServeur) raises(compteInexistant, accesRefuse);
 	};
 

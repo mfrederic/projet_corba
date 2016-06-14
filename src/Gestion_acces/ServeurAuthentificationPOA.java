@@ -183,7 +183,7 @@ public abstract class ServeurAuthentificationPOA extends org.omg.PortableServer.
             final org.omg.CORBA.portable.InputStream _is,
             final org.omg.CORBA.portable.ResponseHandler handler) {
         org.omg.CORBA.portable.OutputStream _output;
-        String arg0_in = _is.read_string();
+        short arg0_in = _is.read_short();
         String arg1_in = _is.read_string();
 
         try
@@ -244,15 +244,14 @@ public abstract class ServeurAuthentificationPOA extends org.omg.PortableServer.
             final org.omg.CORBA.portable.InputStream _is,
             final org.omg.CORBA.portable.ResponseHandler handler) {
         org.omg.CORBA.portable.OutputStream _output;
-        String arg0_in = _is.read_string();
+        short arg0_in = _is.read_short();
         String arg1_in = _is.read_string();
 
         try
         {
-            short _arg_result = supprimerCompte(arg0_in, arg1_in);
+            supprimerCompte(arg0_in, arg1_in);
 
             _output = handler.createReply();
-            _output.write_short(_arg_result);
 
         }
         catch (Gestion_acces.ServeurAuthentificationPackage.accesRefuse _exception)

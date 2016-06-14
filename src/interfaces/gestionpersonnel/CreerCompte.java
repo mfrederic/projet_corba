@@ -115,7 +115,7 @@ public class CreerCompte extends JPanel {
 				lblError.setText("");
 				
 				try {
-					window.getCltGestPers().creerCompte(
+					window.getCltGestPers().creerPersonne(
 							textFieldNom.getText(),
 							textFieldPrenom.getText(),
 							statutPersonne.from_int(comboBoxStatut.getSelectedIndex()),

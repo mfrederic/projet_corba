@@ -109,7 +109,6 @@ public class AnnuaireImpl extends AnnuairePOA{
 		if (pers == null)
 			throw new personneInexistante(idPersonne);
 		else {
-			
 			// BD
 			pers.setNomPersonne(nom);
 			pers.setPrenomPersonne(prenom);
@@ -119,6 +118,7 @@ public class AnnuaireImpl extends AnnuairePOA{
 				pers.setPhotoPersonne(new String());
 			else
 				pers.setPhotoPersonne(pers.getPhotoPersonne());
+			repoPersonne.update(pers);
 			System.out.println("Infos modifiées");
 		}
 	}
