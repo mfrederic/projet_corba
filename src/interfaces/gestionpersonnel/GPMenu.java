@@ -54,6 +54,14 @@ public class GPMenu extends JPanel {
 				window.setPane(new SupprimerEmpreinte(window));
 			}
 		});
+		
+		JButton btnGrerLesComptes = new JButton("G\u00E9rer les comptes");
+		btnGrerLesComptes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				window.setPane(new GererCompte(window));
+			}
+		});
+		panel.add(btnGrerLesComptes);
 		panel.add(btnSupprimerEmpreinte);
 		
 		JButton btnNewButton = new JButton("Deconnexion");
