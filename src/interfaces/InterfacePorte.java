@@ -6,7 +6,7 @@ import java.util.GregorianCalendar;
 import log.ClientJournal;
 import model.Porte;
 import Gestion_acces.personne;
-import Gestion_acces.structPlage;
+import Gestion_acces.porte;
 import Gestion_acces.ServeurAuthentificationPackage.accesRefuse;
 import Gestion_acces.ServeurAutorisationPackage.porteInconnue;
 import authentification.ClientServeurAuthentification;
@@ -73,6 +73,10 @@ public class InterfacePorte {
 		String ts = String.valueOf(gc.get(Calendar.YEAR)) + "-" + String.valueOf(gc.get(Calendar.MONTH)+1) + "-" + String.valueOf(gc.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(gc.get(Calendar.HOUR_OF_DAY)) + ":" + String.valueOf(gc.get(Calendar.MINUTE)) + ":" + String.valueOf(gc.get(Calendar.SECOND)); 
 		
 		monJournal.getMonJournal().journaliser(ts, typeAcces, p, res, commentaire);
+	}
+	
+	public porte[] getPortes() {
+		return monAutorisation.getMonAutorisation().getPortes();
 	}
 
 	public personne getPersIdentifiee() {

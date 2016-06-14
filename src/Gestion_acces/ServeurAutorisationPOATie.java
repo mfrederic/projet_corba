@@ -114,4 +114,12 @@ public class ServeurAutorisationPOATie extends ServeurAutorisationPOA
         return _tie.getZonesResp( resp);
     }
 
+    /**
+     * Operation getPortes
+     */
+    public Gestion_acces.porte[] getPortes()
+    {
+        return _tie.getPortes();
+    }
+
 }

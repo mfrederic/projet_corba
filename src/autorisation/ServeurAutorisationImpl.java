@@ -10,11 +10,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import model.Autorisation;
+import model.Personne;
 import model.Porte;
 import model.Zone;
 import Gestion_acces.ServeurAutorisationPOA;
 import Gestion_acces.autorisation;
 import Gestion_acces.personne;
+import Gestion_acces.porte;
 import Gestion_acces.statutPersonne;
 import Gestion_acces.structPlage;
 import Gestion_acces.ServeurAutorisationPackage.autorisationInexistante;
@@ -205,5 +207,25 @@ public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
 		
 		return retour;
 	}
+
+	@Override
+	public porte[] getPortes() {
+		// TODO Auto-generated method stub
+		ArrayList<Porte> listePortes = repoPorte.getInstances();
+		porte[] listePortesORB = null;
+		
+		if (listePortes == null)
+			listePortesORB = new porte[0];		
+		else {
+			Porte[] listePortesBD = (Porte[]) listePortes.toArray();
+			listePortesORB = new porte[listePortesBD.length];
+			for (int i=0; i<listePortesBD.length; i++) {
+				listePortesORB[i] = new porte((short) listePortesBD[i].getIdPorte(), listePortesBD[i].getLibellePorte(), (short) listePortesBD[i].getRefZone());
+			}
+		}
+		return listePortesORB;
+	}
+	
+	
 
 }

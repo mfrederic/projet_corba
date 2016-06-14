@@ -41,4 +41,9 @@ public interface ServeurAutorisationOperations
      */
     public short[] getZonesResp(Gestion_acces.personne resp);
 
+    /**
+     * Operation getPortes
+     */
+    public Gestion_acces.porte[] getPortes();
+
 }

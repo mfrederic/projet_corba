@@ -27,10 +27,17 @@ module Gestion_acces {
 		short refZone;
 	};
 
+	struct porte {
+		short idPorte;
+		string libellePorte;
+		short refZone;
+	};
+
 	typedef string empreinte;
 	typedef sequence<personne> listePersonnes;
 	typedef sequence<autorisation> listeAutorisations;
 	typedef sequence<short> listeIdZones;
+	typedef sequence<porte> listePortes;
 
 	interface ServeurAuthentification {
 		exception compteDejaCree {string user;};
@@ -61,6 +68,7 @@ module Gestion_acces {
 		void supprimerAutorisation (in short numAutor) raises(autorisationInexistante);
 		listeAutorisations getAutorisationsResp(in listeIdZones zones);
 		listeIdZones getZonesResp(in personne resp);
+		listePortes getPortes();
 	};
 
 	interface Annuaire {

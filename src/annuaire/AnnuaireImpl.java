@@ -153,7 +153,7 @@ public class AnnuaireImpl extends AnnuairePOA{
 		if (listePersonnes == null)
 			listePersORB = new personne[0];		
 		else {
-			Object[] listePersBD = (Object[]) listePersonnes.toArray();
+			Personne[] listePersBD = (Personne[]) listePersonnes.toArray();
 			listePersORB = new personne[listePersBD.length];
 			for (int i=0; i<listePersBD.length; i++) {
 			   listePersORB[i] = personneBDtoORB((Personne) listePersBD[i]);

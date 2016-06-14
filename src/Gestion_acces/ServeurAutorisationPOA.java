@@ -39,6 +39,8 @@ public abstract class ServeurAutorisationPOA extends org.omg.PortableServer.Serv
                 return _invoke_demanderAutor(_is, handler);
         } else if (opName.equals("getAutorisationsResp")) {
                 return _invoke_getAutorisationsResp(_is, handler);
+        } else if (opName.equals("getPortes")) {
+                return _invoke_getPortes(_is, handler);
         } else if (opName.equals("getZonesResp")) {
                 return _invoke_getZonesResp(_is, handler);
         } else if (opName.equals("modifierAutorisation")) {
@@ -165,6 +167,19 @@ public abstract class ServeurAutorisationPOA extends org.omg.PortableServer.Serv
 
         _output = handler.createReply();
         Gestion_acces.listeIdZonesHelper.write(_output,_arg_result);
+
+        return _output;
+    }
+
+    private org.omg.CORBA.portable.OutputStream _invoke_getPortes(
+            final org.omg.CORBA.portable.InputStream _is,
+            final org.omg.CORBA.portable.ResponseHandler handler) {
+        org.omg.CORBA.portable.OutputStream _output;
+
+        Gestion_acces.porte[] _arg_result = getPortes();
+
+        _output = handler.createReply();
+        Gestion_acces.listePortesHelper.write(_output,_arg_result);
 
         return _output;
     }
