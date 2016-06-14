@@ -22,7 +22,7 @@ import Gestion_acces.statutPersonne;
 import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
 
 public class CreerCompte extends JPanel {
-	private interfaceGestionPersonnelSwing window;
+	private InterfaceGestionPersonnelSwing window;
 	
 	private static final long serialVersionUID = 2485760557889406242L;
 	private JTextField textFieldNom;
@@ -36,7 +36,7 @@ public class CreerCompte extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CreerCompte(interfaceGestionPersonnelSwing window) {
+	public CreerCompte(InterfaceGestionPersonnelSwing window) {
 		setLayout(null);
 		this.window = window;
 		

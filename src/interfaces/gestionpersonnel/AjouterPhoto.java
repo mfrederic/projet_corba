@@ -1,6 +1,6 @@
 package interfaces.gestionpersonnel;
 
-import interfaces.gestionpersonnel.interfaceGestionPersonnelSwing.PersonneComboBox;
+import interfaces.gestionpersonnel.InterfaceGestionPersonnelSwing.PersonneComboBox;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -24,7 +24,7 @@ public class AjouterPhoto extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public AjouterPhoto(interfaceGestionPersonnelSwing window) {
+	public AjouterPhoto(InterfaceGestionPersonnelSwing window) {
 		setLayout(null);
 		
 		JLabel lblAouterPhoto = new JLabel("Aouter photo");

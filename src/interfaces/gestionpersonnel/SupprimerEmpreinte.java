@@ -1,5 +1,7 @@
 package interfaces.gestionpersonnel;
 
+import interfaces.gestionpersonnel.InterfaceGestionPersonnelSwing.PersonneComboBox;
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -12,6 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import Gestion_acces.personne;
 import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
 
 public class SupprimerEmpreinte extends JPanel {
@@ -21,7 +24,7 @@ public class SupprimerEmpreinte extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public SupprimerEmpreinte(interfaceGestionPersonnelSwing window) {
+	public SupprimerEmpreinte(InterfaceGestionPersonnelSwing window) {
 		setLayout(null);
 		
 		JLabel lblSupprimerUneEmpreinte = new JLabel("Supprimer une empreinte");
@@ -33,8 +36,13 @@ public class SupprimerEmpreinte extends JPanel {
 		lblUtilisateur.setBounds(10, 50, 101, 14);
 		add(lblUtilisateur);
 		
-		JComboBox<String> comboBox = new JComboBox<String>();
-		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Fred", "Marie", "R\u00E9my"}));
+		personne[] listPersonnes = null;
+		try {
+			listPersonnes = window.getCltGestPers().chercherPersonnes(new String(), new String());
+		} catch (droitsInsuffisants e2) {
+			e2.printStackTrace();
+		}
+		JComboBox<Object> comboBox = new JComboBox<Object>(PersonneComboBox.getInstances(listPersonnes));
 		comboBox.setBounds(10, 76, 284, 20);
 		add(comboBox);
 		
@@ -50,7 +58,8 @@ public class SupprimerEmpreinte extends JPanel {
 		btnSupprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					window.getCltGestPers().supprimerEmpreinte((String) comboBox.getSelectedItem());
+					PersonneComboBox p = (PersonneComboBox) comboBox.getSelectedItem();
+					window.getCltGestPers().supprimerEmpreinte((short) p.getIdPersonne());
 					lblError.setText(window.getCltGestPers().getMessage());
 				} catch (droitsInsuffisants e1) {
 					lblError.setText(e1.raison);
