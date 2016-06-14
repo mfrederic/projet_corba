@@ -98,10 +98,12 @@ public class Personne {
 		}
 		
 		Personne personne = (Personne)o;
-		if(personne.getIdPersonne()!=0 || this.getIdPersonne()!=0)
-			if(this.getNomPersonne()==personne.getNomPersonne())
-				if(this.getPrenomPersonne()==personne.getPrenomPersonne())
+		
+		if(personne.getIdPersonne()!=0 && this.getIdPersonne()!=0){
+			if(this.getNomPersonne().equals(personne.getNomPersonne()))
+				if(this.getPrenomPersonne().equals(personne.getPrenomPersonne()))
 					return true;
+		}
 		else
 			return personne.getIdPersonne()==this.getIdPersonne();
 		return false;
