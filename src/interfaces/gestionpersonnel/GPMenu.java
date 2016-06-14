@@ -17,12 +17,12 @@ public class GPMenu extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public GPMenu(interfaceGestionPersonnelSwing window) {
+	public GPMenu(InterfaceGestionPersonnelSwing window) {
 		setLayout(null);
 		
 		JLabel lblGestionCompte = new JLabel("Menu");
 		lblGestionCompte.setFont(new Font("Calibri", Font.BOLD, 18));
-		lblGestionCompte.setBounds(10, 11, 230, 26);
+		lblGestionCompte.setBounds(80, 6, 51, 22);
 		add(lblGestionCompte);
 		
 		JPanel panel = new JPanel();
@@ -54,6 +54,14 @@ public class GPMenu extends JPanel {
 				window.setPane(new SupprimerEmpreinte(window));
 			}
 		});
+		
+		JButton btnGrerLesComptes = new JButton("G\u00E9rer les comptes");
+		btnGrerLesComptes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				window.setPane(new GererCompte(window));
+			}
+		});
+		panel.add(btnGrerLesComptes);
 		panel.add(btnSupprimerEmpreinte);
 		
 		JButton btnNewButton = new JButton("Deconnexion");

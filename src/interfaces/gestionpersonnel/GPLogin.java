@@ -1,26 +1,20 @@
 package interfaces.gestionpersonnel;
 
-import interfaces.empreintes.EmpreinteMenu;
-
-import javax.swing.JPanel;
-import javax.swing.SpringLayout;
-import javax.swing.JLabel;
-
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
 
-import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
 public class GPLogin extends JPanel {
-	
+	private static final long serialVersionUID = 8923433902787752765L;
 	private JLabel lblError;
 	private JTextField textFieldLogin;
 	private JPasswordField passwordField;
@@ -28,11 +22,11 @@ public class GPLogin extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public GPLogin(interfaceGestionPersonnelSwing window) {
+	public GPLogin(InterfaceGestionPersonnelSwing window) {
 		setLayout(null);
 		
 		JLabel label = new JLabel("Connexion");
-		label.setBounds(10, 10, 81, 23);
+		label.setBounds(10, 10, 99, 22);
 		label.setFont(new Font("Calibri", Font.BOLD, 18));
 		add(label);
 		
@@ -68,7 +62,7 @@ public class GPLogin extends JPanel {
 					try {
 						if (window.getCltGestPers().authentifier(login, password)) {
 							lblError.setText(window.getCltGestPers().getMessage());
-							window.setPane(new GPMenu(window));
+							window.setPane(new GPGestion(window));
 							
 						} else
 							lblError.setText(window.getCltGestPers().getMessage());

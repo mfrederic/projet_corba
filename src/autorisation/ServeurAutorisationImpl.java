@@ -2,6 +2,7 @@ package autorisation;
 
 import helpers.MaPlageDate;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -9,11 +10,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import model.Autorisation;
+import model.Personne;
 import model.Porte;
 import model.Zone;
 import Gestion_acces.ServeurAutorisationPOA;
 import Gestion_acces.autorisation;
 import Gestion_acces.personne;
+import Gestion_acces.porte;
+import Gestion_acces.statutPersonne;
 import Gestion_acces.structPlage;
 import Gestion_acces.ServeurAutorisationPackage.autorisationInexistante;
 import Gestion_acces.ServeurAutorisationPackage.porteInconnue;
@@ -35,7 +39,7 @@ public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
 	}
 
 	@Override
-	public boolean demanderAutor(personne p, short porte)
+	public boolean demanderAutor(personne p, short porte, String date)
 			throws porteInconnue {
 		// TODO Auto-generated method stub
 		System.out.println("Autorisation-demanderAutor");
@@ -43,8 +47,14 @@ public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
 		Porte porteBD = null;
 		boolean autorise = false;
 		List<MaPlageDate> listePlages = new ArrayList<MaPlageDate>();
-		Calendar date = new GregorianCalendar();
-		
+		GregorianCalendar dateGc = new GregorianCalendar();
+		try {
+			dateGc = MaPlageDate.stringToDateTime(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println(dateGc.toString());
 		// BD
 		porteBD = repoPorte.find(porte);
 		
@@ -52,10 +62,19 @@ public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
 			throw new porteInconnue(porte);
 		else {
 			listePlages = repoAutorisation.findAllByPersonneZone(p.idPers, porteBD.getRefZone());
-			Iterator<MaPlageDate> it = listePlages.iterator();
-			while (!autorise && it.hasNext()) {
-				autorise = it.next().contient(date);
+			if (listePlages != null) {
+				if (p.statut == statutPersonne.permanent) { // Personne permanente
+					if (listePlages != null)
+						autorise = true;
+					
+				} else { // Personne temporaire
+					Iterator<MaPlageDate> it = listePlages.iterator();
+					while (!autorise && it.hasNext()) {
+						autorise = it.next().contient(dateGc);					
+					}
+				}
 			}
+		
 		}
 		
 		return autorise;
@@ -190,5 +209,25 @@ public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
 		
 		return retour;
 	}
+
+	@Override
+	public porte[] getPortes() {
+		// TODO Auto-generated method stub
+		ArrayList<Porte> listePortes = repoPorte.getInstances();
+		porte[] listePortesORB = null;
+		
+		if (listePortes == null)
+			listePortesORB = new porte[0];		
+		else {
+			Porte[] listePortesBD = (Porte[]) listePortes.toArray();
+			listePortesORB = new porte[listePortesBD.length];
+			for (int i=0; i<listePortesBD.length; i++) {
+				listePortesORB[i] = new porte((short) listePortesBD[i].getIdPorte(), listePortesBD[i].getLibellePorte(), (short) listePortesBD[i].getRefZone());
+			}
+		}
+		return listePortesORB;
+	}
+	
+	
 
 }

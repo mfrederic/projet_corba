@@ -107,6 +107,15 @@ public class AnnuairePOATie extends AnnuairePOA
     }
 
     /**
+     * Operation supprimerPersonne
+     */
+    public void supprimerPersonne(short idPersonne)
+        throws Gestion_acces.AnnuairePackage.personneInexistante
+    {
+        _tie.supprimerPersonne( idPersonne);
+    }
+
+    /**
      * Operation chercherPersonnes
      */
     public Gestion_acces.personne[] chercherPersonnes(String nom, String prenom)

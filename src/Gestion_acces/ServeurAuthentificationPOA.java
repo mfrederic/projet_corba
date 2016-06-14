@@ -45,6 +45,8 @@ public abstract class ServeurAuthentificationPOA extends org.omg.PortableServer.
                 return _invoke_modifierEmpreinte(_is, handler);
         } else if (opName.equals("modifierMdp")) {
                 return _invoke_modifierMdp(_is, handler);
+        } else if (opName.equals("supprimerCompte")) {
+                return _invoke_supprimerCompte(_is, handler);
         } else if (opName.equals("supprimerEmpreinte")) {
                 return _invoke_supprimerEmpreinte(_is, handler);
         } else {
@@ -181,7 +183,7 @@ public abstract class ServeurAuthentificationPOA extends org.omg.PortableServer.
             final org.omg.CORBA.portable.InputStream _is,
             final org.omg.CORBA.portable.ResponseHandler handler) {
         org.omg.CORBA.portable.OutputStream _output;
-        String arg0_in = _is.read_string();
+        short arg0_in = _is.read_short();
         String arg1_in = _is.read_string();
 
         try
@@ -234,6 +236,33 @@ public abstract class ServeurAuthentificationPOA extends org.omg.PortableServer.
         {
             _output = handler.createExceptionReply();
             Gestion_acces.ServeurAuthentificationPackage.accesRefuseHelper.write(_output,_exception);
+        }
+        return _output;
+    }
+
+    private org.omg.CORBA.portable.OutputStream _invoke_supprimerCompte(
+            final org.omg.CORBA.portable.InputStream _is,
+            final org.omg.CORBA.portable.ResponseHandler handler) {
+        org.omg.CORBA.portable.OutputStream _output;
+        short arg0_in = _is.read_short();
+        String arg1_in = _is.read_string();
+
+        try
+        {
+            supprimerCompte(arg0_in, arg1_in);
+
+            _output = handler.createReply();
+
+        }
+        catch (Gestion_acces.ServeurAuthentificationPackage.accesRefuse _exception)
+        {
+            _output = handler.createExceptionReply();
+            Gestion_acces.ServeurAuthentificationPackage.accesRefuseHelper.write(_output,_exception);
+        }
+        catch (Gestion_acces.ServeurAuthentificationPackage.compteInexistant _exception)
+        {
+            _output = handler.createExceptionReply();
+            Gestion_acces.ServeurAuthentificationPackage.compteInexistantHelper.write(_output,_exception);
         }
         return _output;
     }

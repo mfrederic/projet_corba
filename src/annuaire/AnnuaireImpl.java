@@ -86,7 +86,7 @@ public class AnnuaireImpl extends AnnuairePOA{
 			
 			// BD
 			pers.setNomPersonne(pers.getNomPersonne());
-			pers.setPrenomPersonne(pers.getNomPersonne());
+			pers.setPrenomPersonne(pers.getPrenomPersonne());
 			pers.setStatutPersonne(pers.getStatutPersonne().toString());
 			pers.setRolePersonne(pers.getRolePersonne().toString());
 			pers.setPhotoPersonne(ph);			
@@ -109,7 +109,6 @@ public class AnnuaireImpl extends AnnuairePOA{
 		if (pers == null)
 			throw new personneInexistante(idPersonne);
 		else {
-			
 			// BD
 			pers.setNomPersonne(nom);
 			pers.setPrenomPersonne(prenom);
@@ -119,29 +118,49 @@ public class AnnuaireImpl extends AnnuairePOA{
 				pers.setPhotoPersonne(new String());
 			else
 				pers.setPhotoPersonne(pers.getPhotoPersonne());
+			repoPersonne.update(pers);
 			System.out.println("Infos modifiées");
 		}
 	}
 
 	@Override
-	public personne[] chercherPersonnes(String nom, String prenom) {
+	public void supprimerPersonne(short idPersonne) throws personneInexistante {
 		// TODO Auto-generated method stub
+		System.out.println("Annuaire-supprimerPersonne");
+		Personne pers = new Personne();
 		
-		ArrayList<Personne> listePersonnes = repoPersonne.getByNomPrenom(nom, prenom);
-		personne[] listePersORB = new personne[0];
+		pers = repoPersonne.find(idPersonne);
+
+		if (pers == null)
+			throw new personneInexistante(idPersonne);
+		else {
+			
+			// BD
+			repoPersonne.delete(pers);
+		}
+	}
+
+	@Override
+	public personne[] chercherPersonnes(String nom, String prenom) {
+		ArrayList<Personne> listePersonnes;
+		personne[] listePersORB = null;
+		
+		if (nom.isEmpty() && prenom.isEmpty())
+			listePersonnes = repoPersonne.getInstances();
+		else
+			listePersonnes = repoPersonne.getByNomPrenom(nom, prenom);
 
 		if (listePersonnes == null)
-			return new personne[0];
-		
+			listePersORB = new personne[0];		
 		else {
-			Personne[] listePersBD = (Personne[]) listePersonnes.toArray();
+			Personne[] listePersBD = new Personne[listePersonnes.size()];
+			listePersBD = (Personne[]) listePersonnes.toArray(listePersBD);
 			listePersORB = new personne[listePersBD.length];
 			for (int i=0; i<listePersBD.length; i++) {
-			   listePersORB[i] = personneBDtoORB(listePersBD[i]);
+			   listePersORB[i] = personneBDtoORB((Personne) listePersBD[i]);
 			}
-		   
-		   return listePersORB;
 		}
+		return listePersORB;
 	}
 	
 	private personne personneBDtoORB(Personne p) {
@@ -175,5 +194,6 @@ public class AnnuaireImpl extends AnnuairePOA{
 		}
 		return new personne((short) p.getIdPersonne(), p.getNomPersonne(), p.getPrenomPersonne(), p.getPhotoPersonne(), statut, role);	
 	}
+
 
 }

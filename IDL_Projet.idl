@@ -3,10 +3,10 @@ module Gestion_acces {
 	enum rolePersonne {RH, accueil, basique};
 
 	struct structPlage {
-		string jourDeb; //jj-mm-aa
-		string jourFin; //jj-mm-aa
-		float heureDeb; //heures centième
-		float heureFin; //heures centième
+		string jourDeb; // dd/MM/yyyy
+		string jourFin; // dd/MM/yyyy
+		float heureDeb; // heures centième
+		float heureFin; // heures centième
 	};
 
 	typedef string photo;
@@ -27,10 +27,17 @@ module Gestion_acces {
 		short refZone;
 	};
 
+	struct porte {
+		short idPorte;
+		string libellePorte;
+		short refZone;
+	};
+
 	typedef string empreinte;
 	typedef sequence<personne> listePersonnes;
 	typedef sequence<autorisation> listeAutorisations;
 	typedef sequence<short> listeIdZones;
+	typedef sequence<porte> listePortes;
 
 	interface ServeurAuthentification {
 		exception compteDejaCree {string user;};
@@ -44,8 +51,9 @@ module Gestion_acces {
 		personne authentifier (in string user, in string password, in string mdp) raises(compteInexistant, droitsInsuffisants, accesRefuse); // Depuis le lecteur d'empreinte, l'interface RH ou l'interface resp. zone
 		void ajouterEmpreinte (in string user, in empreinte emp, in string mdp) raises(accesRefuse, compteInexistant, empreinteDejaExistante);
 		void modifierEmpreinte (in string user, in empreinte emp, in string mdp) raises( droitsInsuffisants, accesRefuse, compteInexistant);
-		void supprimerEmpreinte (in string user, in string mdp) raises(accesRefuse, compteInexistant, suppressionInterdite);
+		void supprimerEmpreinte (in short idPersonne, in string mdp) raises(accesRefuse, compteInexistant, suppressionInterdite);
 		void creerCompte (in short idPersonne, in string user, in string password, in string mdp) raises(compteDejaCree, accesRefuse);
+		void supprimerCompte (in short idPersonne, in string mdp) raises(accesRefuse, compteInexistant);
 		void modifierMdp (in string user, in string newMdp, in string mdpServeur) raises(compteInexistant, accesRefuse);
 	};
 
@@ -54,12 +62,13 @@ module Gestion_acces {
 		exception porteInconnue {short idPorte;};
 		exception autorisationInexistante {short idAutorisation;};
 		
-		boolean demanderAutor (in personne p, in short idPorte) raises(porteInconnue); // Depuis Porte
+		boolean demanderAutor (in personne p, in short idPorte, in string date) raises(porteInconnue); // Depuis Porte
 		void ajouterAutorisation (in personne p, in short zone, in structPlage plage) raises(zoneInconnue);
 		void modifierAutorisation (in short numAutor, in structPlage newPlage) raises(autorisationInexistante);
 		void supprimerAutorisation (in short numAutor) raises(autorisationInexistante);
 		listeAutorisations getAutorisationsResp(in listeIdZones zones);
 		listeIdZones getZonesResp(in personne resp);
+		listePortes getPortes();
 	};
 
 	interface Annuaire {
@@ -70,6 +79,7 @@ module Gestion_acces {
 		short creerPersonne (in string nom, in string prenom, in statutPersonne statut, in rolePersonne role);
 		void ajouterPhoto (in short idPersonne, in photo ph) raises(personneInexistante);
 		void modifierInfos (in short idPersonne, in string nom, in string prenom, in statutPersonne statut, in rolePersonne role) raises(personneInexistante);
+		void supprimerPersonne (in short idPersonne) raises(personneInexistante);
 		listePersonnes chercherPersonnes(in string nom, in string prenom);
 	};
 

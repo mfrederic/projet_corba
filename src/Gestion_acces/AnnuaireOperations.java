@@ -37,6 +37,12 @@ public interface AnnuaireOperations
         throws Gestion_acces.AnnuairePackage.personneInexistante;
 
     /**
+     * Operation supprimerPersonne
+     */
+    public void supprimerPersonne(short idPersonne)
+        throws Gestion_acces.AnnuairePackage.personneInexistante;
+
+    /**
      * Operation chercherPersonnes
      */
     public Gestion_acces.personne[] chercherPersonnes(String nom, String prenom);

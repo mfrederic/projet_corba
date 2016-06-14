@@ -10,7 +10,7 @@ public interface ServeurAutorisationOperations
     /**
      * Operation demanderAutor
      */
-    public boolean demanderAutor(Gestion_acces.personne p, short idPorte)
+    public boolean demanderAutor(Gestion_acces.personne p, short idPorte, String date)
         throws Gestion_acces.ServeurAutorisationPackage.porteInconnue;
 
     /**
@@ -40,5 +40,10 @@ public interface ServeurAutorisationOperations
      * Operation getZonesResp
      */
     public short[] getZonesResp(Gestion_acces.personne resp);
+
+    /**
+     * Operation getPortes
+     */
+    public Gestion_acces.porte[] getPortes();
 
 }

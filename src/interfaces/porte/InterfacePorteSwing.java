@@ -1,64 +1,42 @@
 package interfaces.porte;
 
-import interfaces.InterfaceEmpreinte;
-import interfaces.empreintes.EmpreinteMenu;
+import helpers.MaPlageDate;
+import interfaces.InterfacePorte;
 
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.EventQueue;
-import java.awt.List;
-
-import javax.swing.JFrame;
-
-import Gestion_acces.personne;
-import Gestion_acces.ServeurAutorisationPackage.porteInconnue;
-import authentification.ClientServeurAuthentification;
-import autorisation.ClientServeurAutorisation;
-import bdd.objetsdao.PorteDAO;
-
-import javax.swing.JLabel;
-
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import javax.swing.ComboBoxModel;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListDataListener;
 
-import log.ClientJournal;
 import model.Porte;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-import javax.swing.JSeparator;
-import javax.swing.JCheckBox;
-
-import java.awt.Color;
-
-import javax.swing.SwingConstants;
+import bdd.objetsdao.PorteDAO;
 
 public class InterfacePorteSwing {
 	private static final String _cleServeur = "stp";
 	
-	private InterfaceEmpreinte cltEmpreintes;
-	private ClientServeurAuthentification monAuthentification;
-	private ClientServeurAutorisation monAutorisation;
-	private log.ClientJournal monJournal;
+	private InterfacePorte cltPorte;
 	
 	private ArrayList<Porte> listePorte;
 	private Porte currentPorte;
 	
-	private String message;
-	private short idPorte;
-	
 	private JFrame frame;
-	private JTextField textFieldLogin;
-	private JPasswordField passwordField;
+	private JTextField textFieldEmpreinte;
+	private JTextField textFieldPhoto;
 
 	private JComboBox<Porte> comboBox;
 	private JLabel lblZone;
@@ -93,108 +71,81 @@ public class InterfacePorteSwing {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	@SuppressWarnings("unchecked")
 	private void initialize() {
 		listePorte = new PorteDAO().getInstances();
 		
-		cltEmpreintes = new InterfaceEmpreinte();
-		monAuthentification = new ClientServeurAuthentification();
-		monAutorisation = new ClientServeurAutorisation();
-		monJournal = new ClientJournal();
+		cltPorte = new InterfacePorte();
 		currentPorte = null;
 		
 		frame = new JFrame();
-		frame.setBounds(100, 100, 445, 324);
+		frame.setBounds(100, 100, 369, 269);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JLabel lblOuvrirLaPorte = new JLabel("Ouvrir la porte");
 		lblOuvrirLaPorte.setFont(new Font("Calibri", Font.BOLD, 18));
-		lblOuvrirLaPorte.setBounds(10, 11, 136, 29);
+		lblOuvrirLaPorte.setBounds(10, 11, 138, 22);
 		frame.getContentPane().add(lblOuvrirLaPorte);
 		
-		JLabel lblLogin = new JLabel("Login");
-		lblLogin.setFont(new Font("Calibri", Font.PLAIN, 11));
-		lblLogin.setBounds(10, 51, 100, 14);
-		frame.getContentPane().add(lblLogin);
+		JLabel lblEmpreinte = new JLabel("Empreinte");
+		lblEmpreinte.setFont(new Font("Calibri", Font.PLAIN, 11));
+		lblEmpreinte.setBounds(10, 51, 100, 14);
+		frame.getContentPane().add(lblEmpreinte);
 		
-		textFieldLogin = new JTextField();
-		textFieldLogin.setFont(new Font("Calibri", Font.PLAIN, 11));
-		lblLogin.setLabelFor(textFieldLogin);
-		textFieldLogin.setBounds(120, 48, 136, 20);
-		frame.getContentPane().add(textFieldLogin);
-		textFieldLogin.setColumns(10);
+		textFieldEmpreinte = new JTextField();
+		textFieldEmpreinte.setFont(new Font("Calibri", Font.PLAIN, 11));
+		lblEmpreinte.setLabelFor(textFieldEmpreinte);
+		textFieldEmpreinte.setBounds(82, 51, 107, 20);
+		frame.getContentPane().add(textFieldEmpreinte);
+		textFieldEmpreinte.setColumns(10);
 		
-		JLabel lblPassword = new JLabel("Password");
-		lblPassword.setFont(new Font("Calibri", Font.PLAIN, 11));
-		lblPassword.setBounds(10, 83, 100, 14);
-		frame.getContentPane().add(lblPassword);
+		JLabel lblPhoto = new JLabel("Photo");
+		lblPhoto.setFont(new Font("Calibri", Font.PLAIN, 11));
+		lblPhoto.setBounds(10, 83, 100, 14);
+		frame.getContentPane().add(lblPhoto);
 		
-		passwordField = new JPasswordField();
-		passwordField.setFont(new Font("Calibri", Font.PLAIN, 11));
-		lblPassword.setLabelFor(passwordField);
-		passwordField.setBounds(120, 80, 136, 20);
-		frame.getContentPane().add(passwordField);
+		textFieldPhoto = new JTextField();
+		textFieldPhoto.setFont(new Font("Calibri", Font.PLAIN, 11));
+		lblPhoto.setLabelFor(textFieldPhoto);
+		textFieldPhoto.setBounds(82, 80, 107, 20);
+		frame.getContentPane().add(textFieldPhoto);
 		
 		JButton btnOuvrir = new JButton("Ouvrir");
 		btnOuvrir.setFont(new Font("Calibri", Font.PLAIN, 11));
 		btnOuvrir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				boolean autorisation = false;
-				String login = textFieldLogin.getText();
-				String password = new String(passwordField.getPassword());
+				String empreinte = textFieldEmpreinte.getText();
+				String photo = new String(textFieldPhoto.getText());
 				
 				if(currentPorte == null) {
 					lblError.setText("Il faut selectionner une porte.");
 					return;
 				}
 				
-				if(login.length() == 0 || password.length() == 0) {
+				if(empreinte.length() == 0 || photo.length() == 0) {
 					lblError.setText("Le login et password doivent etre renseignes.");
 					return;
 				}
 			
-				else if (getCltEmpreintes().authentifier(login, password)) {
-					if (getCltEmpreintes().getPersConnectee().idPers == 0)
-						lblError.setText("Acces refuse : personne inconnue");
-					else {
-						try {
-							autorisation = monAutorisation.getMonAutorisation().demanderAutor(
-									getCltEmpreintes().getPersConnectee(),
-									idPorte);
-						} catch (porteInconnue e) {
-							lblError.setText("Porte inconnue (id = " + e.idPorte + ")");
-						} catch (Exception e) {
-							lblError.setText("Une erreur inconnu est survenue.");
-							e.printStackTrace();
-							return;
-						}
-						
-						if (autorisation)
-							lblError.setText("Bienvenue " + getCltEmpreintes().getPersConnectee().prenom + " " + getCltEmpreintes().getPersConnectee().nom);
-						else
-							lblError.setText("Acces refuse : personne non autorisee a entrer");
-					}
-					
-				} else
-					lblError.setText(getCltEmpreintes().getMessage());
-
-				journaliser("Entree", getCltEmpreintes().getPersConnectee(), autorisation, message, textFieldTimestamp.getText());
+				cltPorte.accesPorte(empreinte, photo, 1, textFieldTimestamp.getText());
+				lblError.setText(cltPorte.getMessage());
 			}
 		});
-		btnOuvrir.setBounds(120, 150, 136, 23);
+		btnOuvrir.setBounds(219, 153, 79, 29);
 		frame.getContentPane().add(btnOuvrir);
 		
 		comboBox = new JComboBox<Porte>(setComboBoxModel(listePorte));
 		comboBox.setFont(new Font("Calibri", Font.PLAIN, 11));
+		comboBox.setSelectedIndex(0);
 		comboBox.addActionListener (new ActionListener () {
 		    public void actionPerformed(ActionEvent e) {
 		    	currentPorte = (Porte)comboBox.getSelectedItem();
+		    	cltPorte.setPorte(currentPorte);
 		    	lblZone.setText("Zone " + currentPorte.getRefZone());
 		    }
 		});
 		comboBox.setEditable(true);
-		comboBox.setBounds(156, 16, 100, 20);
+		comboBox.setBounds(160, 15, 107, 20);
 		frame.getContentPane().add(comboBox);
 		
 		lblZone = new JLabel("");
@@ -205,12 +156,12 @@ public class InterfacePorteSwing {
 		separator.setBounds(10, 111, 246, 2);
 		frame.getContentPane().add(separator);
 
-		Calendar gc = new GregorianCalendar();
-		String ts = String.valueOf(gc.get(Calendar.YEAR)) + "-" + String.valueOf(gc.get(Calendar.MONTH)+1) + "-" + String.valueOf(gc.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(gc.get(Calendar.HOUR_OF_DAY)) + ":" + String.valueOf(gc.get(Calendar.MINUTE)) + ":" + String.valueOf(gc.get(Calendar.SECOND)); 
+		GregorianCalendar gc = new GregorianCalendar();
+		String ts = MaPlageDate.gregorianToString(gc);
 		textFieldTimestamp = new JTextField(ts);
 		textFieldTimestamp.setFont(new Font("Calibri", Font.PLAIN, 11));
 		textFieldTimestamp.setEditable(false);
-		textFieldTimestamp.setBounds(156, 121, 100, 20);
+		textFieldTimestamp.setBounds(144, 121, 152, 20);
 		frame.getContentPane().add(textFieldTimestamp);
 		textFieldTimestamp.setColumns(10);
 		
@@ -221,8 +172,8 @@ public class InterfacePorteSwing {
 		chckbxDateAutomatique.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Calendar gc = new GregorianCalendar();
-				String ts = String.valueOf(gc.get(Calendar.YEAR)) + "-" + String.valueOf(gc.get(Calendar.MONTH)+1) + "-" + String.valueOf(gc.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(gc.get(Calendar.HOUR_OF_DAY)) + ":" + String.valueOf(gc.get(Calendar.MINUTE)) + ":" + String.valueOf(gc.get(Calendar.SECOND)); 
+				GregorianCalendar gc = new GregorianCalendar();
+				String ts = MaPlageDate.gregorianToString(gc);
 				
 				if(chckbxDateAutomatique.isSelected()) {
 					textFieldTimestamp.setText(ts);
@@ -250,26 +201,10 @@ public class InterfacePorteSwing {
 			}
 		});
 		btnQuitter.setFont(new Font("Calibri", Font.PLAIN, 11));
-		btnQuitter.setBounds(10, 150, 89, 23);
+		btnQuitter.setBounds(136, 153, 82, 29);
 		frame.getContentPane().add(btnQuitter);
 		
 		//setPane(new MonCompteLogin(this));
-	}
-	
-
-	
-	public void journaliser(String typeAcces, personne p, boolean res, String commentaire) {
-		Calendar gc = new GregorianCalendar();
-		String ts = String.valueOf(gc.get(Calendar.YEAR)) + "-" + String.valueOf(gc.get(Calendar.MONTH)+1) + "-" + String.valueOf(gc.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(gc.get(Calendar.HOUR_OF_DAY)) + ":" + String.valueOf(gc.get(Calendar.MINUTE)) + ":" + String.valueOf(gc.get(Calendar.SECOND)); 
-		journaliser(typeAcces, p, res, commentaire, ts);
-	}
-	
-	public void journaliser(String typeAcces, personne p, boolean res, String commentaire, String timestamp) {
-		if(timestamp.length() == 0) {
-			journaliser(typeAcces, p, res, commentaire);
-			return;
-		}
-		monJournal.getMonJournal().journaliser(timestamp, typeAcces, p, res, commentaire);
 	}
 	
 	public JFrame getFrame() {
@@ -285,38 +220,10 @@ public class InterfacePorteSwing {
 		return _cleServeur;
 	}
 
-	public InterfaceEmpreinte getCltEmpreintes() {
-		return cltEmpreintes;
+	public InterfacePorte getCltPorte() {
+		return cltPorte;
 	}
 
-	public void setCltEmpreintes(InterfaceEmpreinte cltEmpreintes) {
-		this.cltEmpreintes = cltEmpreintes;
-	}
-
-	public ClientServeurAuthentification getMonAuthentification() {
-		return monAuthentification;
-	}
-
-	public void setMonAuthentification(ClientServeurAuthentification monAuthentification) {
-		this.monAuthentification = monAuthentification;
-	}
-
-	public ClientServeurAutorisation getMonAutorisation() {
-		return monAutorisation;
-	}
-
-	public void setMonAutorisation(ClientServeurAutorisation monAutorisation) {
-		this.monAutorisation = monAutorisation;
-	}
-
-	public log.ClientJournal getMonJournal() {
-		return monJournal;
-	}
-
-	public void setMonJournal(log.ClientJournal monJournal) {
-		this.monJournal = monJournal;
-	}
-	
 	public ComboBoxModel<Porte> setComboBoxModel(ArrayList<Porte> listePorte) {
 		
 		return new ComboBoxModel<Porte>() {

@@ -1,8 +1,5 @@
 package interfaces;
 
-import java.util.ArrayList;
-
-import model.Personne;
 import Gestion_acces.personne;
 import Gestion_acces.rolePersonne;
 import Gestion_acces.statutPersonne;
@@ -30,105 +27,6 @@ public class InterfaceGestionPersonnel {
 		persConnectee = null;
 	}
 	
-	public static void main(String args[]) {
-/*
-		monAuthentification = new ClientServeurAuthentification();
-		monAnnuaire = new ClientAnnuaire();
-		
-		authReussie = false;
-		
-		while (!authReussie) {
-			try {
-				System.out.println("user;password");
-				BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-				String s[] = in.readLine().split(";");
-				
-			if (s.length > 1) {				
-				authentifier(s[0], s[1]);
-			}
-				
-				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}		
-			
-		}
-		
-		System.out.println("Que voulez-vous faire ?");
-		System.out.println("1. Créer Compte");
-		System.out.println("2. Ajouter photo");
-		System.out.println("3. Supprimer empreinte");
-        
-		try {
-			BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-	        String choix = in.readLine();
-			
-	        boolean ok = false;
-    		String s[] = null;
-    		
-			switch (choix) {			
-	        	case "1": 
-	        		while (!ok) {
-	        			System.out.println("nom;prenom;statut;role;user;motdepasse");
-		        		s = in.readLine().split(";");
-	        			if (s.length > 5)
-	        				ok = true;
-	        		}
-	        		
-					try {
-						creerCompte(s[0], s[1], statutPersonne.from_int(Integer.parseInt(s[2])), rolePersonne.from_int(Integer.parseInt(s[2])), s[4], s[5]);
-					} catch (NumberFormatException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (droitsInsuffisants e1) {
-						// TODO Auto-generated catch block
-						System.out.println("Droits insuffisants : " + e1.raison);
-					}
-
-	        		break;
-	        		
-	        	case "2":
-	        		while (!ok) {
-	        			System.out.println("idPersonne;photo");
-		        		s = in.readLine().split(";");
-	        			if (s.length > 1)
-	        				ok = true;
-	        		}
-
-					try {
-						ajouterPhoto(Short.parseShort(s[0]), s[1]);
-					} catch (NumberFormatException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (droitsInsuffisants e1) {
-						// TODO Auto-generated catch block
-						System.out.println("Droits insuffisants : " + e1.raison);
-					}
-	        		break;
-					
-	        	case "3":
-
-	        			System.out.println("user");
-					try {
-						supprimerEmpreinte(in.readLine());
-					} catch (droitsInsuffisants e) {
-						// TODO Auto-generated catch block
-						System.out.println("Droits insuffisants : " + e.raison);
-					}
-
-	        		break;
-	        		
-	        	default:
-	        		break;
-			}
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}        
-*/       
-	}
-
 	public boolean authentifier(String user, String password) throws droitsInsuffisants {
 		boolean authReussie = false;
 		
@@ -140,7 +38,7 @@ public class InterfaceGestionPersonnel {
 			else if ((persConnectee.role == rolePersonne.accueil) || (persConnectee.role == rolePersonne.RH)) {
 				authReussie = true;
 			} else {
-				throw new droitsInsuffisants("Accès interdit : rôle doit être RH ou Accueil");
+				throw new droitsInsuffisants("Acces interdit : role doit etre RH ou Accueil");
 			}
 		} catch (compteInexistant e) {
 			// TODO Auto-generated catch block
@@ -150,35 +48,64 @@ public class InterfaceGestionPersonnel {
 			message = "Droits insuffisants : " + e.raison;
 		} catch (accesRefuse e) {
 			// TODO Auto-generated catch block
-			message = "Accès refusé : " + e.raison;
+			message = "Acces refuse : " + e.raison;
 		}
 		
 		return authReussie;
 	}
 	
-	public void creerCompte(String nom, String prenom, statutPersonne statut, rolePersonne role, String user, String password) throws droitsInsuffisants {
+	public void creerPersonne(String nom, String prenom, statutPersonne statut, rolePersonne role, String user, String password) throws droitsInsuffisants {
 		short idPers = 0;
 		
 		if ((persConnectee.role == rolePersonne.accueil) || (persConnectee.role == rolePersonne.RH)){
 
 			idPers = monAnnuaire.getMonAnnuaire().creerPersonne(nom, prenom, statut, role);
 			if (idPers == 0)
-				message = "Personne impossible à créer --> compte non créé";
+				message = "Personne impossible a creer --> compte n'a pas pu être créé";
 			else {
 
 				try {
 					monAuthentification.getMonAuthentification().creerCompte(idPers, user, password, cleServeur);
-					message = "La personne et le compte associés ont été créés avec succès";
+					message = "La personne et le compte associes ont ete crees avec succes";
 				} catch (compteDejaCree e) {
 					// TODO Auto-generated catch block
-					message = "Le compte existe déjà (user: " + e.user + " )";
+					message = "Le compte existe deja (user: " + e.user + " )";
 				} catch (accesRefuse e) {
 					// TODO Auto-generated catch block
-					message = "Accès refusé : " + e.raison;
+					message = "Acces refuse : " + e.raison;
 				}
 			}
 		} else {
-			throw new droitsInsuffisants("Accès interdit : rôle doit être RH ou Accueil");
+			throw new droitsInsuffisants("Acces interdit : role doit etre RH ou Accueil");
+		}
+	}
+	
+	public void supprimerPersonne(short idPersonne) throws droitsInsuffisants {
+		short idPers = 0;
+		
+		if ((persConnectee.role == rolePersonne.accueil) || (persConnectee.role == rolePersonne.RH)){
+
+			try {
+				monAuthentification.getMonAuthentification().supprimerCompte(idPersonne, cleServeur);
+				
+				if (idPers > 0)
+					try {
+						monAnnuaire.getMonAnnuaire().supprimerPersonne(idPers);
+						message = "Personne et compte associes supprimes avec succes";
+					} catch (personneInexistante e) {
+						// TODO Auto-generated catch block
+						message = "Personne inexistante dans la base (id = " + e.id + ")";
+					}
+			} catch (accesRefuse e1) {
+				// TODO Auto-generated catch block
+				message = e1.raison;
+			} catch (compteInexistant e1) {
+				// TODO Auto-generated catch block
+				message = "Compte inexistant : (user: " + e1.user + ")";
+			}
+			
+		} else {
+			throw new droitsInsuffisants("Acces interdit : role doit etre RH ou Accueil");
 		}
 	}
 	
@@ -187,26 +114,26 @@ public class InterfaceGestionPersonnel {
 
 			try {
 				monAnnuaire.getMonAnnuaire().ajouterPhoto(idPers, ph);
-				message = "Photo ajoutée avec succès";
+				message = "Photo ajoutee avec succes";
 			} catch (personneInexistante e) {
 				// TODO Auto-generated catch block
 				message = "Personne inexistante dans la base (id = " + e.id + ")";
 			}
 		
 		} else {
-			throw new droitsInsuffisants("Accès interdit : rôle doit être RH");
+			throw new droitsInsuffisants("Acces interdit : role doit etre RH");
 		}
 	}
 	
-	public void supprimerEmpreinte(String user) throws droitsInsuffisants {
-		if ((persConnectee.role == rolePersonne.accueil) || (persConnectee.role == rolePersonne.RH)){
+	public void supprimerEmpreinte(short idPersonne) throws droitsInsuffisants {
+		if (persConnectee.role == rolePersonne.accueil) {
 
 			try {
-				monAuthentification.getMonAuthentification().supprimerEmpreinte(user, cleServeur);
-				message = "Empreinte supprimée avec succès";
+				monAuthentification.getMonAuthentification().supprimerEmpreinte(idPersonne, cleServeur);
+				message = "Empreinte supprimee avec succes";
 			} catch (accesRefuse e) {
 				// TODO Auto-generated catch block
-				message = "Accès refusé : " + e.raison;
+				message = "Acces refuse : " + e.raison;
 			} catch (compteInexistant e) {
 				// TODO Auto-generated catch block
 				message = "Compte inexistant : (user: " + e.user + ")";
@@ -217,7 +144,7 @@ public class InterfaceGestionPersonnel {
 
 		
 		} else {
-			throw new droitsInsuffisants("Accès interdit : rôle doit être RH ou Accueil");
+			throw new droitsInsuffisants("Acces interdit : role doit etre Accueil");
 		}
 	}
 	
@@ -226,25 +153,25 @@ public class InterfaceGestionPersonnel {
 
 			try {
 				monAnnuaire.getMonAnnuaire().modifierInfos(idPers, nom, prenom, statut, role);
-				message = "Infos mises à jour";
+				message = "Infos mises a jour";
 			} catch (personneInexistante e) {
 				// TODO Auto-generated catch block
 				message = "Personne inexistante dans la base (id = " + e.id + ")";
 			}
 		
 		} else {
-			throw new droitsInsuffisants("Accès interdit : rôle doit être RH");
+			throw new droitsInsuffisants("Acces interdit : role doit etre RH");
 		}
 	}
 	
 	public personne[] chercherPersonnes(String nom, String prenom) throws droitsInsuffisants {
 		// TODO Auto-generated method stub
 		personne[] retour = new personne[0];
-		if (persConnectee.role == rolePersonne.RH) {
+		if ((persConnectee.role == rolePersonne.RH) || (persConnectee.role == rolePersonne.accueil)) {
 			retour = monAnnuaire.getMonAnnuaire().chercherPersonnes(nom, prenom);
 			
 		} else {
-			throw new droitsInsuffisants("Accès interdit : rôle doit être RH");
+			throw new droitsInsuffisants("Acces interdit : role doit etre RH ou accueil");
 		}
 		return retour;
 	}

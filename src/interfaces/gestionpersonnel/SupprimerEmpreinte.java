@@ -1,38 +1,31 @@
 package interfaces.gestionpersonnel;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
+import interfaces.gestionpersonnel.InterfaceGestionPersonnelSwing.PersonneComboBox;
 
+import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Color;
-
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import Gestion_acces.rolePersonne;
-import Gestion_acces.ServeurAuthentificationPackage.accesRefuse;
-import Gestion_acces.ServeurAuthentificationPackage.compteInexistant;
+import Gestion_acces.personne;
 import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
-import Gestion_acces.ServeurAuthentificationPackage.suppressionInterdite;
 
 public class SupprimerEmpreinte extends JPanel {
 	private static final long serialVersionUID = 2782894538680040010L;
-	private interfaceGestionPersonnelSwing window;
 	private JLabel lblError;
 
 	/**
 	 * Create the panel.
 	 */
-	public SupprimerEmpreinte(interfaceGestionPersonnelSwing window) {
+	public SupprimerEmpreinte(InterfaceGestionPersonnelSwing window) {
 		setLayout(null);
-		
-		this.window = window;
 		
 		JLabel lblSupprimerUneEmpreinte = new JLabel("Supprimer une empreinte");
 		lblSupprimerUneEmpreinte.setFont(new Font("Calibri", Font.BOLD, 18));
@@ -43,9 +36,14 @@ public class SupprimerEmpreinte extends JPanel {
 		lblUtilisateur.setBounds(10, 50, 101, 14);
 		add(lblUtilisateur);
 		
-		JComboBox<String> comboBox = new JComboBox<String>();
-		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Fred", "Marie", "R\u00E9my"}));
-		comboBox.setBounds(10, 75, 284, 20);
+		personne[] listPersonnes = null;
+		try {
+			listPersonnes = window.getCltGestPers().chercherPersonnes(new String(), new String());
+		} catch (droitsInsuffisants e2) {
+			e2.printStackTrace();
+		}
+		JComboBox<Object> comboBox = new JComboBox<Object>(PersonneComboBox.getInstances(listPersonnes));
+		comboBox.setBounds(10, 76, 284, 20);
 		add(comboBox);
 		
 		lblError = new JLabel("");
@@ -60,14 +58,15 @@ public class SupprimerEmpreinte extends JPanel {
 		btnSupprimer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					window.getCltGestPers().supprimerEmpreinte((String) comboBox.getSelectedItem());
+					PersonneComboBox p = (PersonneComboBox) comboBox.getSelectedItem();
+					window.getCltGestPers().supprimerEmpreinte((short) p.getIdPersonne());
 					lblError.setText(window.getCltGestPers().getMessage());
 				} catch (droitsInsuffisants e1) {
 					lblError.setText(e1.raison);
 				}
 			}
 		});
-		btnSupprimer.setBounds(205, 106, 89, 23);
+		btnSupprimer.setBounds(206, 117, 89, 23);
 		add(btnSupprimer);
 		
 		JButton btnAnnuler = new JButton("Annuler");
@@ -76,7 +75,7 @@ public class SupprimerEmpreinte extends JPanel {
 				window.setPane(new GPMenu(window));
 			}
 		});
-		btnAnnuler.setBounds(106, 106, 89, 23);
+		btnAnnuler.setBounds(118, 117, 89, 23);
 		add(btnAnnuler);
 
 		

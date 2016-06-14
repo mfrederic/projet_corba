@@ -4,28 +4,31 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
+import javax.swing.ComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
+import javax.swing.event.ListDataListener;
 
+import model.Porte;
 import Gestion_acces.rolePersonne;
 import Gestion_acces.statutPersonne;
-import Gestion_acces.ServeurAuthentificationPackage.accesRefuse;
-import Gestion_acces.ServeurAuthentificationPackage.compteDejaCree;
 import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
 
 public class CreerCompte extends JPanel {
-	private interfaceGestionPersonnelSwing window;
+	private InterfaceGestionPersonnelSwing window;
 	
 	private static final long serialVersionUID = 2485760557889406242L;
 	private JTextField textFieldNom;
 	private JTextField textFieldPrenom;
-	private JTextField textFieldStatut;
-	private JTextField textFieldRole;
+	private JComboBox<statutPersonne> comboBoxStatut;
+	private JComboBox<rolePersonne> comboBoxRole;
 	private JTextField textFieldLogin;
 	private JPasswordField passwordField;
 	private JLabel lblError;
@@ -33,7 +36,7 @@ public class CreerCompte extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public CreerCompte(interfaceGestionPersonnelSwing window) {
+	public CreerCompte(InterfaceGestionPersonnelSwing window) {
 		setLayout(null);
 		this.window = window;
 		
@@ -62,23 +65,26 @@ public class CreerCompte extends JPanel {
 		lblPrnom.setBounds(10, 79, 100, 14);
 		add(lblPrnom);
 		
-		textFieldStatut = new JTextField();
-		textFieldStatut.setColumns(10);
-		textFieldStatut.setBounds(120, 104, 150, 20);
-		add(textFieldStatut);
+		comboBoxStatut = new JComboBox<statutPersonne>();
+		comboBoxStatut.addItem(statutPersonne.temporaire);
+		comboBoxStatut.addItem(statutPersonne.permanent);
+		comboBoxStatut.setBounds(120, 104, 150, 20);
+		add(comboBoxStatut);
 		
 		JLabel lblStatut = new JLabel("Statut");
-		lblStatut.setLabelFor(textFieldStatut);
+		lblStatut.setLabelFor(comboBoxStatut);
 		lblStatut.setBounds(10, 107, 100, 14);
 		add(lblStatut);
 		
-		textFieldRole = new JTextField();
-		textFieldRole.setColumns(10);
-		textFieldRole.setBounds(120, 132, 150, 20);
-		add(textFieldRole);
+		comboBoxRole = new JComboBox<rolePersonne>();
+		comboBoxRole.addItem(rolePersonne.RH);
+		comboBoxRole.addItem(rolePersonne.accueil);
+		comboBoxRole.addItem(rolePersonne.basique);
+		comboBoxRole.setBounds(120, 132, 150, 20);
+		add(comboBoxRole);
 		
 		JLabel lblRole = new JLabel("Role");
-		lblRole.setLabelFor(textFieldRole);
+		lblRole.setLabelFor(comboBoxRole);
 		lblRole.setBounds(10, 135, 100, 14);
 		add(lblRole);
 		
@@ -109,11 +115,11 @@ public class CreerCompte extends JPanel {
 				lblError.setText("");
 				
 				try {
-					window.getCltGestPers().creerCompte(
+					window.getCltGestPers().creerPersonne(
 							textFieldNom.getText(),
 							textFieldPrenom.getText(),
-							statutPersonne.from_int(Integer.parseInt(textFieldStatut.getText())),
-							rolePersonne.from_int(Integer.parseInt(textFieldRole.getText())),
+							statutPersonne.from_int(comboBoxStatut.getSelectedIndex()),
+							rolePersonne.from_int(comboBoxRole.getSelectedIndex()),
 							textFieldLogin.getText(),
 							new String(passwordField.getPassword())
 					);
@@ -153,9 +159,9 @@ public class CreerCompte extends JPanel {
 			errorFields += "Nom, ";
 		if(textFieldPrenom.getText().length() == 0)
 			errorFields += "Prenom, ";
-		if(textFieldStatut.getText().length() == 0)
+		if(comboBoxStatut.getSelectedItem() == null)
 			errorFields += "Statut, ";
-		if(textFieldRole.getText().length() == 0)
+		if(comboBoxRole.getSelectedItem() == null)
 			errorFields += "Role, ";
 		if(textFieldLogin.getText().length() == 0)
 			errorFields += "login, ";

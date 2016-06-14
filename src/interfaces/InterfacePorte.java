@@ -3,7 +3,10 @@ package interfaces;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import log.ClientJournal;
+import model.Porte;
 import Gestion_acces.personne;
+import Gestion_acces.porte;
 import Gestion_acces.ServeurAuthentificationPackage.accesRefuse;
 import Gestion_acces.ServeurAutorisationPackage.porteInconnue;
 import authentification.ClientServeurAuthentification;
@@ -15,34 +18,25 @@ public class InterfacePorte {
 	
 	private ClientServeurAuthentification monAuthentification;
 	private ClientServeurAutorisation monAutorisation;
-	private log.ClientJournal monJournal;
+	private ClientJournal monJournal;
 	
 	private personne persIdentifiee;
 	private String message;
-	private short idPorte;
+	private Porte porte;
+	private GregorianCalendar date;
 	
 	public InterfacePorte() {
-		persIdentifiee = null;
-		message = "";
-		idPorte = 0;
-	}
-
-	public static void main(String args[]) {
-/*
-		porte = new Porte(1,"Porte1",1);
-		persTemp = new personne((short)0,"nom","prenom","photo",statutPersonne.permanent,rolePersonne.basique);
-		
 		monAuthentification = new ClientServeurAuthentification();
 		monAutorisation = new ClientServeurAutorisation();
 		monJournal = new ClientJournal();
 		
-		entrer("EmpreinteDeMarie","photooo");
-		
-		System.out.println(message);
-*/
+		persIdentifiee = null;
+		message = "";
+		porte = null;
+		date = new GregorianCalendar();
 	}
 	
-	public void accesPorte(String emp, String ph, int typeAcces) { //1: Entrée, 2 = Sortie
+	public void accesPorte(String emp, String ph, int typeAcces, String date) { //1: Entrée, 2 = Sortie
 		boolean autorisation = false;		
 
 		try {
@@ -52,7 +46,7 @@ public class InterfacePorte {
 				message = "Accès refusé : personne inconnue";
 			else {
 				try {
-					autorisation = monAutorisation.getMonAutorisation().demanderAutor(persIdentifiee, idPorte);;
+					autorisation = monAutorisation.getMonAutorisation().demanderAutor(persIdentifiee, (short)porte.getIdPorte(), date);
 				} catch (porteInconnue e) {
 					// TODO Auto-generated catch block
 					message = "Porte inconnue (id = " + e.idPorte + ")";
@@ -69,9 +63,9 @@ public class InterfacePorte {
 		}
 		
 		if (typeAcces == 1)
-			journaliser("Entrée", persIdentifiee, autorisation, message);
+			journaliser("Entrée", persIdentifiee, autorisation, message + "(Porte " + this.porte.getIdPorte());
 		else if (typeAcces == 2)
-			journaliser("Sortie", persIdentifiee, autorisation, message);
+			journaliser("Sortie", persIdentifiee, autorisation, message + "(Porte " + this.porte.getIdPorte());
 	}
 	
 	public void journaliser(String typeAcces, personne p, boolean res, String commentaire) {
@@ -79,6 +73,10 @@ public class InterfacePorte {
 		String ts = String.valueOf(gc.get(Calendar.YEAR)) + "-" + String.valueOf(gc.get(Calendar.MONTH)+1) + "-" + String.valueOf(gc.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(gc.get(Calendar.HOUR_OF_DAY)) + ":" + String.valueOf(gc.get(Calendar.MINUTE)) + ":" + String.valueOf(gc.get(Calendar.SECOND)); 
 		
 		monJournal.getMonJournal().journaliser(ts, typeAcces, p, res, commentaire);
+	}
+	
+	public porte[] getPortes() {
+		return monAutorisation.getMonAutorisation().getPortes();
 	}
 
 	public personne getPersIdentifiee() {
@@ -97,12 +95,12 @@ public class InterfacePorte {
 		this.message = message;
 	}
 
-	public short getIdPorte() {
-		return idPorte;
+	public Porte getPorte() {
+		return this.porte;
 	}
 
-	public void setIdPorte(short idPorte) {
-		this.idPorte = idPorte;
+	public void setPorte(Porte porte) {
+		this.porte = porte;
 	}
 	
 	
