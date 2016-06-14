@@ -4,12 +4,12 @@ import interfaces.InterfaceGestionPersonnel;
 
 import java.awt.Container;
 import java.awt.EventQueue;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
+import model.Personne;
 import Gestion_acces.personne;
-import annuaire.ClientAnnuaire;
-import authentification.ClientServeurAuthentification;
 
 public class interfaceGestionPersonnelSwing {
 
@@ -64,6 +64,53 @@ public class interfaceGestionPersonnelSwing {
 	
 	public InterfaceGestionPersonnel getCltGestPers() {
 		return this.cltGestPers;
+	}
+	
+	public static class PersonneComboBox extends Personne {
+		public static ArrayList<Personne> listPersonnes = null;
+		
+		public PersonneComboBox(Personne p) {
+			super(p.getIdPersonne(), p.getNomPersonne(), p.getPrenomPersonne(), p.getPhotoPersonne(), p.getStatutPersonne(), p.getRolePersonne());
+		}
+		
+		public String toString() {
+			return this.getNomPersonne() + " " + this.getPrenomPersonne();
+		}
+		
+		public static Personne getByNomPrenom(String nomPrenom) {
+			for(Personne p : listPersonnes) {
+				if((p.getNomPersonne() + " " + p.getPrenomPersonne()).equals(nomPrenom))
+					return p;
+			}
+			return null;
+		}
+		
+		public static Object[] getInstances(personne[] list) {
+			if(list == null)
+				return null;
+			
+			listPersonnes = new ArrayList<Personne>();
+			ArrayList<PersonneComboBox> p = new ArrayList<PersonneComboBox>();
+			
+			for(personne pers : list) {
+				Personne current = new Personne(pers.idPers, pers.nom, pers.prenom, pers.ph, pers.statut.toString(), pers.role.toString());
+				listPersonnes.add(current);
+				p.add(new PersonneComboBox(current));
+			}
+			
+			return (Object[]) p.toArray();
+		}
+		
+		public static Object[] getInstances(ArrayList<Personne> list) {
+			listPersonnes = new ArrayList<Personne>(list);
+			ArrayList<PersonneComboBox> p = new ArrayList<PersonneComboBox>();
+			
+			for(Personne pers : list) {
+				p.add(new PersonneComboBox(pers));
+			}
+			
+			return (Object[]) p.toArray();
+		}
 	}
 
 }

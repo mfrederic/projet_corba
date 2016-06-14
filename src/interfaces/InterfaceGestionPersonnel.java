@@ -38,7 +38,7 @@ public class InterfaceGestionPersonnel {
 			else if ((persConnectee.role == rolePersonne.accueil) || (persConnectee.role == rolePersonne.RH)) {
 				authReussie = true;
 			} else {
-				throw new droitsInsuffisants("Accès interdit : rôle doit être RH ou Accueil");
+				throw new droitsInsuffisants("Acces interdit : role doit etre RH ou Accueil");
 			}
 		} catch (compteInexistant e) {
 			// TODO Auto-generated catch block
@@ -48,7 +48,7 @@ public class InterfaceGestionPersonnel {
 			message = "Droits insuffisants : " + e.raison;
 		} catch (accesRefuse e) {
 			// TODO Auto-generated catch block
-			message = "Accès refusé : " + e.raison;
+			message = "Acces refuse : " + e.raison;
 		}
 		
 		return authReussie;
@@ -61,22 +61,22 @@ public class InterfaceGestionPersonnel {
 
 			idPers = monAnnuaire.getMonAnnuaire().creerPersonne(nom, prenom, statut, role);
 			if (idPers == 0)
-				message = "Personne impossible à créer --> compte non créé";
+				message = "Personne impossible a creer --> compte non cree";
 			else {
 
 				try {
 					monAuthentification.getMonAuthentification().creerCompte(idPers, user, password, cleServeur);
-					message = "La personne et le compte associés ont été créés avec succès";
+					message = "La personne et le compte associes ont ete crees avec succes";
 				} catch (compteDejaCree e) {
 					// TODO Auto-generated catch block
-					message = "Le compte existe déjà (user: " + e.user + " )";
+					message = "Le compte existe deja (user: " + e.user + " )";
 				} catch (accesRefuse e) {
 					// TODO Auto-generated catch block
-					message = "Accès refusé : " + e.raison;
+					message = "Acces refuse : " + e.raison;
 				}
 			}
 		} else {
-			throw new droitsInsuffisants("Accès interdit : rôle doit être RH ou Accueil");
+			throw new droitsInsuffisants("Acces interdit : role doit etre RH ou Accueil");
 		}
 	}
 	
@@ -91,7 +91,7 @@ public class InterfaceGestionPersonnel {
 				if (idPers > 0)
 					try {
 						monAnnuaire.getMonAnnuaire().supprimerPersonne(idPers);
-						message = "Personne et compte associés supprimés avec succès";
+						message = "Personne et compte associes supprimes avec succes";
 					} catch (personneInexistante e) {
 						// TODO Auto-generated catch block
 						message = "Personne inexistante dans la base (id = " + e.id + ")";
@@ -105,7 +105,7 @@ public class InterfaceGestionPersonnel {
 			}
 			
 		} else {
-			throw new droitsInsuffisants("Accès interdit : rôle doit être RH ou Accueil");
+			throw new droitsInsuffisants("Acces interdit : role doit etre RH ou Accueil");
 		}
 	}
 	
@@ -114,14 +114,14 @@ public class InterfaceGestionPersonnel {
 
 			try {
 				monAnnuaire.getMonAnnuaire().ajouterPhoto(idPers, ph);
-				message = "Photo ajoutée avec succès";
+				message = "Photo ajoutee avec succes";
 			} catch (personneInexistante e) {
 				// TODO Auto-generated catch block
 				message = "Personne inexistante dans la base (id = " + e.id + ")";
 			}
 		
 		} else {
-			throw new droitsInsuffisants("Accès interdit : rôle doit être RH");
+			throw new droitsInsuffisants("Acces interdit : role doit etre RH");
 		}
 	}
 	
@@ -130,10 +130,10 @@ public class InterfaceGestionPersonnel {
 
 			try {
 				monAuthentification.getMonAuthentification().supprimerEmpreinte(user, cleServeur);
-				message = "Empreinte supprimée avec succès";
+				message = "Empreinte supprimee avec succes";
 			} catch (accesRefuse e) {
 				// TODO Auto-generated catch block
-				message = "Accès refusé : " + e.raison;
+				message = "Acces refuse : " + e.raison;
 			} catch (compteInexistant e) {
 				// TODO Auto-generated catch block
 				message = "Compte inexistant : (user: " + e.user + ")";
@@ -144,7 +144,7 @@ public class InterfaceGestionPersonnel {
 
 		
 		} else {
-			throw new droitsInsuffisants("Accès interdit : rôle doit être RH ou Accueil");
+			throw new droitsInsuffisants("Acces interdit : role doit etre RH ou Accueil");
 		}
 	}
 	
@@ -153,14 +153,14 @@ public class InterfaceGestionPersonnel {
 
 			try {
 				monAnnuaire.getMonAnnuaire().modifierInfos(idPers, nom, prenom, statut, role);
-				message = "Infos mises à jour";
+				message = "Infos mises a jour";
 			} catch (personneInexistante e) {
 				// TODO Auto-generated catch block
 				message = "Personne inexistante dans la base (id = " + e.id + ")";
 			}
 		
 		} else {
-			throw new droitsInsuffisants("Accès interdit : rôle doit être RH");
+			throw new droitsInsuffisants("Acces interdit : role doit etre RH");
 		}
 	}
 	
@@ -171,7 +171,7 @@ public class InterfaceGestionPersonnel {
 			retour = monAnnuaire.getMonAnnuaire().chercherPersonnes(nom, prenom);
 			
 		} else {
-			throw new droitsInsuffisants("Accès interdit : rôle doit être RH");
+			throw new droitsInsuffisants("Acces interdit : role doit etre RH");
 		}
 		return retour;
 	}

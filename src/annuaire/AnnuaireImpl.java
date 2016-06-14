@@ -86,7 +86,7 @@ public class AnnuaireImpl extends AnnuairePOA{
 			
 			// BD
 			pers.setNomPersonne(pers.getNomPersonne());
-			pers.setPrenomPersonne(pers.getNomPersonne());
+			pers.setPrenomPersonne(pers.getPrenomPersonne());
 			pers.setStatutPersonne(pers.getStatutPersonne().toString());
 			pers.setRolePersonne(pers.getRolePersonne().toString());
 			pers.setPhotoPersonne(ph);			
@@ -142,9 +142,8 @@ public class AnnuaireImpl extends AnnuairePOA{
 
 	@Override
 	public personne[] chercherPersonnes(String nom, String prenom) {
-		// TODO Auto-generated method stub
 		ArrayList<Personne> listePersonnes;
-		personne[] listePersORB;
+		personne[] listePersORB = null;
 		
 		if (nom.isEmpty() && prenom.isEmpty())
 			listePersonnes = repoPersonne.getInstances();
@@ -154,10 +153,10 @@ public class AnnuaireImpl extends AnnuairePOA{
 		if (listePersonnes == null)
 			listePersORB = new personne[0];		
 		else {
-			Personne[] listePersBD = (Personne[]) listePersonnes.toArray();
+			Object[] listePersBD = (Object[]) listePersonnes.toArray();
 			listePersORB = new personne[listePersBD.length];
 			for (int i=0; i<listePersBD.length; i++) {
-			   listePersORB[i] = personneBDtoORB(listePersBD[i]);
+			   listePersORB[i] = personneBDtoORB((Personne) listePersBD[i]);
 			}
 		}
 		return listePersORB;

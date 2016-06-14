@@ -155,7 +155,8 @@ public class PersonneDAO extends DAO<Personne>{
 					ResultSet.CONCUR_UPDATABLE).executeQuery(
 							"SELECT * FROM \"Personne\"");
 			while (result.next()) {
-				Personne a = this.find(result.getInt(1));
+				
+				Personne a = this.find(result.getInt("idPersonne"));
 				pers.add(a);
 			}
 		} catch (SQLException e) {

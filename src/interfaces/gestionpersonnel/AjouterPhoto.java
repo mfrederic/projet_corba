@@ -1,28 +1,23 @@
 package interfaces.gestionpersonnel;
 
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-
-import java.awt.Font;
-
-import javax.swing.JButton;
-import javax.swing.JTextField;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-
-import Gestion_acces.rolePersonne;
-import Gestion_acces.AnnuairePackage.personneInexistante;
-import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
+import interfaces.gestionpersonnel.interfaceGestionPersonnelSwing.PersonneComboBox;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import Gestion_acces.personne;
+import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
 
 public class AjouterPhoto extends JPanel {
 	private static final long serialVersionUID = -3808190305188198934L;
-	private interfaceGestionPersonnelSwing window;
 	private JTextField textFieldValeur;
 	private JLabel lblError;
 
@@ -31,7 +26,6 @@ public class AjouterPhoto extends JPanel {
 	 */
 	public AjouterPhoto(interfaceGestionPersonnelSwing window) {
 		setLayout(null);
-		this.window = window;
 		
 		JLabel lblAouterPhoto = new JLabel("Aouter photo");
 		lblAouterPhoto.setFont(new Font("Calibri", Font.BOLD, 18));
@@ -63,9 +57,14 @@ public class AjouterPhoto extends JPanel {
 		textFieldValeur.setBounds(176, 142, 86, 20);
 		add(textFieldValeur);
 		textFieldValeur.setColumns(10);
-		
-		JComboBox<String> comboBox = new JComboBox<String>();
-		comboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Fred", "Marie", "R\u00E9my"}));
+
+		personne[] listPersonnes = null;
+		try {
+			listPersonnes = window.getCltGestPers().chercherPersonnes(new String(), new String());
+		} catch (Exception e2) {
+			e2.printStackTrace();
+		}
+		JComboBox<Object> comboBox = new JComboBox<Object>(PersonneComboBox.getInstances(listPersonnes));
 		comboBox.setBounds(10, 72, 252, 20);
 		add(comboBox);
 		
@@ -78,7 +77,8 @@ public class AjouterPhoto extends JPanel {
 				}
 				
 				try {
-					window.getCltGestPers().ajouterPhoto((short) comboBox.getSelectedIndex(), textFieldValeur.getText());
+					PersonneComboBox p = (PersonneComboBox) comboBox.getSelectedItem();
+					window.getCltGestPers().ajouterPhoto((short) p.getIdPersonne(), textFieldValeur.getText());
 					lblError.setText(window.getCltGestPers().getMessage());
 				} catch (NumberFormatException e1) {
 					e1.printStackTrace();
@@ -106,4 +106,5 @@ public class AjouterPhoto extends JPanel {
 		add(btnRetour);
 
 	}
+	
 }

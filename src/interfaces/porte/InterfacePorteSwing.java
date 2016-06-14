@@ -10,7 +10,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import javax.swing.ComboBoxModel;
@@ -72,7 +71,6 @@ public class InterfacePorteSwing {
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	@SuppressWarnings("unchecked")
 	private void initialize() {
 		listePorte = new PorteDAO().getInstances();
 		
