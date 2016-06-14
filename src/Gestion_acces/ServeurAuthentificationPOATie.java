@@ -117,6 +117,15 @@ public class ServeurAuthentificationPOATie extends ServeurAuthentificationPOA
     }
 
     /**
+     * Operation supprimerCompte
+     */
+    public short supprimerCompte(String user, String mdp)
+        throws Gestion_acces.ServeurAuthentificationPackage.accesRefuse, Gestion_acces.ServeurAuthentificationPackage.compteInexistant
+    {
+        return _tie.supprimerCompte( user,  mdp);
+    }
+
+    /**
      * Operation modifierMdp
      */
     public void modifierMdp(String user, String newMdp, String mdpServeur)

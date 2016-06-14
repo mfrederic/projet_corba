@@ -414,6 +414,68 @@ public class _ServeurAuthentificationStub extends org.omg.CORBA.portable.ObjectI
     }
 
     /**
+     * Operation supprimerCompte
+     */
+    public short supprimerCompte(String user, String mdp)
+        throws Gestion_acces.ServeurAuthentificationPackage.accesRefuse, Gestion_acces.ServeurAuthentificationPackage.compteInexistant
+    {
+        while(true)
+        {
+            if (!this._is_local())
+            {
+                org.omg.CORBA.portable.InputStream _input = null;
+                try
+                {
+                    org.omg.CORBA.portable.OutputStream _output = this._request("supprimerCompte",true);
+                    _output.write_string(user);
+                    _output.write_string(mdp);
+                    _input = this._invoke(_output);
+                    short _arg_ret = _input.read_short();
+                    return _arg_ret;
+                }
+                catch(org.omg.CORBA.portable.RemarshalException _exception)
+                {
+                    continue;
+                }
+                catch(org.omg.CORBA.portable.ApplicationException _exception)
+                {
+                    String _exception_id = _exception.getId();
+                    if (_exception_id.equals(Gestion_acces.ServeurAuthentificationPackage.accesRefuseHelper.id()))
+                    {
+                        throw Gestion_acces.ServeurAuthentificationPackage.accesRefuseHelper.read(_exception.getInputStream());
+                    }
+
+                    if (_exception_id.equals(Gestion_acces.ServeurAuthentificationPackage.compteInexistantHelper.id()))
+                    {
+                        throw Gestion_acces.ServeurAuthentificationPackage.compteInexistantHelper.read(_exception.getInputStream());
+                    }
+
+                    throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
+                }
+                finally
+                {
+                    this._releaseReply(_input);
+                }
+            }
+            else
+            {
+                org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke("supprimerCompte",_opsClass);
+                if (_so == null)
+                   continue;
+                Gestion_acces.ServeurAuthentificationOperations _self = (Gestion_acces.ServeurAuthentificationOperations) _so.servant;
+                try
+                {
+                    return _self.supprimerCompte( user,  mdp);
+                }
+                finally
+                {
+                    _servant_postinvoke(_so);
+                }
+            }
+        }
+    }
+
+    /**
      * Operation modifierMdp
      */
     public void modifierMdp(String user, String newMdp, String mdpServeur)

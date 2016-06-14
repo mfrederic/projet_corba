@@ -80,6 +80,35 @@ public class InterfaceGestionPersonnel {
 		}
 	}
 	
+	public void supprimerCompte(String user) throws droitsInsuffisants {
+		short idPers = 0;
+		
+		if ((persConnectee.role == rolePersonne.accueil) || (persConnectee.role == rolePersonne.RH)){
+
+			try {
+				idPers = monAuthentification.getMonAuthentification().supprimerCompte(user, cleServeur);
+				
+				if (idPers > 0)
+					try {
+						monAnnuaire.getMonAnnuaire().supprimerPersonne(idPers);
+						message = "Personne et compte associés supprimés avec succès";
+					} catch (personneInexistante e) {
+						// TODO Auto-generated catch block
+						message = "Personne inexistante dans la base (id = " + e.id + ")";
+					}
+			} catch (accesRefuse e1) {
+				// TODO Auto-generated catch block
+				message = e1.raison;
+			} catch (compteInexistant e1) {
+				// TODO Auto-generated catch block
+				message = "Compte inexistant : (user: " + e1.user + ")";
+			}
+			
+		} else {
+			throw new droitsInsuffisants("Accès interdit : rôle doit être RH ou Accueil");
+		}
+	}
+	
 	public void ajouterPhoto(short idPers, String ph) throws droitsInsuffisants {
 		if (persConnectee.role == rolePersonne.RH) {
 

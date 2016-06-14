@@ -45,6 +45,8 @@ public abstract class AnnuairePOA extends org.omg.PortableServer.Servant
                 return _invoke_identifier(_is, handler);
         } else if (opName.equals("modifierInfos")) {
                 return _invoke_modifierInfos(_is, handler);
+        } else if (opName.equals("supprimerPersonne")) {
+                return _invoke_supprimerPersonne(_is, handler);
         } else {
             throw new org.omg.CORBA.BAD_OPERATION(opName);
         }
@@ -147,6 +149,27 @@ public abstract class AnnuairePOA extends org.omg.PortableServer.Servant
         try
         {
             modifierInfos(arg0_in, arg1_in, arg2_in, arg3_in, arg4_in);
+
+            _output = handler.createReply();
+
+        }
+        catch (Gestion_acces.AnnuairePackage.personneInexistante _exception)
+        {
+            _output = handler.createExceptionReply();
+            Gestion_acces.AnnuairePackage.personneInexistanteHelper.write(_output,_exception);
+        }
+        return _output;
+    }
+
+    private org.omg.CORBA.portable.OutputStream _invoke_supprimerPersonne(
+            final org.omg.CORBA.portable.InputStream _is,
+            final org.omg.CORBA.portable.ResponseHandler handler) {
+        org.omg.CORBA.portable.OutputStream _output;
+        short arg0_in = _is.read_short();
+
+        try
+        {
+            supprimerPersonne(arg0_in);
 
             _output = handler.createReply();
 

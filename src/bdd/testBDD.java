@@ -12,8 +12,6 @@ import Gestion_acces.structPlage;
 public class testBDD {
 	
 	public static void main(String[] args) {
-		
-
 		/*
 		Personne pers = new Personne("Bisault","Marie","photooo","temporaire","basique");
 		PersonneDAO repoPersonne = new PersonneDAO();
@@ -37,57 +35,22 @@ public class testBDD {
 		Autorisation aut = new Autorisation(2, 8, 17, "01-01-2015", "30-05-2017", 1);
 		AutorisationDAO autoRepo = new AutorisationDAO();
 		aut = autoRepo.create(aut);
-		//TODO classe métier zone puis porte puis autorisation
+		*/
+		
+		String pren = new String();
 
-		structPlage sP = new structPlage();
-		MaPlageDate mP;
-		boolean ok;
+		System.out.println(pren);
+		System.out.println(pren == null);
+		System.out.println(pren == "");
+		System.out.println(pren.isEmpty());
 		
-		sP = verifierStructPlage("09-11-16", "09-11-16", "90", "7");
-		
-		mP = new MaPlageDate(sP);
-		System.out.println(sP);
-		if (sP==null)
-			System.out.println("nOK");
-		else
-			System.out.println(mP.toString());
-*/
+		String nom = "";
+
+		System.out.println(nom);
+		System.out.println(nom == null);
+		System.out.println(nom == "");
+		System.out.println(nom.isEmpty());
 	}
-/*	
-	private static structPlage verifierStructPlage(String jDeb, String jFin, String hDeb, String hFin) {
-		structPlage retour = null;
-		boolean structOk = true;
-		Float heureDeb = (float)0; 
-		Float heureFin = (float)0;
-		
-		// Tests heures
-		try {
-			heureDeb = Float.parseFloat(hDeb);
-			heureFin = Float.parseFloat(hDeb);
-		} catch (NumberFormatException e) {
-			System.out.println(e.toString());
-			structOk = false;
-		}
-		
-		// Tests jours
-		Date dateDeb = null;
-		Date dateFin = null;
-        try {
-            SimpleDateFormat sdf = new SimpleDateFormat("dd-mm-yy");
-            dateDeb = sdf.parse(jDeb);
-            dateFin = sdf.parse(jFin);
-            if (!jDeb.equals(sdf.format(dateDeb)) || !jFin.equals(sdf.format(dateFin))) {
-                structOk = false;
-            }
-        } catch (ParseException ex) {
-            System.out.println(ex.toString());
-            structOk = false;
-        }
-		
-        if (structOk)
-        	retour = new structPlage(jDeb, jFin, heureDeb, heureFin);
-        
-		return retour;
-	}
-*/
+
+	
 }

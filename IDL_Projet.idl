@@ -46,6 +46,7 @@ module Gestion_acces {
 		void modifierEmpreinte (in string user, in empreinte emp, in string mdp) raises( droitsInsuffisants, accesRefuse, compteInexistant);
 		void supprimerEmpreinte (in string user, in string mdp) raises(accesRefuse, compteInexistant, suppressionInterdite);
 		void creerCompte (in short idPersonne, in string user, in string password, in string mdp) raises(compteDejaCree, accesRefuse);
+		short supprimerCompte (in string user, in string mdp) raises(accesRefuse, compteInexistant);
 		void modifierMdp (in string user, in string newMdp, in string mdpServeur) raises(compteInexistant, accesRefuse);
 	};
 
@@ -70,6 +71,7 @@ module Gestion_acces {
 		short creerPersonne (in string nom, in string prenom, in statutPersonne statut, in rolePersonne role);
 		void ajouterPhoto (in short idPersonne, in photo ph) raises(personneInexistante);
 		void modifierInfos (in short idPersonne, in string nom, in string prenom, in statutPersonne statut, in rolePersonne role) raises(personneInexistante);
+		void supprimerPersonne (in short idPersonne) raises(personneInexistante);
 		listePersonnes chercherPersonnes(in string nom, in string prenom);
 	};
 

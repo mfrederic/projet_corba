@@ -303,6 +303,62 @@ public class _AnnuaireStub extends org.omg.CORBA.portable.ObjectImpl
     }
 
     /**
+     * Operation supprimerPersonne
+     */
+    public void supprimerPersonne(short idPersonne)
+        throws Gestion_acces.AnnuairePackage.personneInexistante
+    {
+        while(true)
+        {
+            if (!this._is_local())
+            {
+                org.omg.CORBA.portable.InputStream _input = null;
+                try
+                {
+                    org.omg.CORBA.portable.OutputStream _output = this._request("supprimerPersonne",true);
+                    _output.write_short(idPersonne);
+                    _input = this._invoke(_output);
+                    return;
+                }
+                catch(org.omg.CORBA.portable.RemarshalException _exception)
+                {
+                    continue;
+                }
+                catch(org.omg.CORBA.portable.ApplicationException _exception)
+                {
+                    String _exception_id = _exception.getId();
+                    if (_exception_id.equals(Gestion_acces.AnnuairePackage.personneInexistanteHelper.id()))
+                    {
+                        throw Gestion_acces.AnnuairePackage.personneInexistanteHelper.read(_exception.getInputStream());
+                    }
+
+                    throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
+                }
+                finally
+                {
+                    this._releaseReply(_input);
+                }
+            }
+            else
+            {
+                org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke("supprimerPersonne",_opsClass);
+                if (_so == null)
+                   continue;
+                Gestion_acces.AnnuaireOperations _self = (Gestion_acces.AnnuaireOperations) _so.servant;
+                try
+                {
+                    _self.supprimerPersonne( idPersonne);
+                    return;
+                }
+                finally
+                {
+                    _servant_postinvoke(_so);
+                }
+            }
+        }
+    }
+
+    /**
      * Operation chercherPersonnes
      */
     public Gestion_acces.personne[] chercherPersonnes(String nom, String prenom)

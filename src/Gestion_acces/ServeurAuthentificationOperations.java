@@ -44,6 +44,12 @@ public interface ServeurAuthentificationOperations
         throws Gestion_acces.ServeurAuthentificationPackage.compteDejaCree, Gestion_acces.ServeurAuthentificationPackage.accesRefuse;
 
     /**
+     * Operation supprimerCompte
+     */
+    public short supprimerCompte(String user, String mdp)
+        throws Gestion_acces.ServeurAuthentificationPackage.accesRefuse, Gestion_acces.ServeurAuthentificationPackage.compteInexistant;
+
+    /**
      * Operation modifierMdp
      */
     public void modifierMdp(String user, String newMdp, String mdpServeur)

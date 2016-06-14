@@ -232,6 +232,34 @@ public class ServeurAuthentificationImpl extends ServeurAuthentificationPOA{
 	}
 
 	@Override
+	public short supprimerCompte(String user, String mdp) throws accesRefuse,
+			compteInexistant {
+		// TODO Auto-generated method stub
+		System.out.println("Auth-supprimerCompte");
+		short idPers = 0;
+		
+		if (cleServeur.equals(mdp)) { // Clé serveur
+			Compte cmpt = null;
+			
+			// BD
+			cmpt = repoCompte.findByUser(user);
+					
+			if (cmpt == null) // Contrôle de l'existance du user dans la base
+				throw new compteInexistant(user);
+			
+			else { // le compte existe
+				idPers = (short) cmpt.getRefPersonne();
+				// Suppression du compte
+				repoCompte.delete(cmpt);				
+			}
+		} else {
+			throw new accesRefuse("Mot de passe serveur faux");
+		}
+		
+		return idPers;
+	}
+	
+	@Override
 	public void modifierMdp(String user, String newMdp, String mdpServeur)
 			throws accesRefuse, compteInexistant {
 		// TODO Auto-generated method stub
