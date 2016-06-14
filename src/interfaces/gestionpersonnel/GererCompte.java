@@ -43,7 +43,7 @@ public class GererCompte extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public GererCompte(interfaceGestionPersonnelSwing window) {
+	public GererCompte(InterfaceGestionPersonnelSwing window) {
 		setLayout(null);
 		JLabel lblCrationCompte = new JLabel("Gestion compte");
 		lblCrationCompte.setFont(new Font("Calibri", Font.BOLD, 18));

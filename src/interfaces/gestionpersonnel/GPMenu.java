@@ -17,7 +17,7 @@ public class GPMenu extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public GPMenu(interfaceGestionPersonnelSwing window) {
+	public GPMenu(InterfaceGestionPersonnelSwing window) {
 		setLayout(null);
 		
 		JLabel lblGestionCompte = new JLabel("Menu");
