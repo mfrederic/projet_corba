@@ -3,17 +3,22 @@ package testUnitaire;
 import bdd.objetsdao.PersonneDAO;
 import junit.framework.TestCase;
 import junit.textui.TestRunner;
+import model.Personne;
 
 public class PersonneDAOTest extends TestCase {
 
 	private PersonneDAO repo = null;
 
 	public void testFindInt() {
-		fail("Not yet implemented"); // TODO
-	}
+		assertTrue(repo.find(0)==null);
+	} 
 
 	public void testCreatePersonne() {
-		fail("Not yet implemented"); // TODO
+		Personne p = new Personne("nom", "prenom", "photo", "permanent", "accueil");
+		Personne responseFunction = repo.create(p);
+		System.out.println(p.equals(responseFunction));
+		System.out.println(responseFunction.toString());
+		assertTrue(p.equals(responseFunction));
 	}
 
 	public void testUpdatePersonne() {
