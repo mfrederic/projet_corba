@@ -35,10 +35,7 @@ public class MaPlageDate {
 			int min =gc.get(Calendar.HOUR_OF_DAY);
 			float centi = (float)gc.get(Calendar.MINUTE)/(float)60;
 			float timestamp = (float)min+centi;
-			
-			System.out.println(timestamp);
-			System.out.println(this.structPlage.heureDeb);
-			System.out.println(this.structPlage.heureFin);
+
 			if(this.structPlage.heureDeb<timestamp && this.structPlage.heureFin>timestamp ){
 				return true;
 			}
