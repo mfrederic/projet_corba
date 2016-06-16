@@ -63,6 +63,7 @@ public class GPLogin extends JPanel {
 						if (window.getCltGestPers().authentifier(login, password)) {
 							lblError.setText(window.getCltGestPers().getMessage());
 							window.setPane(new GPGestion(window));
+							window.getFrame().setBounds(100, 100, 460, 785);
 							
 						} else
 							lblError.setText(window.getCltGestPers().getMessage());
