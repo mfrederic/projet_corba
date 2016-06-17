@@ -1,5 +1,8 @@
 package annuaire;
 
+import org.omg.CosNaming.NamingContext;
+import org.omg.CosNaming.NamingContextHelper;
+
 import Gestion_acces.Annuaire;
 import Gestion_acces.AnnuaireHelper;
 
@@ -16,9 +19,11 @@ public class ClientAnnuaire {
 	        String idObj = "Annuaire";
 	
 	        // Recuperation du naming service
-	        org.omg.CosNaming.NamingContext nameRoot =
+	        /*org.omg.CosNaming.NamingContext nameRoot =
 	        		org.omg.CosNaming.NamingContextHelper.narrow(orb.resolve_initial_references("NameService"));
-	
+	*/
+	        NamingContext nameRoot=NamingContextHelper.narrow(orb.string_to_object("corbaloc:iiop:1.2@192.168.43.104:2001/NameService"));
+	        
 	        // Construction du nom a rechercher
 	        org.omg.CosNaming.NameComponent[] nameToFind = new org.omg.CosNaming.NameComponent[1];
 	         nameToFind[0] = new org.omg.CosNaming.NameComponent(idObj,"");
