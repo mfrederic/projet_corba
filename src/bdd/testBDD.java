@@ -12,6 +12,8 @@ import Gestion_acces.structPlage;
 public class testBDD {
 	
 	public static void main(String[] args) {
+		
+		
 		/*
 		Personne pers = new Personne("Bisault","Marie","photooo","temporaire","basique");
 		PersonneDAO repoPersonne = new PersonneDAO();
@@ -37,7 +39,7 @@ public class testBDD {
 		aut = autoRepo.create(aut);
 		*/
 		
-		String date = "14/06/16-19:09:00";
+		String date = "14/06/16-06:31:00";
 		MaPlageDate mp = new MaPlageDate(new String(), new String(), (float)6.5, (float)20.5);
 		try {
 			System.out.println(mp.contient(MaPlageDate.stringToDateTime(date)));
