@@ -56,6 +56,8 @@ public class GPGestion extends JPanel {
 	private JTextField textFieldPhoto;
 	private JComboBox<rolePersonne> comboBoxRole;
 	private JComboBox<statutPersonne> comboBoxStatut;
+	private JComboBox<rolePersonne> comboBoxRoleCreer;
+	private JComboBox<statutPersonne> comboBoxStatutCreer;
 
 	/**
 	 * Create the panel.
@@ -77,6 +79,7 @@ public class GPGestion extends JPanel {
 		JButton btnDeconnexion = new JButton("Deconnexion");
 		btnDeconnexion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				window.getFrame().setBounds(100, 100, 292, 215);
 				window.setPane(new GPLogin(window));
 			}
 		});
@@ -186,11 +189,11 @@ public class GPGestion extends JPanel {
 		panelMaj.add(textFieldId);
 		
 		JLabel lblPhoto = new JLabel("Photo");
-		lblPhoto.setBounds(10, 98, 100, 14);
+		lblPhoto.setBounds(10, 231, 100, 14);
 		panelMaj.add(lblPhoto);
 		
 		textFieldPhoto = new JTextField();
-		textFieldPhoto.setBounds(120, 95, 150, 20);
+		textFieldPhoto.setBounds(120, 228, 150, 20);
 		panelMaj.add(textFieldPhoto);
 		textFieldPhoto.setColumns(10);
 		
@@ -215,22 +218,80 @@ public class GPGestion extends JPanel {
 		comboBoxRole.addItem(rolePersonne.accueil);
 		comboBoxRole.addItem(rolePersonne.basique);
 		
+		JLabel lblErrorUpdate = new JLabel("");
+		lblErrorUpdate.setVerticalAlignment(SwingConstants.TOP);
+		lblErrorUpdate.setHorizontalAlignment(SwingConstants.LEFT);
+		lblErrorUpdate.setForeground(Color.RED);
+		lblErrorUpdate.setFont(new Font("Calibri", Font.PLAIN, 10));
+		lblErrorUpdate.setBounds(10, 259, 260, 40);
+		panelMaj.add(lblErrorUpdate);
+		
 		JButton btnUpdate = new JButton("Update");
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(!checkEmptyFieldsUpdate())
+					return;
+				lblErrorUpdate.setText("");
+				
+				try {
+					window.getCltGestPers().modifierInfos(
+							Short.valueOf(textFieldId.getText()),
+							textFieldNomCreer.getText(),
+							textFieldPrenomCreer.getText(),
+							statutPersonne.from_int(comboBoxStatutCreer.getSelectedIndex()),
+							rolePersonne.from_int(comboBoxRoleCreer.getSelectedIndex())
+					);
+					lblErrorUpdate.setText(window.getCltGestPers().getMessage());
+				} catch (NumberFormatException e1) {
+					e1.printStackTrace();
+				} catch (droitsInsuffisants e1) {
+					lblErrorUpdate.setText(e1.raison);
+				}
+			}
+		});
+		btnUpdate.setFont(new Font("Calibri", Font.PLAIN, 11));
 		btnUpdate.setBounds(181, 182, 89, 23);
 		panelMaj.add(btnUpdate);
 		
-		JLabel label_6 = new JLabel("");
-		label_6.setVerticalAlignment(SwingConstants.TOP);
-		label_6.setHorizontalAlignment(SwingConstants.LEFT);
-		label_6.setForeground(Color.RED);
-		label_6.setFont(new Font("Calibri", Font.PLAIN, 10));
-		label_6.setBounds(10, 216, 260, 40);
-		panelMaj.add(label_6);
-		
 		JButton btnSupprimer = new JButton("Supprimer");
+		btnSupprimer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				lblErrorUpdate.setText("");
+				try {
+					window.getCltGestPers().supprimerPersonne(Short.valueOf(textFieldId.getText()));
+					lblErrorUpdate.setText(window.getCltGestPers().getMessage());
+				} catch (droitsInsuffisants e1) {
+					lblErrorUpdate.setText(e1.raison);
+				} catch (NumberFormatException e2) {
+					lblErrorUpdate.setText("Aucun compte selectionne.");
+				}
+			}
+		});
+		btnSupprimer.setFont(new Font("Calibri", Font.PLAIN, 11));
 		btnSupprimer.setForeground(Color.RED);
 		btnSupprimer.setBounds(82, 182, 89, 23);
 		panelMaj.add(btnSupprimer);
+		
+		JButton btnModifier = new JButton("Modifier");
+		btnModifier.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				lblErrorUpdate.setText("");
+				String photo = new String(textFieldPhoto.getText());
+				try {
+					window.getCltGestPers().ajouterPhoto(Short.valueOf(textFieldId.getText()), photo);
+					lblErrorUpdate.setText(window.getCltGestPers().getMessage());
+				} catch (NumberFormatException e1) {
+					lblErrorUpdate.setText("Aucun compte selectionne.");
+					e1.printStackTrace();
+				} catch (droitsInsuffisants e1) {
+					lblErrorUpdate.setText(e1.raison);
+					e1.printStackTrace();
+				}
+			}
+		});
+		btnModifier.setFont(new Font("Calibri", Font.PLAIN, 11));
+		btnModifier.setBounds(280, 227, 89, 23);
+		panelMaj.add(btnModifier);
 	}
 	
 	public void createTabCreer() {
@@ -277,7 +338,7 @@ public class GPGestion extends JPanel {
 		labelStatutCreer.setBounds(10, 126, 100, 14);
 		panelCreer.add(labelStatutCreer);
 		
-		JComboBox<statutPersonne> comboBoxStatutCreer = new JComboBox<statutPersonne>();
+		comboBoxStatutCreer = new JComboBox<statutPersonne>();
 		comboBoxStatutCreer.setBounds(120, 123, 150, 20);
 		panelCreer.add(comboBoxStatutCreer);
 		comboBoxStatutCreer.addItem(statutPersonne.temporaire);
@@ -287,7 +348,7 @@ public class GPGestion extends JPanel {
 		labelRoleCreer.setBounds(10, 154, 100, 14);
 		panelCreer.add(labelRoleCreer);
 		
-		JComboBox<rolePersonne> comboBoxRoleCreer = new JComboBox<rolePersonne>();
+		comboBoxRoleCreer = new JComboBox<rolePersonne>();
 		comboBoxRoleCreer.setBounds(120, 151, 150, 20);
 		panelCreer.add(comboBoxRoleCreer);
 		comboBoxRoleCreer.addItem(rolePersonne.RH);
@@ -295,6 +356,29 @@ public class GPGestion extends JPanel {
 		comboBoxRoleCreer.addItem(rolePersonne.basique);
 		
 		JButton btnCreer = new JButton("Creer");
+		btnCreer.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(!checkEmptyFieldsCreer())
+					return;
+				lblError.setText("");
+				
+				try {
+					window.getCltGestPers().creerPersonne(
+							textFieldNomCreer.getText(),
+							textFieldPrenomCreer.getText(),
+							statutPersonne.from_int(comboBoxStatutCreer.getSelectedIndex()),
+							rolePersonne.from_int(comboBoxRoleCreer.getSelectedIndex()),
+							textFieldLoginCreer.getText(),
+							new String(passwordFieldCreer.getPassword())
+					);
+					lblError.setText(window.getCltGestPers().getMessage());
+				} catch (NumberFormatException e1) {
+					e1.printStackTrace();
+				} catch (droitsInsuffisants e1) {
+					lblError.setText(e1.raison);
+				}
+			}
+		});
 		btnCreer.setBounds(181, 182, 89, 23);
 		panelCreer.add(btnCreer);
 		
@@ -307,6 +391,44 @@ public class GPGestion extends JPanel {
 		panelCreer.add(lblErrorCreer);
 		
 		
+	}
+	
+	public boolean checkEmptyFieldsCreer() {
+		String errorFields = "";
+		if(textFieldNomCreer.getText().length() == 0)
+			errorFields += "Nom, ";
+		if(textFieldPrenomCreer.getText().length() == 0)
+			errorFields += "Prenom, ";
+		if(comboBoxStatutCreer.getSelectedItem() == null)
+			errorFields += "Statut, ";
+		if(comboBoxRoleCreer.getSelectedItem() == null)
+			errorFields += "Role, ";
+		if(textFieldLoginCreer.getText().length() == 0)
+			errorFields += "login, ";
+		if(passwordFieldCreer.getPassword().length == 0)
+			errorFields += "Password, ";
+		
+		if(errorFields.length() > 0) {
+			lblError.setText("<html>Le(s) champ(s) <br>" + errorFields + " <br>doivent �tre renseign�s.</html>");
+			return false;
+		}
+		
+		return true;
+	}
+	
+	public boolean checkEmptyFieldsUpdate() {
+		String errorFields = "";
+		if(textFieldNom.getText().length() == 0)
+			errorFields += "Nom, ";
+		if(textFieldPrenom.getText().length() == 0)
+			errorFields += "Prenom, ";
+		
+		if(errorFields.length() > 0) {
+			lblError.setText("<html>Le(s) champ(s) <br>" + errorFields + " <br>doivent etre renseignes.</html>");
+			return false;
+		}
+		
+		return true;
 	}
 	
 	public class PersonneModel extends AbstractTableModel {

@@ -25,7 +25,7 @@ public class InterfaceGestionPersonnelSwing {
 			public void run() {
 				try {
 					InterfaceGestionPersonnelSwing window = new InterfaceGestionPersonnelSwing();
-					window.frmGestionDuPersonnel.setVisible(true);
+					window.getFrmGestionDuPersonnel().setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -46,27 +46,35 @@ public class InterfaceGestionPersonnelSwing {
 	private void initialize() {
 		cltGestPers = new InterfaceGestionPersonnel();
 		
-		frmGestionDuPersonnel = new JFrame();
-		frmGestionDuPersonnel.setTitle("Gestion du Personnel");
-		frmGestionDuPersonnel.setBounds(100, 100, 585, 405);
-		frmGestionDuPersonnel.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setFrmGestionDuPersonnel(new JFrame());
+		getFrmGestionDuPersonnel().setTitle("Gestion du Personnel");
+		getFrmGestionDuPersonnel().setBounds(100, 100, 292, 215);
+		getFrmGestionDuPersonnel().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		frmGestionDuPersonnel.setContentPane(new GPLogin(this));
+		getFrmGestionDuPersonnel().setContentPane(new GPLogin(this));
 	}
 	
 	public JFrame getFrame() {
-		return this.frmGestionDuPersonnel;
+		return this.getFrmGestionDuPersonnel();
 	}
 	
 	public void setPane(Container c) {
-		frmGestionDuPersonnel.setContentPane(c);
-		frmGestionDuPersonnel.revalidate();
+		getFrmGestionDuPersonnel().setContentPane(c);
+		getFrmGestionDuPersonnel().revalidate();
 	}
 	
 	public InterfaceGestionPersonnel getCltGestPers() {
 		return this.cltGestPers;
 	}
 	
+	private JFrame getFrmGestionDuPersonnel() {
+		return frmGestionDuPersonnel;
+	}
+
+	private void setFrmGestionDuPersonnel(JFrame frmGestionDuPersonnel) {
+		this.frmGestionDuPersonnel = frmGestionDuPersonnel;
+	}
+
 	public static class PersonneComboBox extends Personne {
 		public static ArrayList<Personne> listPersonnes = null;
 		
