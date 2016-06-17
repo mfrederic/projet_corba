@@ -72,7 +72,7 @@ public class SupprimerEmpreinte extends JPanel {
 		JButton btnAnnuler = new JButton("Annuler");
 		btnAnnuler.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				window.setPane(new GPMenu(window));
+				//window.setPane(new GPMenu(window));
 			}
 		});
 		btnAnnuler.setBounds(118, 117, 89, 23);
