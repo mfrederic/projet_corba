@@ -97,6 +97,7 @@ public class GPGestion extends JPanel {
 		table.setFont(new Font("Calibri", Font.PLAIN, 11));
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setAutoCreateRowSorter(true);
+		table.getRowSorter().toggleSortOrder(0);
 		scrollPaneListPersonne.setViewportView(table);
 		
 		ListSelectionModel listSelectionModel = table.getSelectionModel();
@@ -418,7 +419,7 @@ public class GPGestion extends JPanel {
 			errorFields += "Password, ";
 		
 		if(errorFields.length() > 0) {
-			lblError.setText("<html>Le(s) champ(s) <br>" + errorFields + " <br>doivent �tre renseign�s.</html>");
+			lblError.setText("<html>Le(s) champ(s) <br>" + errorFields + " <br>doivent etre renseignes.</html>");
 			return false;
 		}
 		
@@ -452,6 +453,8 @@ public class GPGestion extends JPanel {
 		}
 		
 		public Personne getPersonneAt(int minSelectionIndex) {
+			if(listePersonne.length < minSelectionIndex)
+				return listePersonne[listePersonne.length-1];
 			return listePersonne[minSelectionIndex];
 		}
 
@@ -492,6 +495,10 @@ public class GPGestion extends JPanel {
 		
 		@Override
 		public void fireTableDataChanged() {
+			super.fireTableDataChanged();
+		};
+		
+		public void updateAllContent() {
 			ArrayList<Personne> list = new ArrayList<Personne>();
 			personne[] liste = null;
 			try {
@@ -504,7 +511,7 @@ public class GPGestion extends JPanel {
 			}
 			listePersonne = new Personne[list.size()];
 			listePersonne = (Personne[]) list.toArray(listePersonne);
-		};
+		}
 		
 		@Override
 		public int getColumnCount() {
