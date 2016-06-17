@@ -5,6 +5,7 @@ import org.omg.CosNaming.NamingContextHelper;
 
 import Gestion_acces.ServeurAutorisation;
 import Gestion_acces.ServeurAutorisationHelper;
+import config.Corbaloc;
 
 public class ClientServeurAutorisation {
 	public static ServeurAutorisation monServeurAutorisation;
@@ -22,7 +23,7 @@ public class ClientServeurAutorisation {
 	        /*org.omg.CosNaming.NamingContext nameRoot =
 	        		org.omg.CosNaming.NamingContextHelper.narrow(orb.resolve_initial_references("NameService"));
 	*/
-	        NamingContext nameRoot=NamingContextHelper.narrow(orb.string_to_object("corbaloc:iiop:1.2@192.168.43.104:2001/NameService"));
+	        NamingContext nameRoot=NamingContextHelper.narrow(orb.string_to_object(Corbaloc.getCorbaRef()));
 	        
 	        // Construction du nom a rechercher
 	        org.omg.CosNaming.NameComponent[] nameToFind = new org.omg.CosNaming.NameComponent[1];

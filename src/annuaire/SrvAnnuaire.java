@@ -2,9 +2,10 @@ package annuaire;
 
 import org.omg.CosNaming.NamingContext;
 import org.omg.CosNaming.NamingContextHelper;
-import org.omg.CosNaming.NamingContextHolder;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.POAHelper;
+
+import config.Corbaloc;
 
 public class SrvAnnuaire {
 	public static void main(String[] args) {
@@ -32,7 +33,7 @@ public class SrvAnnuaire {
 		        //*******************************************
 		        // Recuperation du naming service
 		        //NamingContext nameRoot=org.omg.CosNaming.NamingContextHelper.narrow(orb.resolve_initial_references("NameService"));
-		        NamingContext nameRoot=NamingContextHelper.narrow(orb.string_to_object("corbaloc:iiop:1.2@192.168.43.104:2001/NameService"));
+		        NamingContext nameRoot=NamingContextHelper.narrow(orb.string_to_object(Corbaloc.getCorbaRef()));
 		        
 		        // Construction du nom a enregistrer
 		        org.omg.CosNaming.NameComponent[] nameToRegister = new org.omg.CosNaming.NameComponent[1];

@@ -21,6 +21,8 @@ public class InterfaceMonCompte {
 	private String userConnecte;
 	
 	public InterfaceMonCompte() {
+		monAuthentification = new ClientServeurAuthentification();
+		
 		message = "";
 		userConnecte = "";
 	}
