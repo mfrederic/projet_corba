@@ -17,7 +17,7 @@ public class SrvServeurAuthentification {
 	        //*********************
 	        ServeurAuthentificationImpl monServeurAuthentification = new ServeurAuthentificationImpl();
 
-	        String nomObj = "Autorisation";
+	        String nomObj = "Authentification";
 	        ORB orb = Corbaloc.registerServant(args, monServeurAuthentification , nomObj);        
 	        // Lancement de l'ORB et mise en attente de requete
 	        //**************************************************
