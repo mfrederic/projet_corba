@@ -81,27 +81,23 @@ public class InterfaceGestionPersonnel {
 	}
 	
 	public void supprimerPersonne(short idPersonne) throws droitsInsuffisants {
-		short idPers = 0;
 		
 		if ((persConnectee.role == rolePersonne.accueil) || (persConnectee.role == rolePersonne.RH)){
 
 			try {
 				monAuthentification.getMonAuthentification().supprimerCompte(idPersonne, cleServeur);
 				
-				if (idPers > 0)
-					try {
-						monAnnuaire.getMonAnnuaire().supprimerPersonne(idPers);
-						message = "Personne et compte associes supprimes avec succes";
-					} catch (personneInexistante e) {
-						// TODO Auto-generated catch block
-						message = "Personne inexistante dans la base (id = " + e.id + ")";
-					}
-			} catch (accesRefuse e1) {
+				monAnnuaire.getMonAnnuaire().supprimerPersonne(idPersonne);
+				message = "Personne et compte associes supprimes avec succes";
+
+			} catch (accesRefuse e) {
 				// TODO Auto-generated catch block
-				message = e1.raison;
-			} catch (compteInexistant e1) {
+				message = e.raison;
+			} catch (compteInexistant e) {
 				// TODO Auto-generated catch block
-				message = "Compte inexistant : (user: " + e1.user + ")";
+				message = "Compte inexistant : (user: " + e.user + ")";
+			} catch (personneInexistante e) {
+				message = "Personne inexistante dans la base (id = " + e.id + ")";
 			}
 			
 		} else {
