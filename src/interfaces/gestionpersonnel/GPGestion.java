@@ -160,24 +160,6 @@ public class GPGestion extends JPanel {
 		tabbedPane.addTab("MaJ", null, panelMaj, null);
 		panelMaj.setLayout(null);
 		
-		JLabel label = new JLabel("Nom");
-		label.setBounds(10, 70, 100, 14);
-		panelMaj.add(label);
-		
-		textFieldNom = new JTextField();
-		textFieldNom.setColumns(10);
-		textFieldNom.setBounds(120, 67, 150, 20);
-		panelMaj.add(textFieldNom);
-		
-		JLabel label_1 = new JLabel("Prenom");
-		label_1.setBounds(10, 42, 100, 14);
-		panelMaj.add(label_1);
-		
-		textFieldPrenom = new JTextField();
-		textFieldPrenom.setColumns(10);
-		textFieldPrenom.setBounds(120, 39, 150, 20);
-		panelMaj.add(textFieldPrenom);
-		
 		JLabel lblId = new JLabel("Id");
 		lblId.setBounds(10, 14, 100, 14);
 		panelMaj.add(lblId);
@@ -189,31 +171,40 @@ public class GPGestion extends JPanel {
 		textFieldId.setBounds(120, 11, 150, 20);
 		panelMaj.add(textFieldId);
 		
-		JLabel lblPhoto = new JLabel("Photo");
-		lblPhoto.setBounds(10, 231, 100, 14);
-		panelMaj.add(lblPhoto);
+		JLabel label_1 = new JLabel("Prenom");
+		label_1.setBounds(10, 42, 100, 14);
+		panelMaj.add(label_1);
 		
-		textFieldPhoto = new JTextField();
-		textFieldPhoto.setBounds(120, 228, 150, 20);
-		panelMaj.add(textFieldPhoto);
-		textFieldPhoto.setColumns(10);
+		textFieldPrenom = new JTextField();
+		textFieldPrenom.setColumns(10);
+		textFieldPrenom.setBounds(120, 39, 150, 20);
+		panelMaj.add(textFieldPrenom);
+		
+		JLabel label = new JLabel("Nom");
+		label.setBounds(10, 70, 100, 14);
+		panelMaj.add(label);
+		
+		textFieldNom = new JTextField();
+		textFieldNom.setColumns(10);
+		textFieldNom.setBounds(120, 67, 150, 20);
+		panelMaj.add(textFieldNom);
 		
 		JLabel label_4 = new JLabel("Statut");
-		label_4.setBounds(10, 126, 100, 14);
+		label_4.setBounds(10, 98, 100, 14);
 		panelMaj.add(label_4);
 		
 		comboBoxStatut = new JComboBox<statutPersonne>();
-		comboBoxStatut.setBounds(120, 123, 150, 20);
+		comboBoxStatut.setBounds(120, 95, 150, 20);
 		panelMaj.add(comboBoxStatut);
 		comboBoxStatut.addItem(statutPersonne.temporaire);
 		comboBoxStatut.addItem(statutPersonne.permanent);
 		
 		JLabel label_5 = new JLabel("Role");
-		label_5.setBounds(10, 154, 100, 14);
+		label_5.setBounds(10, 126, 100, 14);
 		panelMaj.add(label_5);
 		
 		comboBoxRole = new JComboBox<rolePersonne>();
-		comboBoxRole.setBounds(120, 151, 150, 20);
+		comboBoxRole.setBounds(120, 123, 150, 20);
 		panelMaj.add(comboBoxRole);
 		comboBoxRole.addItem(rolePersonne.RH);
 		comboBoxRole.addItem(rolePersonne.accueil);
@@ -224,7 +215,7 @@ public class GPGestion extends JPanel {
 		lblErrorUpdate.setHorizontalAlignment(SwingConstants.LEFT);
 		lblErrorUpdate.setForeground(Color.RED);
 		lblErrorUpdate.setFont(new Font("Calibri", Font.PLAIN, 10));
-		lblErrorUpdate.setBounds(10, 259, 260, 40);
+		lblErrorUpdate.setBounds(10, 233, 260, 40);
 		panelMaj.add(lblErrorUpdate);
 		
 		JButton btnUpdate = new JButton("Update");
@@ -237,10 +228,10 @@ public class GPGestion extends JPanel {
 				try {
 					window.getCltGestPers().modifierInfos(
 							Short.valueOf(textFieldId.getText()),
-							textFieldNomCreer.getText(),
-							textFieldPrenomCreer.getText(),
-							statutPersonne.from_int(comboBoxStatutCreer.getSelectedIndex()),
-							rolePersonne.from_int(comboBoxRoleCreer.getSelectedIndex())
+							textFieldNom.getText(),
+							textFieldPrenom.getText(),
+							statutPersonne.from_int(comboBoxStatut.getSelectedIndex()),
+							rolePersonne.from_int(comboBoxRole.getSelectedIndex())
 					);
 					personneModel.fireTableDataChanged();
 					lblErrorUpdate.setText(window.getCltGestPers().getMessage());
@@ -252,7 +243,7 @@ public class GPGestion extends JPanel {
 			}
 		});
 		btnUpdate.setFont(new Font("Calibri", Font.PLAIN, 11));
-		btnUpdate.setBounds(181, 182, 89, 23);
+		btnUpdate.setBounds(181, 154, 89, 23);
 		panelMaj.add(btnUpdate);
 		
 		JButton btnSupprimer = new JButton("Supprimer");
@@ -272,7 +263,7 @@ public class GPGestion extends JPanel {
 		});
 		btnSupprimer.setFont(new Font("Calibri", Font.PLAIN, 11));
 		btnSupprimer.setForeground(Color.RED);
-		btnSupprimer.setBounds(82, 182, 89, 23);
+		btnSupprimer.setBounds(82, 154, 89, 23);
 		panelMaj.add(btnSupprimer);
 		
 		JButton btnModifier = new JButton("Modifier");
@@ -293,9 +284,22 @@ public class GPGestion extends JPanel {
 				}
 			}
 		});
+		
+		JLabel lblPhoto = new JLabel("Photo");
+		lblPhoto.setBounds(10, 205, 100, 14);
+		panelMaj.add(lblPhoto);
+		
+		textFieldPhoto = new JTextField();
+		textFieldPhoto.setBounds(120, 202, 150, 20);
+		panelMaj.add(textFieldPhoto);
+		textFieldPhoto.setColumns(10);
 		btnModifier.setFont(new Font("Calibri", Font.PLAIN, 11));
-		btnModifier.setBounds(280, 227, 89, 23);
+		btnModifier.setBounds(280, 201, 89, 23);
 		panelMaj.add(btnModifier);
+		
+		JSeparator separator = new JSeparator();
+		separator.setBounds(10, 188, 401, 2);
+		panelMaj.add(separator);
 	}
 	
 	public void createTabCreer() {
