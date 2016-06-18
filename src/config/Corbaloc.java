@@ -9,7 +9,7 @@ import org.omg.PortableServer.Servant;
 
 public class Corbaloc {
 
-	private final static String corbaRef = "corbaloc:iiop:1.2@192.168.43.104:2001/NameService";
+	private final static String corbaRef = "corbaloc:iiop:1.2@127.0.0.1:2001/NameService";
 	
 	public static String getCorbaRef() {
 		return corbaRef;

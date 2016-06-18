@@ -1,5 +1,7 @@
 package interfaces.gestionpersonnel;
 
+import interfaces.gestionpersonnel.InterfaceGestionPersonnelSwing.PersonneComboBox;
+
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.ListSelectionModel;
@@ -216,7 +218,7 @@ public class GPGestion extends JPanel {
 		lblErrorUpdate.setHorizontalAlignment(SwingConstants.LEFT);
 		lblErrorUpdate.setForeground(Color.RED);
 		lblErrorUpdate.setFont(new Font("Calibri", Font.PLAIN, 10));
-		lblErrorUpdate.setBounds(10, 233, 260, 40);
+		lblErrorUpdate.setBounds(10, 259, 260, 40);
 		panelMaj.add(lblErrorUpdate);
 		
 		JButton btnUpdate = new JButton("Update");
@@ -301,6 +303,21 @@ public class GPGestion extends JPanel {
 		JSeparator separator = new JSeparator();
 		separator.setBounds(10, 188, 401, 2);
 		panelMaj.add(separator);
+		
+		JButton btnSupprimerEmpreinte = new JButton("Supprimer Empreinte");
+		btnSupprimerEmpreinte.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					window.getCltGestPers().supprimerEmpreinte(Short.valueOf(textFieldId.getText()));
+					lblErrorUpdate.setText(window.getCltGestPers().getMessage());
+				} catch (droitsInsuffisants e1) {
+					lblErrorUpdate.setText(e1.raison);
+				}
+			}
+		});
+		btnSupprimerEmpreinte.setFont(new Font("Calibri", Font.PLAIN, 11));
+		btnSupprimerEmpreinte.setBounds(219, 233, 150, 23);
+		panelMaj.add(btnSupprimerEmpreinte);
 	}
 	
 	public void createTabCreer() {
