@@ -1,8 +1,11 @@
 package interfaces.responsablezone;
 
+import interfaces.gestionpersonnel.InterfaceGestionPersonnelSwing.PersonneComboBox;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.MalformedParametersException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -26,6 +29,8 @@ import model.Personne;
 import model.Zone;
 import Gestion_acces.autorisation;
 import Gestion_acces.personne;
+import Gestion_acces.structPlage;
+import Gestion_acces.AnnuairePackage.personneInexistante;
 import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
 
 import java.awt.Color;
@@ -37,13 +42,13 @@ public class RespZoneGestion extends JPanel {
 	private InterfaceRespZoneSwing window;
 	private Personne currentSelected;
 	private JTable tableGrants;
-	private JTextField textFieldUser;
-	private JTextField textFieldJourDebut;
-	private JTextField textFieldJourFin;
-	private JTextField textFieldTempsDebut;
-	private JTextField textFieldTempsFin;
+	private JTextField textFieldJourDebutCreate;
+	private JTextField textFieldJourFinCreate;
+	private JTextField textFieldTempsDebutCreate;
+	private JTextField textFieldTempsFinCreate;
 	private JComboBox<Short> comboBoxZoneCreate;
 	private JLabel lblError;
+	private JComboBox comboBoxPersonneCreate;
 
 	/**
 	 * Create the panel.
@@ -71,26 +76,6 @@ public class RespZoneGestion extends JPanel {
 		});
 		btnDeconnexion.setBounds(290, 19, 150, 23);
 		add(btnDeconnexion);
-		
-		/*
-		personneModel = new PersonneModel();
-		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
-			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				if (e.getValueIsAdjusting())
-		            return;
-				
-		        ListSelectionModel lsm = (ListSelectionModel)e.getSource();
-		        if (!lsm.isSelectionEmpty()) {
-		            currentSelected = personneModel.getPersonneAt(lsm.getMinSelectionIndex());
-		        	textFieldUser.setText(String.valueOf(currentSelected.getIdPersonne()));
-		        } else {
-		        	currentSelected = null;
-		        	textFieldUser.setText("");
-		        }
-			}
-		});
-		*/
 		
 		JLabel lblUtilisateurs = new JLabel("Zones");
 		lblUtilisateurs.setFont(new Font("Calibri", Font.PLAIN, 11));
@@ -120,7 +105,7 @@ public class RespZoneGestion extends JPanel {
 		this.addCreatePanel();
 		this.addUpdatePanel();
 		
-		lblError = new JLabel("");
+		lblError = new JLabel("test");
 		lblError.setVerticalAlignment(SwingConstants.TOP);
 		lblError.setFont(new Font("Calibri", Font.PLAIN, 10));
 		lblError.setForeground(Color.RED);
@@ -155,14 +140,9 @@ public class RespZoneGestion extends JPanel {
 		lblUser.setBounds(10, 47, 84, 14);
 		panelAddGrant.add(lblUser);
 		
-		textFieldUser = new JTextField();
-		lblUser.setLabelFor(textFieldUser);
-		textFieldUser.setEnabled(false);
-		textFieldUser.setEditable(false);
-		textFieldUser.setFont(new Font("Calibri", Font.PLAIN, 11));
-		textFieldUser.setBounds(104, 44, 86, 20);
-		panelAddGrant.add(textFieldUser);
-		textFieldUser.setColumns(10);
+		comboBoxPersonneCreate = new JComboBox<PersonneComboBox>(new PersonneCBModel());
+		comboBoxPersonneCreate.setBounds(104, 43, 86, 20);
+		panelAddGrant.add(comboBoxPersonneCreate);
 		
 		JLabel lblZone = new JLabel("Zone");
 		lblZone.setFont(new Font("Calibri", Font.PLAIN, 11));
@@ -177,77 +157,92 @@ public class RespZoneGestion extends JPanel {
 		panelAddGrant.add(comboBoxZoneCreate);
 		
 		JLabel labelJourDebut = new JLabel("Jour debut");
-		labelJourDebut.setLabelFor(textFieldJourDebut);
+		labelJourDebut.setLabelFor(textFieldJourDebutCreate);
 		labelJourDebut.setFont(new Font("Calibri", Font.PLAIN, 11));
 		labelJourDebut.setBounds(10, 109, 84, 14);
 		panelAddGrant.add(labelJourDebut);
 		
-		textFieldJourDebut = new JTextField();
-		textFieldJourDebut.setBounds(104, 106, 86, 20);
-		panelAddGrant.add(textFieldJourDebut);
-		textFieldJourDebut.setColumns(10);
+		textFieldJourDebutCreate = new JTextField();
+		textFieldJourDebutCreate.setBounds(104, 106, 86, 20);
+		panelAddGrant.add(textFieldJourDebutCreate);
+		textFieldJourDebutCreate.setColumns(10);
 		
 		JLabel lblJourFin = new JLabel("Jour fin");
-		lblJourFin.setLabelFor(textFieldJourFin);
+		lblJourFin.setLabelFor(textFieldJourFinCreate);
 		lblJourFin.setFont(new Font("Calibri", Font.PLAIN, 11));
 		lblJourFin.setBounds(10, 140, 84, 14);
 		panelAddGrant.add(lblJourFin);
 		
-		textFieldJourFin = new JTextField();
-		textFieldJourFin.setColumns(10);
-		textFieldJourFin.setBounds(104, 137, 86, 20);
-		panelAddGrant.add(textFieldJourFin);
+		textFieldJourFinCreate = new JTextField();
+		textFieldJourFinCreate.setColumns(10);
+		textFieldJourFinCreate.setBounds(104, 137, 86, 20);
+		panelAddGrant.add(textFieldJourFinCreate);
 		
 		JLabel lblHeureDebut = new JLabel("Heure debut");
-		lblHeureDebut.setLabelFor(textFieldTempsDebut);
+		lblHeureDebut.setLabelFor(textFieldTempsDebutCreate);
 		lblHeureDebut.setFont(new Font("Calibri", Font.PLAIN, 11));
 		lblHeureDebut.setBounds(10, 171, 84, 14);
 		panelAddGrant.add(lblHeureDebut);
 		
-		textFieldTempsDebut = new JTextField();
-		textFieldTempsDebut.setColumns(10);
-		textFieldTempsDebut.setBounds(104, 168, 86, 20);
-		panelAddGrant.add(textFieldTempsDebut);
+		textFieldTempsDebutCreate = new JTextField();
+		textFieldTempsDebutCreate.setColumns(10);
+		textFieldTempsDebutCreate.setBounds(104, 168, 86, 20);
+		panelAddGrant.add(textFieldTempsDebutCreate);
 		
 		JLabel lblHeureFin = new JLabel("Heure fin");
-		lblHeureFin.setLabelFor(textFieldTempsFin);
+		lblHeureFin.setLabelFor(textFieldTempsFinCreate);
 		lblHeureFin.setFont(new Font("Calibri", Font.PLAIN, 11));
 		lblHeureFin.setBounds(10, 202, 84, 14);
 		panelAddGrant.add(lblHeureFin);
 		
-		textFieldTempsFin = new JTextField();
-		textFieldTempsFin.setColumns(10);
-		textFieldTempsFin.setBounds(104, 199, 86, 20);
-		panelAddGrant.add(textFieldTempsFin);
+		textFieldTempsFinCreate = new JTextField();
+		textFieldTempsFinCreate.setColumns(10);
+		textFieldTempsFinCreate.setBounds(104, 199, 86, 20);
+		panelAddGrant.add(textFieldTempsFinCreate);
 		
 		JButton btnCreer = new JButton("Creer");
 		btnCreer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if(!checkCreateFields()) {
-					lblError.setText("Un champs necessaire a la creation est vide.");
-					return;
-				} else {
-					lblError.setText("");
-					return;
+				try {
+					if(	(textFieldJourDebutCreate.getText().length() != 0 && textFieldJourFinCreate.getText().length() != 0) &&
+							(!MatcherDate.testDateIsValid(textFieldJourDebutCreate.getText()) ||
+							!MatcherDate.testDateIsValid(textFieldJourFinCreate.getText()))
+						) {
+						lblError.setText("Le(s) jour(s) renseignes doivent etre au format 'dd/mm/yy'.");
+						return;
+					} else {
+						lblError.setText("");
+						PersonneComboBox selected = (PersonneComboBox) comboBoxPersonneCreate.getSelectedItem();
+						Float heureDebut = (textFieldTempsDebutCreate.getText().length() == 0) ? 0 : Float.valueOf(textFieldTempsDebutCreate.getText());
+						Float heureFin = (textFieldTempsFinCreate.getText().length() == 0) ? 0 : Float.valueOf(textFieldTempsFinCreate.getText());
+						
+						structPlage plage = new structPlage(
+								textFieldJourDebutCreate.getText(),
+								textFieldJourFinCreate.getText(),
+								heureDebut,
+								heureFin
+								);
+						try {
+							window.getInterfaceRespZone().ajouterAutorisation((short) selected.getIdPersonne(), (short) comboBoxZoneCreate.getSelectedItem(), plage);
+							lblError.setText(window.getInterfaceRespZone().getMessage());
+							short[] currentZone = {(short) comboBoxZoneCreate.getSelectedItem()};
+							tableGrants.setModel(new AutorisationModel(currentZone));
+						} catch (droitsInsuffisants e) {
+							lblError.setText(e.raison);
+							e.printStackTrace();
+						} catch (personneInexistante e) {
+							lblError.setText(e.getMessage());
+							e.printStackTrace();
+						}
+						return;
+					}
+				} catch (MalformedParametersException e) {
+					lblError.setText(e.getMessage());
 				}
 			}
 		});
 		btnCreer.setBounds(101, 230, 89, 23);
 		panelAddGrant.add(btnCreer);
-	}
-
-	private boolean checkCreateFields() {
-		if(textFieldUser.getText().length() == 0)
-			return false;
-		if(textFieldJourDebut.getText().length() == 0)
-			return false;
-		if(textFieldJourFin.getText().length() == 0)
-			return false;
-		if(textFieldTempsDebut.getText().length() == 0)
-			return false;
-		if(textFieldTempsFin.getText().length() == 0)
-			return false;
-		return true;
 	}
 	
 	private void addUpdatePanel() {
@@ -298,25 +293,60 @@ public class RespZoneGestion extends JPanel {
 		
 	}
 	
-	public class PersonneCBModel extends AbstractTableModel {
-		private static final long serialVersionUID = -3240581296997491550L;
+	public static class PersonneComboBox extends Personne {
+		public static ArrayList<Personne> listPersonnes = null;
 		
-		private Personne[] listePersonne;
-		private final String[] listeColonnes = {"Id", "Nom", "Prenom", "Photo", "Statut", "Role"};
-
-		public PersonneCBModel(Personne[] liste) {
-			super();
-			listePersonne = liste;
+		public PersonneComboBox(Personne p) {
+			super(p.getIdPersonne(), p.getNomPersonne(), p.getPrenomPersonne(), p.getPhotoPersonne(), p.getStatutPersonne(), p.getRolePersonne());
 		}
 		
-		public Personne getPersonneAt(int minSelectionIndex) {
-			if(listePersonne.length < minSelectionIndex)
-				return listePersonne[listePersonne.length-1];
-			return listePersonne[minSelectionIndex];
+		public String toString() {
+			return this.getNomPersonne() + " " + this.getPrenomPersonne();
 		}
+		
+		public static Personne getByNomPrenom(String nomPrenom) {
+			for(Personne p : listPersonnes) {
+				if((p.getNomPersonne() + " " + p.getPrenomPersonne()).equals(nomPrenom))
+					return p;
+			}
+			return null;
+		}
+		
+		public static Object[] getInstances(personne[] list) {
+			if(list == null)
+				return null;
+			
+			listPersonnes = new ArrayList<Personne>();
+			ArrayList<PersonneComboBox> p = new ArrayList<PersonneComboBox>();
+			
+			for(personne pers : list) {
+				Personne current = new Personne(pers.idPers, pers.nom, pers.prenom, pers.ph, pers.statut.toString(), pers.role.toString());
+				listPersonnes.add(current);
+				p.add(new PersonneComboBox(current));
+			}
+			
+			return (Object[]) p.toArray();
+		}
+		
+		public static Object[] getInstances(ArrayList<Personne> list) {
+			listPersonnes = new ArrayList<Personne>(list);
+			ArrayList<PersonneComboBox> p = new ArrayList<PersonneComboBox>();
+			
+			for(Personne pers : list) {
+				p.add(new PersonneComboBox(pers));
+			}
+			
+			return (Object[]) p.toArray();
+		}
+	}
+	
+	public class PersonneCBModel extends AbstractListModel<PersonneComboBox> implements ComboBoxModel<PersonneComboBox> {
+		private static final long serialVersionUID = 2215403230482150481L;
+		
+		PersonneComboBox[] listePersonne;
+		PersonneComboBox selection;
 		
 		public PersonneCBModel() {
-			super();
 			ArrayList<Personne> list = new ArrayList<Personne>();
 			personne[] liste = null;
 			try {
@@ -325,71 +355,34 @@ public class RespZoneGestion extends JPanel {
 				e.printStackTrace();
 			}
 			for(personne pers : liste) {
-				list.add(new Personne(pers.idPers, pers.nom, pers.prenom, pers.ph, pers.statut.toString(), pers.role.toString()));
+				list.add(
+						new PersonneComboBox(new Personne(pers.idPers, pers.nom, pers.prenom, pers.ph, pers.statut.toString(), pers.role.toString()))
+						);
 			}
-			listePersonne = new Personne[list.size()];
+			listePersonne = new PersonneComboBox[list.size()];
 			listePersonne = list.toArray(listePersonne);
 		}
 		
 		@Override
-		public void fireTableDataChanged() {
-			super.fireTableDataChanged();
-		};
-		
-		@Override
-		public int getColumnCount() {
-			return listeColonnes.length;
-		}
-		
-		@Override
-		public String getColumnName(int columnIndex) {
-			return listeColonnes[columnIndex];
+		public PersonneComboBox getElementAt(int index) {
+			return this.listePersonne[index];
 		}
 
 		@Override
-		public int getRowCount() {
-			return listePersonne.length;
+		public int getSize() {
+			return this.listePersonne.length;
 		}
 
 		@Override
-		public Object getValueAt(int row, int col) {
-			switch (col) {
-				case 0:
-					return listePersonne[row].getIdPersonne();
-				case 1:
-					return listePersonne[row].getNomPersonne();
-				case 2:
-					return listePersonne[row].getPrenomPersonne();
-				case 3:
-					return listePersonne[row].getPhotoPersonne();
-				case 4:
-					return listePersonne[row].getStatutPersonne();
-				case 5:
-					return listePersonne[row].getRolePersonne();
-				default:
-					return null;
-			}
+		public Personne getSelectedItem() {
+			return selection;
+		}
+
+		@Override
+		public void setSelectedItem(Object anItem) {
+			selection = (PersonneComboBox) anItem;
 		}
 		
-		@Override
-		public Class<?> getColumnClass(int columnIndex) {
-			switch (columnIndex) {
-				case 0:
-					return Integer.class;
-				case 1:
-					return String.class;
-				case 2:
-					return String.class;
-				case 3:
-					return String.class;
-				case 4:
-					return String.class;
-				case 5:
-					return String.class;
-				default:
-					return Object.class;
-			}
-		}
 	}
 	
 	public class AutorisationModel extends AbstractTableModel {
@@ -410,7 +403,9 @@ public class RespZoneGestion extends JPanel {
 			autorisation[] liste = null;
 			liste = window.getInterfaceRespZone().getMonAutorisation().getMonAutorisation().getAutorisationsResp(z);
 			for(autorisation a : liste) {
-				list.add(new Autorisation(a.refPers, a.sP.heureDeb, a.sP.heureFin, a.sP.jourDeb, a.sP.jourFin, a.refZone));
+				Autorisation current = new Autorisation(a.refPers, a.sP.heureDeb, a.sP.heureFin, a.sP.jourDeb, a.sP.jourFin, a.refZone);
+				current.setNumAuto(a.numAuto);
+				list.add(current);
 			}
 			listeAutorisations = new Autorisation[list.size()];
 			listeAutorisations = list.toArray(listeAutorisations);

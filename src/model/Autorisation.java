@@ -11,7 +11,6 @@ public class Autorisation {
 	private int refZone;
 	
 	public Autorisation(int p_refPersonne, float p_heureDebut, float p_heureFin, String p_jourDebut, String p_jourFin, int p_refZone) {
-
 		this.refPersonne = p_refPersonne;
 		this.heureDebut = p_heureDebut;
 		this.heureFin = p_heureFin;
@@ -22,8 +21,6 @@ public class Autorisation {
 	
 	public Autorisation() {
 	}
-
-
 	
 	public int getNumAuto() {
 		return numAuto;
