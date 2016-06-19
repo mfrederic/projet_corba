@@ -28,29 +28,32 @@ public class InterfaceRespZones {
 	private String message;
 	
 	public InterfaceRespZones() {
-		monAutorisation = new ClientServeurAutorisation();
-		monAuthentification = new ClientServeurAuthentification();
-		monAnnuaire = new ClientAnnuaire();
+		setMonAutorisation(new ClientServeurAutorisation());
+		setMonAuthentification(new ClientServeurAuthentification());
+		setMonAnnuaire(new ClientAnnuaire());
 		responsable = null;
 	}
 
+	public short[] recupZoneAutorisation() {
+		return getMonAutorisation().getMonAutorisation().getZonesResp(this.responsable);
+	}
+	
 	public boolean authentifier(String user, String password) {
 		boolean authReussie = false;
 
 		try {
-			responsable = monAuthentification.getMonAuthentification().authentifier(user, password, cleServeur);
+			responsable = getMonAuthentification().getMonAuthentification().authentifier(user, password, cleServeur);
 			if (responsable.idPers == 0) {
 				authReussie = false;
 				message = "Erreur identification personne";
-			}
-			else {
-				listeZonesResp = monAutorisation.getMonAutorisation().getZonesResp(responsable);
+			} else {
+				listeZonesResp = getMonAutorisation().getMonAutorisation().getZonesResp(responsable);
 				
 				if (listeZonesResp.length == 0) {
 					authReussie = false;
 					throw new droitsInsuffisants("Vous n'etes responsable d'aucune zone");
 				} else {
-					listeAutorisationsResp = monAutorisation.getMonAutorisation().getAutorisationsResp(listeZonesResp);
+					listeAutorisationsResp = getMonAutorisation().getMonAutorisation().getAutorisationsResp(listeZonesResp);
 					authReussie = true;
 				}
 			}
@@ -80,11 +83,11 @@ public class InterfaceRespZones {
 			try {
 				// Cherche personne
 				personne p = null;
-				p = monAnnuaire.getMonAnnuaire().identifier(idPersonne);
+				p = getMonAnnuaire().getMonAnnuaire().identifier(idPersonne);
 				if (p == null)
 					throw new personneInexistante(idPersonne);
 				else
-					monAutorisation.getMonAutorisation().ajouterAutorisation(p, idZone, plage);				
+					getMonAutorisation().getMonAutorisation().ajouterAutorisation(p, idZone, plage);				
 				
 			} catch (zoneInconnue e) {
 				message = "Zone inconnue (id = " + e.zone + ")";
@@ -103,7 +106,7 @@ public class InterfaceRespZones {
 			throw new droitsInsuffisants("Vous n'avez pas le droit de gerer les droits de cette zone");
 		else {
 			try {
-				monAutorisation.getMonAutorisation().modifierAutorisation(numAutor, plage);
+				getMonAutorisation().getMonAutorisation().modifierAutorisation(numAutor, plage);
 			} catch (autorisationInexistante e) {
 				message = "Aucune autorisation correspondante trouvee (id = " + e.idAutorisation + ")";
 			}
@@ -121,7 +124,7 @@ public class InterfaceRespZones {
 			throw new droitsInsuffisants("Vous n'avez pas le droit de gerer les droits de cette zone");
 		else {
 			try {
-				monAutorisation.getMonAutorisation().supprimerAutorisation(numAutor);
+				getMonAutorisation().getMonAutorisation().supprimerAutorisation(numAutor);
 			} catch (autorisationInexistante e) {
 				// TODO Auto-generated catch block
 				message = "Aucune autorisation correspondante trouvee (id = " + e.idAutorisation + ")";
@@ -130,15 +133,7 @@ public class InterfaceRespZones {
 	}
 	
 	public personne[] chercherPersonnes(String nom, String prenom) throws droitsInsuffisants {
-		// TODO Auto-generated method stub
-		personne[] retour = new personne[0];
-		if ((responsable.role == rolePersonne.RH) || (responsable.role == rolePersonne.accueil)) {
-			retour = monAnnuaire.getMonAnnuaire().chercherPersonnes(nom, prenom);
-			
-		} else {
-			throw new droitsInsuffisants("Acces interdit : role doit etre RH ou accueil");
-		}
-		return retour;
+		return getMonAnnuaire().getMonAnnuaire().chercherPersonnes(nom, prenom);
 	}
 
 	public String getMessage() {
@@ -147,6 +142,30 @@ public class InterfaceRespZones {
 
 	public void setMessage(String message) {
 		this.message = message;
+	}
+
+	public ClientServeurAutorisation getMonAutorisation() {
+		return monAutorisation;
+	}
+
+	private void setMonAutorisation(ClientServeurAutorisation monAutorisation) {
+		this.monAutorisation = monAutorisation;
+	}
+
+	public ClientServeurAuthentification getMonAuthentification() {
+		return monAuthentification;
+	}
+
+	private void setMonAuthentification(ClientServeurAuthentification monAuthentification) {
+		this.monAuthentification = monAuthentification;
+	}
+
+	public ClientAnnuaire getMonAnnuaire() {
+		return monAnnuaire;
+	}
+
+	private void setMonAnnuaire(ClientAnnuaire monAnnuaire) {
+		this.monAnnuaire = monAnnuaire;
 	}
 	
 }

@@ -1,6 +1,5 @@
 package interfaces.responsablezone;
 
-import interfaces.InterfaceGestionPersonnel;
 import interfaces.InterfaceRespZones;
 
 import java.awt.Container;
