@@ -39,12 +39,15 @@ public class AutorisationDAO extends DAO<Autorisation>{
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return autor;
 	}
 
 	@Override
 	public Autorisation create(Autorisation obj) {
+		Autorisation response = obj;
 		try {
 			PreparedStatement prepare = 
 					this.connect.prepareStatement(
@@ -68,11 +71,15 @@ public class AutorisationDAO extends DAO<Autorisation>{
 			prepare.executeUpdate();
 			ResultSet rs = prepare.getGeneratedKeys();
 			rs.next();
-			return find(rs.getInt(4));			
+			
+			Autorisation fromDB = find(rs.getInt(4));
+			response = (fromDB == null) ? response : fromDB;
 		} catch (SQLException e) {
 			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		return obj;
+		return response;
 	}
 
 	@Override

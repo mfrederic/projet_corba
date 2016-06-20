@@ -1,5 +1,8 @@
 package model;
 
+import Gestion_acces.personne;
+import Gestion_acces.rolePersonne;
+
 public class Personne {
 	public final String[] STATUT = {"temporaire", "permanent"};
 	public final String[] ROLE = {"RH", "accueil","basique"};
@@ -78,6 +81,26 @@ public class Personne {
 	}
 	public Personne(){
 		
+	}
+	
+	public Personne(personne p) {
+		setIdPersonne(p.idPers);
+		setNomPersonne(p.nom);
+		setPrenomPersonne(p.prenom);
+		setPhotoPersonne(p.ph);
+		setStatutPersonne(p.statut.toString());
+		setRolePersonne(p.role.toString());
+	}
+	
+	public static personne nonNullPersonne(personne p) {
+		personne pers = p;
+		if(pers.nom == null)
+			pers.nom = new String();
+		if(pers.prenom == null)
+			pers.prenom = new String();
+		if(pers.ph == null)
+			pers.ph = new String();
+		return pers;
 	}
 	
 	@Override

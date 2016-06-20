@@ -1,5 +1,6 @@
 package interfaces;
 
+import model.Personne;
 import Gestion_acces.autorisation;
 import Gestion_acces.personne;
 import Gestion_acces.rolePersonne;
@@ -83,15 +84,20 @@ public class InterfaceRespZones {
 			try {
 				// Cherche personne
 				personne p = null;
-				p = getMonAnnuaire().getMonAnnuaire().identifier(idPersonne);
+				p = Personne.nonNullPersonne(getMonAnnuaire().getMonAnnuaire().identifier(idPersonne));
+				
 				if (p == null)
 					throw new personneInexistante(idPersonne);
 				else
-					getMonAutorisation().getMonAutorisation().ajouterAutorisation(p, idZone, plage);				
+					getMonAutorisation().getMonAutorisation().ajouterAutorisation(p, idZone, plage);
+				message = "Ajout d'autorisation realise.";
 				
 			} catch (zoneInconnue e) {
 				message = "Zone inconnue (id = " + e.zone + ")";
-			}	
+			} catch (Exception e) {
+				e.printStackTrace();
+				message = "Erreur inconnue.";
+			}
 		}
 	}
 	

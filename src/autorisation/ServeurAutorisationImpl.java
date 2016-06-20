@@ -94,16 +94,20 @@ public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
 			throw new zoneInconnue(zone);
 		else {
 			
-			// BD
-			Autorisation autor = new Autorisation();
-			autor.setJourDebut(plage.jourDeb);
-			autor.setJourFin(plage.jourFin);
-			autor.setHeureDebut(plage.heureDeb);
-			autor.setHeureFin(plage.heureFin);
-			autor.setRefPersonne(p.idPers);
-			autor.setRefZone(zone);
-			
-			repoAutorisation.create(autor);
+			try {
+				// BD
+				Autorisation autor = new Autorisation();
+				autor.setJourDebut(plage.jourDeb);
+				autor.setJourFin(plage.jourFin);
+				autor.setHeureDebut(plage.heureDeb);
+				autor.setHeureFin(plage.heureFin);
+				autor.setRefPersonne(p.idPers);
+				autor.setRefZone(zone);
+				
+				System.out.println("NumAutorisation : " + repoAutorisation.create(autor).getNumAuto());
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

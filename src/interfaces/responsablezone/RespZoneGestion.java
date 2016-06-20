@@ -1,13 +1,11 @@
 package interfaces.responsablezone;
 
-import interfaces.gestionpersonnel.InterfaceGestionPersonnelSwing.PersonneComboBox;
-
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.MalformedParametersException;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.swing.AbstractListModel;
 import javax.swing.ComboBoxModel;
@@ -20,27 +18,23 @@ import javax.swing.JSeparator;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 
 import model.Autorisation;
 import model.Personne;
-import model.Zone;
 import Gestion_acces.autorisation;
 import Gestion_acces.personne;
 import Gestion_acces.structPlage;
 import Gestion_acces.AnnuairePackage.personneInexistante;
 import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
 
-import java.awt.Color;
-
-import javax.swing.SwingConstants;
-
 public class RespZoneGestion extends JPanel {
 	private static final long serialVersionUID = -1241512579162739300L;
 	private InterfaceRespZoneSwing window;
-	private Personne currentSelected;
+	private Autorisation currentSelected;
 	private JTable tableGrants;
 	private JTextField textFieldJourDebutCreate;
 	private JTextField textFieldJourFinCreate;
@@ -48,7 +42,14 @@ public class RespZoneGestion extends JPanel {
 	private JTextField textFieldTempsFinCreate;
 	private JComboBox<Short> comboBoxZoneCreate;
 	private JLabel lblError;
-	private JComboBox comboBoxPersonneCreate;
+	private JComboBox<PersonneComboBox> comboBoxPersonneCreate;
+	private JTextField textFieldJourDebutUpdate;
+	private JTextField textFieldJourFinUpdate;
+	private JTextField textFieldTempsDebutUpdate;
+	private JTextField textFieldTempsFinUpdate;
+	private JComboBox<Short> comboBoxZoneUpdate;
+	private JTextField textFieldUserUpdate;
+	private JButton btnMaj;
 
 	/**
 	 * Create the panel.
@@ -96,16 +97,43 @@ public class RespZoneGestion extends JPanel {
 			}
 		});
 		add(comboBoxZone);
+
+		short[] currentZone = {comboBoxZone.getItemAt(0)};
+		tableGrants = new JTable(new AutorisationModel(currentZone));
+		ListSelectionModel listSelectionModel = tableGrants.getSelectionModel();
+		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				if (e.getValueIsAdjusting())
+		            return;
+				
+		        ListSelectionModel lsm = (ListSelectionModel)e.getSource();
+		        if (!lsm.isSelectionEmpty()) {
+		            currentSelected = ((AutorisationModel) tableGrants.getModel()).getAutorisationAt(lsm.getMinSelectionIndex());
+		            updateFormFields();
+		        	btnMaj.setEnabled(true);
+		        } else {
+		        	currentSelected = null;
+		        	btnMaj.setEnabled(false);
+		        }
+			}
+		});
 		
 		JLabel lblAutorisations = new JLabel("Autorisations");
 		lblAutorisations.setFont(new Font("Calibri", Font.PLAIN, 11));
 		lblAutorisations.setBounds(20, 115, 420, 14);
 		add(lblAutorisations);
 		
+		JScrollPane scrollPaneListGrant = new JScrollPane();
+		scrollPaneListGrant.setBounds(10, 140, 430, 109);
+		add(scrollPaneListGrant);
+		scrollPaneListGrant.setViewportView(tableGrants);
+		
 		this.addCreatePanel();
 		this.addUpdatePanel();
 		
-		lblError = new JLabel("test");
+		lblError = new JLabel("");
 		lblError.setVerticalAlignment(SwingConstants.TOP);
 		lblError.setFont(new Font("Calibri", Font.PLAIN, 10));
 		lblError.setForeground(Color.RED);
@@ -113,14 +141,7 @@ public class RespZoneGestion extends JPanel {
 		add(lblError);
 	}
 	
-	private void addCreatePanel() {		
-		
-		JScrollPane scrollPaneListGrant = new JScrollPane();
-		scrollPaneListGrant.setBounds(10, 140, 430, 109);
-		add(scrollPaneListGrant);
-		
-		tableGrants = new JTable();
-		scrollPaneListGrant.setViewportView(tableGrants);
+	private void addCreatePanel() {
 		JPanel panelAddGrant = new JPanel();
 		panelAddGrant.setBounds(10, 260, 200, 261);
 		add(panelAddGrant);
@@ -141,6 +162,7 @@ public class RespZoneGestion extends JPanel {
 		panelAddGrant.add(lblUser);
 		
 		comboBoxPersonneCreate = new JComboBox<PersonneComboBox>(new PersonneCBModel());
+		comboBoxPersonneCreate.setEditable(true);
 		comboBoxPersonneCreate.setBounds(104, 43, 86, 20);
 		panelAddGrant.add(comboBoxPersonneCreate);
 		
@@ -150,8 +172,8 @@ public class RespZoneGestion extends JPanel {
 		panelAddGrant.add(lblZone);
 		
 		comboBoxZoneCreate = new JComboBox<Short>(new ZoneCBModel());
+		comboBoxZoneCreate.setEditable(true);
 		comboBoxZoneCreate.setSelectedIndex(0);
-		comboBoxZoneCreate.setSelectedItem(0);
 		lblZone.setLabelFor(comboBoxZoneCreate);
 		comboBoxZoneCreate.setBounds(104, 75, 86, 20);
 		panelAddGrant.add(comboBoxZoneCreate);
@@ -204,37 +226,41 @@ public class RespZoneGestion extends JPanel {
 		btnCreer.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					if(	(textFieldJourDebutCreate.getText().length() != 0 && textFieldJourFinCreate.getText().length() != 0) &&
-							(!MatcherDate.testDateIsValid(textFieldJourDebutCreate.getText()) ||
-							!MatcherDate.testDateIsValid(textFieldJourFinCreate.getText()))
-						) {
-						lblError.setText("Le(s) jour(s) renseignes doivent etre au format 'dd/mm/yy'.");
-						return;
-					} else {
-						lblError.setText("");
-						PersonneComboBox selected = (PersonneComboBox) comboBoxPersonneCreate.getSelectedItem();
-						Float heureDebut = (textFieldTempsDebutCreate.getText().length() == 0) ? 0 : Float.valueOf(textFieldTempsDebutCreate.getText());
-						Float heureFin = (textFieldTempsFinCreate.getText().length() == 0) ? 0 : Float.valueOf(textFieldTempsFinCreate.getText());
-						
-						structPlage plage = new structPlage(
-								textFieldJourDebutCreate.getText(),
-								textFieldJourFinCreate.getText(),
-								heureDebut,
-								heureFin
-								);
-						try {
-							window.getInterfaceRespZone().ajouterAutorisation((short) selected.getIdPersonne(), (short) comboBoxZoneCreate.getSelectedItem(), plage);
-							lblError.setText(window.getInterfaceRespZone().getMessage());
-							short[] currentZone = {(short) comboBoxZoneCreate.getSelectedItem()};
-							tableGrants.setModel(new AutorisationModel(currentZone));
-						} catch (droitsInsuffisants e) {
-							lblError.setText(e.raison);
-							e.printStackTrace();
-						} catch (personneInexistante e) {
-							lblError.setText(e.getMessage());
-							e.printStackTrace();
+					if(textFieldJourDebutCreate.getText().length() != 0 || textFieldJourFinCreate.getText().length() != 0) {
+						if(!MatcherDate.testDateIsValid(textFieldJourDebutCreate.getText()) ||
+							!MatcherDate.testDateIsValid(textFieldJourFinCreate.getText())) {
+							lblError.setText("Le(s) jour(s) renseignes doivent etre au format 'dd/mm/yy'.");
+							return;
 						}
-						return;
+					}
+					
+					lblError.setText("");
+					PersonneComboBox selected = (PersonneComboBox) comboBoxPersonneCreate.getSelectedItem();
+					Float heureDebut = (textFieldTempsDebutCreate.getText().length() == 0) ? 0 : Float.valueOf(textFieldTempsDebutCreate.getText());
+					Float heureFin = (textFieldTempsFinCreate.getText().length() == 0) ? 0 : Float.valueOf(textFieldTempsFinCreate.getText());
+					
+					structPlage plage = new structPlage(
+							textFieldJourDebutCreate.getText(),
+							textFieldJourFinCreate.getText(),
+							heureDebut,
+							heureFin
+							);
+					
+					try {
+						window.getInterfaceRespZone().ajouterAutorisation(
+								(short) selected.getIdPersonne(),
+								(short) comboBoxZoneCreate.getSelectedItem(),
+								plage);
+						
+						lblError.setText(window.getInterfaceRespZone().getMessage());
+						short[] currentZone = {(short) comboBoxZoneCreate.getSelectedItem()};
+						tableGrants.setModel(new AutorisationModel(currentZone));
+					} catch (droitsInsuffisants e) {
+						lblError.setText(e.raison);
+						e.printStackTrace();
+					} catch (personneInexistante e) {
+						lblError.setText(e.getMessage());
+						e.printStackTrace();
 					}
 				} catch (MalformedParametersException e) {
 					lblError.setText(e.getMessage());
@@ -257,8 +283,85 @@ public class RespZoneGestion extends JPanel {
 		panelUpdateGrant.add(lblModifierUneAutorisation);
 		
 		JSeparator separator_2 = new JSeparator();
-		separator_2.setBounds(10, 36, 180, 2);
+		separator_2.setBounds(10, 31, 180, 2);
 		panelUpdateGrant.add(separator_2);
+		
+		JLabel label = new JLabel("User");
+		label.setFont(new Font("Calibri", Font.PLAIN, 11));
+		label.setBounds(10, 44, 84, 14);
+		panelUpdateGrant.add(label);
+		
+		textFieldUserUpdate = new JTextField();
+		textFieldUserUpdate.setEnabled(false);
+		textFieldUserUpdate.setEditable(false);
+		textFieldUserUpdate.setBounds(104, 40, 86, 20);
+		panelUpdateGrant.add(textFieldUserUpdate);
+		textFieldUserUpdate.setColumns(10);
+		
+		JLabel label_1 = new JLabel("Zone");
+		label_1.setFont(new Font("Calibri", Font.PLAIN, 11));
+		label_1.setBounds(10, 76, 84, 14);
+		panelUpdateGrant.add(label_1);
+		
+		comboBoxZoneUpdate = new JComboBox<Short>(new ZoneCBModel());
+		comboBoxZoneUpdate.setEditable(true);
+		comboBoxZoneUpdate.setSelectedIndex(0);
+		comboBoxZoneUpdate.setBounds(104, 72, 86, 20);
+		panelUpdateGrant.add(comboBoxZoneUpdate);
+		
+		JLabel label_2 = new JLabel("Jour debut");
+		label_2.setFont(new Font("Calibri", Font.PLAIN, 11));
+		label_2.setBounds(10, 106, 84, 14);
+		panelUpdateGrant.add(label_2);
+		
+		textFieldJourDebutUpdate = new JTextField();
+		textFieldJourDebutUpdate.setColumns(10);
+		textFieldJourDebutUpdate.setBounds(104, 103, 86, 20);
+		panelUpdateGrant.add(textFieldJourDebutUpdate);
+		
+		JLabel label_3 = new JLabel("Jour fin");
+		label_3.setFont(new Font("Calibri", Font.PLAIN, 11));
+		label_3.setBounds(10, 137, 84, 14);
+		panelUpdateGrant.add(label_3);
+		
+		textFieldJourFinUpdate = new JTextField();
+		textFieldJourFinUpdate.setColumns(10);
+		textFieldJourFinUpdate.setBounds(104, 134, 86, 20);
+		panelUpdateGrant.add(textFieldJourFinUpdate);
+		
+		JLabel label_4 = new JLabel("Heure debut");
+		label_4.setFont(new Font("Calibri", Font.PLAIN, 11));
+		label_4.setBounds(10, 168, 84, 14);
+		panelUpdateGrant.add(label_4);
+		
+		textFieldTempsDebutUpdate = new JTextField();
+		textFieldTempsDebutUpdate.setColumns(10);
+		textFieldTempsDebutUpdate.setBounds(104, 165, 86, 20);
+		panelUpdateGrant.add(textFieldTempsDebutUpdate);
+		
+		JLabel label_5 = new JLabel("Heure fin");
+		label_5.setFont(new Font("Calibri", Font.PLAIN, 11));
+		label_5.setBounds(10, 199, 84, 14);
+		panelUpdateGrant.add(label_5);
+		
+		textFieldTempsFinUpdate = new JTextField();
+		textFieldTempsFinUpdate.setColumns(10);
+		textFieldTempsFinUpdate.setBounds(104, 196, 86, 20);
+		panelUpdateGrant.add(textFieldTempsFinUpdate);
+		
+		btnMaj = new JButton("MaJ");
+		btnMaj.setBounds(101, 227, 89, 23);
+		btnMaj.setEnabled(false);
+		panelUpdateGrant.add(btnMaj);
+	}
+	
+	public void updateFormFields() {
+		textFieldUserUpdate.setText(String.valueOf(currentSelected.getRefPersonne()));
+		comboBoxZoneUpdate.setSelectedItem((short) currentSelected.getRefZone());
+		textFieldJourDebutUpdate.setText(currentSelected.getJourDebut());
+		textFieldJourFinUpdate.setText(currentSelected.getJourFin());
+		textFieldTempsDebutUpdate.setText(String.valueOf(currentSelected.getHeureDebut()));
+		textFieldTempsFinUpdate.setText(String.valueOf(currentSelected.getHeureFin()));
 	}
 	
 	public class ZoneCBModel extends AbstractListModel<Short> implements ComboBoxModel<Short> {
@@ -391,12 +494,12 @@ public class RespZoneGestion extends JPanel {
 		private Autorisation[] listeAutorisations;
 		private final String[] listeColonnes = {"Id", "Ref Pers", "Jour D", "Jour F", "Heure D", "Heure F"};
 		
-		public Autorisation getPersonneAt(int minSelectionIndex) {
+		public Autorisation getAutorisationAt(int minSelectionIndex) {
 			if(listeAutorisations.length < minSelectionIndex)
 				return listeAutorisations[listeAutorisations.length-1];
 			return listeAutorisations[minSelectionIndex];
 		}
-		
+
 		public AutorisationModel(short[] z) {
 			super();
 			ArrayList<Autorisation> list = new ArrayList<Autorisation>();
