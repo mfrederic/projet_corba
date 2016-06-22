@@ -97,6 +97,11 @@ public abstract class ServeurAutorisationPOA extends org.omg.PortableServer.Serv
             _output = handler.createExceptionReply();
             Gestion_acces.ServeurAutorisationPackage.zoneInconnueHelper.write(_output,_exception);
         }
+        catch (Gestion_acces.ServeurAutorisationPackage.plageIncoherente _exception)
+        {
+            _output = handler.createExceptionReply();
+            Gestion_acces.ServeurAutorisationPackage.plageIncoherenteHelper.write(_output,_exception);
+        }
         return _output;
     }
 
@@ -118,6 +123,11 @@ public abstract class ServeurAutorisationPOA extends org.omg.PortableServer.Serv
         {
             _output = handler.createExceptionReply();
             Gestion_acces.ServeurAutorisationPackage.autorisationInexistanteHelper.write(_output,_exception);
+        }
+        catch (Gestion_acces.ServeurAutorisationPackage.plageIncoherente _exception)
+        {
+            _output = handler.createExceptionReply();
+            Gestion_acces.ServeurAutorisationPackage.plageIncoherenteHelper.write(_output,_exception);
         }
         return _output;
     }

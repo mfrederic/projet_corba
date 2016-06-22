@@ -75,7 +75,7 @@ public class ServeurAutorisationPOATie extends ServeurAutorisationPOA
      * Operation ajouterAutorisation
      */
     public void ajouterAutorisation(Gestion_acces.personne p, short zone, Gestion_acces.structPlage plage)
-        throws Gestion_acces.ServeurAutorisationPackage.zoneInconnue
+        throws Gestion_acces.ServeurAutorisationPackage.zoneInconnue, Gestion_acces.ServeurAutorisationPackage.plageIncoherente
     {
         _tie.ajouterAutorisation( p,  zone,  plage);
     }
@@ -84,7 +84,7 @@ public class ServeurAutorisationPOATie extends ServeurAutorisationPOA
      * Operation modifierAutorisation
      */
     public void modifierAutorisation(short numAutor, Gestion_acces.structPlage newPlage)
-        throws Gestion_acces.ServeurAutorisationPackage.autorisationInexistante
+        throws Gestion_acces.ServeurAutorisationPackage.autorisationInexistante, Gestion_acces.ServeurAutorisationPackage.plageIncoherente
     {
         _tie.modifierAutorisation( numAutor,  newPlage);
     }

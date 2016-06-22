@@ -82,7 +82,7 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
      * Operation ajouterAutorisation
      */
     public void ajouterAutorisation(Gestion_acces.personne p, short zone, Gestion_acces.structPlage plage)
-        throws Gestion_acces.ServeurAutorisationPackage.zoneInconnue
+        throws Gestion_acces.ServeurAutorisationPackage.zoneInconnue, Gestion_acces.ServeurAutorisationPackage.plageIncoherente
     {
         while(true)
         {
@@ -108,6 +108,11 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
                     if (_exception_id.equals(Gestion_acces.ServeurAutorisationPackage.zoneInconnueHelper.id()))
                     {
                         throw Gestion_acces.ServeurAutorisationPackage.zoneInconnueHelper.read(_exception.getInputStream());
+                    }
+
+                    if (_exception_id.equals(Gestion_acces.ServeurAutorisationPackage.plageIncoherenteHelper.id()))
+                    {
+                        throw Gestion_acces.ServeurAutorisationPackage.plageIncoherenteHelper.read(_exception.getInputStream());
                     }
 
                     throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
@@ -140,7 +145,7 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
      * Operation modifierAutorisation
      */
     public void modifierAutorisation(short numAutor, Gestion_acces.structPlage newPlage)
-        throws Gestion_acces.ServeurAutorisationPackage.autorisationInexistante
+        throws Gestion_acces.ServeurAutorisationPackage.autorisationInexistante, Gestion_acces.ServeurAutorisationPackage.plageIncoherente
     {
         while(true)
         {
@@ -165,6 +170,11 @@ public class _ServeurAutorisationStub extends org.omg.CORBA.portable.ObjectImpl
                     if (_exception_id.equals(Gestion_acces.ServeurAutorisationPackage.autorisationInexistanteHelper.id()))
                     {
                         throw Gestion_acces.ServeurAutorisationPackage.autorisationInexistanteHelper.read(_exception.getInputStream());
+                    }
+
+                    if (_exception_id.equals(Gestion_acces.ServeurAutorisationPackage.plageIncoherenteHelper.id()))
+                    {
+                        throw Gestion_acces.ServeurAutorisationPackage.plageIncoherenteHelper.read(_exception.getInputStream());
                     }
 
                     throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);

@@ -61,10 +61,11 @@ module Gestion_acces {
 		exception zoneInconnue {short zone;};
 		exception porteInconnue {short idPorte;};
 		exception autorisationInexistante {short idAutorisation;};
+		exception plageIncoherente {string raison;};
 		
 		boolean demanderAutor (in personne p, in short idPorte, in string date) raises(porteInconnue); // Depuis Porte
-		void ajouterAutorisation (in personne p, in short zone, in structPlage plage) raises(zoneInconnue);
-		void modifierAutorisation (in short numAutor, in structPlage newPlage) raises(autorisationInexistante);
+		void ajouterAutorisation (in personne p, in short zone, in structPlage plage) raises(zoneInconnue, plageIncoherente);
+		void modifierAutorisation (in short numAutor, in structPlage newPlage) raises(autorisationInexistante, plageIncoherente);
 		void supprimerAutorisation (in short numAutor) raises(autorisationInexistante);
 		listeAutorisations getAutorisationsResp(in listeIdZones zones);
 		listeIdZones getZonesResp(in personne resp);

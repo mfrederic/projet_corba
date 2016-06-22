@@ -10,6 +10,7 @@ import Gestion_acces.ServeurAuthentificationPackage.accesRefuse;
 import Gestion_acces.ServeurAuthentificationPackage.compteInexistant;
 import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
 import Gestion_acces.ServeurAutorisationPackage.autorisationInexistante;
+import Gestion_acces.ServeurAutorisationPackage.plageIncoherente;
 import Gestion_acces.ServeurAutorisationPackage.zoneInconnue;
 import annuaire.ClientAnnuaire;
 import authentification.ClientServeurAuthentification;
@@ -94,6 +95,8 @@ public class InterfaceRespZones {
 				
 			} catch (zoneInconnue e) {
 				message = "Zone inconnue (id = " + e.zone + ")";
+			} catch (plageIncoherente e) {
+				message = e.raison;
 			} catch (Exception e) {
 				e.printStackTrace();
 				message = "Erreur inconnue.";
@@ -101,7 +104,7 @@ public class InterfaceRespZones {
 		}
 	}
 	
-	public void modifierAutorisation(short numAutor, structPlage plage) throws droitsInsuffisants {
+	public void modifierAutorisation(short numAutor, structPlage plage) throws droitsInsuffisants, plageIncoherente {
 		boolean ok = false;
 		int i = 0;
 		while (i<listeAutorisationsResp.length && !ok) {
@@ -115,6 +118,8 @@ public class InterfaceRespZones {
 				getMonAutorisation().getMonAutorisation().modifierAutorisation(numAutor, plage);
 			} catch (autorisationInexistante e) {
 				message = "Aucune autorisation correspondante trouvee (id = " + e.idAutorisation + ")";
+			} catch (plageIncoherente e) {
+				message = e.raison;
 			}
 		}
 	}

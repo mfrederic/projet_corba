@@ -17,22 +17,28 @@ import Gestion_acces.ServeurAutorisationPOA;
 import Gestion_acces.autorisation;
 import Gestion_acces.personne;
 import Gestion_acces.porte;
+import Gestion_acces.rolePersonne;
 import Gestion_acces.statutPersonne;
 import Gestion_acces.structPlage;
+import Gestion_acces.AnnuairePackage.personneInexistante;
 import Gestion_acces.ServeurAutorisationPackage.autorisationInexistante;
+import Gestion_acces.ServeurAutorisationPackage.plageIncoherente;
 import Gestion_acces.ServeurAutorisationPackage.porteInconnue;
 import Gestion_acces.ServeurAutorisationPackage.zoneInconnue;
+import annuaire.ClientAnnuaire;
 import bdd.objetsdao.AutorisationDAO;
 import bdd.objetsdao.PorteDAO;
 import bdd.objetsdao.ZoneDAO;
 
 public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
+	private ClientAnnuaire monAnnuaire;
 	
 	private PorteDAO repoPorte;
 	private ZoneDAO repoZone;
 	private AutorisationDAO repoAutorisation;
 	
 	public ServeurAutorisationImpl() {
+		monAnnuaire = new ClientAnnuaire();
 		repoPorte = new PorteDAO();
 		repoZone = new ZoneDAO();
 		repoAutorisation = new AutorisationDAO();
@@ -79,40 +85,49 @@ public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
 		
 		return autorise;
 	}
-
+	
 	@Override
 	public void ajouterAutorisation(personne p, short zone, structPlage plage)
-			throws zoneInconnue {
+			throws zoneInconnue, plageIncoherente {
 		// TODO Auto-generated method stub
-		System.out.println("Autorisation-ajouterAutorisation");
-		
-		// BD
-		Zone z = null;
-		z = repoZone.find(zone);
-
-		if (z == null )
-			throw new zoneInconnue(zone);
-		else {
-			
-			try {
-				// BD
-				Autorisation autor = new Autorisation();
-				autor.setJourDebut(plage.jourDeb);
-				autor.setJourFin(plage.jourFin);
-				autor.setHeureDebut(plage.heureDeb);
-				autor.setHeureFin(plage.heureFin);
-				autor.setRefPersonne(p.idPers);
-				autor.setRefZone(zone);
+				System.out.println("Autorisation-ajouterAutorisation");
 				
-				System.out.println("NumAutorisation : " + repoAutorisation.create(autor).getNumAuto());
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
+				// BD
+				Zone z = null;
+				z = repoZone.find(zone);
 
+				if (z == null )
+					throw new zoneInconnue(zone);
+				else {
+					switch (verifierStructPlage(plage, p.statut)) {
+					case 0:
+						try {
+							// BD
+							Autorisation autor = new Autorisation();
+							autor.setJourDebut(plage.jourDeb);
+							autor.setJourFin(plage.jourFin);
+							autor.setHeureDebut(plage.heureDeb);
+							autor.setHeureFin(plage.heureFin);
+							autor.setRefPersonne(p.idPers);
+							autor.setRefZone(zone);
+							
+							System.out.println("NumAutorisation : " + repoAutorisation.create(autor).getNumAuto());
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						break;
+					case 1:
+						throw new plageIncoherente("Les jours de début et de fin doivent être renseignés (collaborateur temporaire)");
+					case 2:
+						throw new plageIncoherente("Les jours de début et de fin ne doivent pas être renseignés (collaborateur permanent)");
+					}
+					
+				}
+		
+	}
+	
 	@Override
-	public void modifierAutorisation(short numAutor, structPlage newPlage) throws autorisationInexistante {
+	public void modifierAutorisation(short numAutor, structPlage newPlage) throws autorisationInexistante, plageIncoherente {
 		// TODO Auto-generated method stub
 		System.out.println("Autorisation-modifierAutorisation");
 
@@ -122,13 +137,35 @@ public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
 		if (autor == null)
 			throw new autorisationInexistante((short)0);
 		else {
+			statutPersonne statut = null;
+			try {
+				statut = monAnnuaire.getMonAnnuaire().identifier((short) autor.getRefPersonne()).statut;
+			} catch (personneInexistante e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 			
-			// BD
-			autor.setHeureDebut(newPlage.heureDeb);
-			autor.setHeureFin(newPlage.heureFin);
-			autor.setJourDebut(newPlage.jourDeb);
-			autor.setJourFin(newPlage.jourFin);
-			repoAutorisation.update(autor);
+			if (statut != null) {
+				switch (verifierStructPlage(newPlage, statut)) {
+					case 0:
+						try {
+							// BD
+							autor.setHeureDebut(newPlage.heureDeb);
+							autor.setHeureFin(newPlage.heureFin);
+							autor.setJourDebut(newPlage.jourDeb);
+							autor.setJourFin(newPlage.jourFin);
+							repoAutorisation.update(autor);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+						break;
+						
+					case 1:
+						throw new plageIncoherente("Les jours de début et de fin doivent être renseignés (collaborateur temporaire)");
+					case 2:
+						throw new plageIncoherente("Les jours de début et de fin ne doivent pas être renseignés (collaborateur permanent)");
+				}
+			}
 		}	
 	}
 
@@ -232,6 +269,16 @@ public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
 		return listePortesORB;
 	}
 	
-	
+	private int verifierStructPlage(structPlage sP, statutPersonne statut) { // 0:OK, 1:temporaire sans jours, 2:permanent avec jour
+		int resultat = 0;
+		
+			if ((sP.jourDeb.isEmpty() || sP.jourFin.isEmpty()) && statut.equals(statutPersonne.temporaire))
+				resultat = 1;
+			else if ((!sP.jourDeb.isEmpty() || !sP.jourFin.isEmpty()) && statut.equals(statutPersonne.permanent))
+				resultat = 2;
+			
+		return resultat;
+	}
+
 
 }
