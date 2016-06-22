@@ -236,6 +236,7 @@ public class GPGestion extends JPanel {
 							statutPersonne.from_int(comboBoxStatut.getSelectedIndex()),
 							rolePersonne.from_int(comboBoxRole.getSelectedIndex())
 					);
+					personneModel.updateAllContent();
 					personneModel.fireTableDataChanged();
 					lblErrorUpdate.setText(window.getCltGestPers().getMessage());
 				} catch (NumberFormatException e1) {
@@ -255,6 +256,7 @@ public class GPGestion extends JPanel {
 				lblErrorUpdate.setText("");
 				try {
 					window.getCltGestPers().supprimerPersonne(Short.valueOf(textFieldId.getText()));
+					personneModel.updateAllContent();
 					personneModel.fireTableDataChanged();
 					lblErrorUpdate.setText(window.getCltGestPers().getMessage());
 				} catch (droitsInsuffisants e1) {
@@ -276,6 +278,7 @@ public class GPGestion extends JPanel {
 				String photo = new String(textFieldPhoto.getText());
 				try {
 					window.getCltGestPers().ajouterPhoto(Short.valueOf(textFieldId.getText()), photo);
+					personneModel.updateAllContent();
 					personneModel.fireTableDataChanged();
 					lblErrorUpdate.setText(window.getCltGestPers().getMessage());
 				} catch (NumberFormatException e1) {
@@ -397,6 +400,7 @@ public class GPGestion extends JPanel {
 							textFieldLoginCreer.getText(),
 							new String(passwordFieldCreer.getPassword())
 					);
+					personneModel.updateAllContent();
 					personneModel.fireTableDataChanged();
 					lblError.setText(window.getCltGestPers().getMessage());
 				} catch (NumberFormatException e1) {
