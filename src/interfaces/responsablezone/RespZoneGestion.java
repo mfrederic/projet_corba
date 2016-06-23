@@ -262,10 +262,8 @@ public class RespZoneGestion extends JPanel {
 						tableGrants.setModel(new AutorisationModel(currentZone));
 					} catch (droitsInsuffisants e) {
 						lblError.setText(e.raison);
-						e.printStackTrace();
 					} catch (personneInexistante e) {
 						lblError.setText(e.getMessage());
-						e.printStackTrace();
 					}
 				} catch (MalformedParametersException e) {
 					lblError.setText(e.getMessage());
@@ -384,7 +382,6 @@ public class RespZoneGestion extends JPanel {
 						lblError.setText("Autorisation modifiee.");
 					} catch (plageIncoherente e1) {
 						lblError.setText(e1.raison);
-						e1.printStackTrace();
 					}
 					
 					lblError.setText(window.getInterfaceRespZone().getMessage());
@@ -392,7 +389,6 @@ public class RespZoneGestion extends JPanel {
 					tableGrants.setModel(new AutorisationModel(currentZone));
 				} catch (droitsInsuffisants e1) {
 					lblError.setText(e1.raison);
-					e1.printStackTrace();
 				}
 			}
 		});
@@ -410,7 +406,6 @@ public class RespZoneGestion extends JPanel {
 					tableGrants.setModel(new AutorisationModel(currentZone));
 				} catch (droitsInsuffisants e) {
 					lblError.setText(e.raison);
-					e.printStackTrace();
 				}
 			}
 		});
