@@ -199,7 +199,7 @@ public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
 		
 		// BD
 		if (zonesBD.size() > 0) {
-			listeAutorBD = repoAutorisation.findAllByZones(zonesBD);
+			listeAutorBD = repoAutorisation.findAllByZones(zonesBD);			
 			if (listeAutorBD == null)
 				retour = new autorisation[0];
 			else
@@ -233,13 +233,14 @@ public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
 	private autorisation[] listeAutorisationsBDtoORB(ArrayList<Autorisation> listeAutor) {
 		autorisation[] retour = new autorisation[listeAutor.size()];
 		Autorisation autorBD = null;
-		structPlage sP = new structPlage();
+		structPlage sP = null;
 		
 		Iterator<Autorisation> it = listeAutor.iterator();
 		int i = 0;
 				
 		while (it.hasNext()) {
 			autorBD = it.next();
+			sP = new structPlage();
 			sP.jourDeb = autorBD.getJourDebut();
 			sP.jourFin = autorBD.getJourFin();
 			sP.heureDeb = autorBD.getHeureDebut();
