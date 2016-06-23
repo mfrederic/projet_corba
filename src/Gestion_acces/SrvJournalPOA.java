@@ -33,7 +33,9 @@ public abstract class SrvJournalPOA extends org.omg.PortableServer.Servant
             final org.omg.CORBA.portable.ResponseHandler handler)
     {
 
-        if (opName.equals("journaliser")) {
+        if (opName.equals("getLogs")) {
+                return _invoke_getLogs(_is, handler);
+        } else if (opName.equals("journaliser")) {
                 return _invoke_journaliser(_is, handler);
         } else {
             throw new org.omg.CORBA.BAD_OPERATION(opName);
@@ -54,6 +56,19 @@ public abstract class SrvJournalPOA extends org.omg.PortableServer.Servant
         journaliser(arg0_in, arg1_in, arg2_in, arg3_in, arg4_in);
 
         _output = handler.createReply();
+
+        return _output;
+    }
+
+    private org.omg.CORBA.portable.OutputStream _invoke_getLogs(
+            final org.omg.CORBA.portable.InputStream _is,
+            final org.omg.CORBA.portable.ResponseHandler handler) {
+        org.omg.CORBA.portable.OutputStream _output;
+
+        Gestion_acces.log[] _arg_result = getLogs();
+
+        _output = handler.createReply();
+        Gestion_acces.listeLogsHelper.write(_output,_arg_result);
 
         return _output;
     }

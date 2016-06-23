@@ -70,4 +70,12 @@ public class SrvJournalPOATie extends SrvJournalPOA
         _tie.journaliser( timestamp,  typeAcces,  p,  resultat,  commentaire);
     }
 
+    /**
+     * Operation getLogs
+     */
+    public Gestion_acces.log[] getLogs()
+    {
+        return _tie.getLogs();
+    }
+
 }

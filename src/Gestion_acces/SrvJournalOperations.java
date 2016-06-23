@@ -12,4 +12,9 @@ public interface SrvJournalOperations
      */
     public void journaliser(String timestamp, String typeAcces, Gestion_acces.personne p, boolean resultat, String commentaire);
 
+    /**
+     * Operation getLogs
+     */
+    public Gestion_acces.log[] getLogs();
+
 }

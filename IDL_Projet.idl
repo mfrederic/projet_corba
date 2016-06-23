@@ -39,6 +39,15 @@ module Gestion_acces {
 		string libellePorte;
 		short refZone;
 	};
+	
+	struct log {
+		short idJournal;
+		string timestamp;
+		string typeAcces;
+		short refPersonne;
+		boolean resultat;
+		string commentaire;
+	};
 
 	typedef string empreinte;
 	typedef sequence<personne> listePersonnes;
@@ -46,6 +55,7 @@ module Gestion_acces {
 	typedef sequence<short> listeIdZones;
 	typedef sequence<porte> listePortes;
 	typedef sequence<compte> listeComptes;
+	typedef sequence<log> listeLogs;
 
 	interface ServeurAuthentification {
 		exception compteDejaCree {string user;};
@@ -95,5 +105,6 @@ module Gestion_acces {
 
 	interface SrvJournal {
 		oneway void journaliser(in string timestamp, in string typeAcces, in personne p, in boolean resultat, in string commentaire);
+		listeLogs getLogs();
 	};
 };
