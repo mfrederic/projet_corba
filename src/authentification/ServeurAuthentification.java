@@ -9,7 +9,7 @@ import org.omg.PortableServer.POAHelper;
 import autorisation.ServeurAutorisationImpl;
 import config.Corbaloc;
 
-public class SrvServeurAuthentification {
+public class ServeurAuthentification {
 	
 	public static void main(String[] args) {
 		try {		

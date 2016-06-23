@@ -7,10 +7,10 @@ import Gestion_acces.ServeurAutorisation;
 import Gestion_acces.ServeurAutorisationHelper;
 import config.Corbaloc;
 
-public class ClientServeurAutorisation {
+public class ClientAutorisation {
 	public static ServeurAutorisation monServeurAutorisation;
 
-	public ClientServeurAutorisation() {
+	public ClientAutorisation() {
 
 		try {
 

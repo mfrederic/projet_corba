@@ -9,11 +9,11 @@ import Gestion_acces.statutPersonne;
 import Gestion_acces.ServeurAuthentificationPackage.accesRefuse;
 import Gestion_acces.ServeurAuthentificationPackage.compteInexistant;
 import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
-import authentification.ClientServeurAuthentification;
+import authentification.ClientAuthentification;
 
 public class InterfaceMonCompte {
 
-	private ClientServeurAuthentification monAuthentification;
+	private ClientAuthentification monAuthentification;
 	
 	private static final String cleServeur = "stp";
 	
@@ -21,7 +21,7 @@ public class InterfaceMonCompte {
 	private String userConnecte;
 	
 	public InterfaceMonCompte() {
-		monAuthentification = new ClientServeurAuthentification();
+		monAuthentification = new ClientAuthentification();
 		
 		message = "";
 		userConnecte = "";

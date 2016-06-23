@@ -13,15 +13,15 @@ import Gestion_acces.ServeurAutorisationPackage.autorisationInexistante;
 import Gestion_acces.ServeurAutorisationPackage.plageIncoherente;
 import Gestion_acces.ServeurAutorisationPackage.zoneInconnue;
 import annuaire.ClientAnnuaire;
-import authentification.ClientServeurAuthentification;
-import autorisation.ClientServeurAutorisation;
+import authentification.ClientAuthentification;
+import autorisation.ClientAutorisation;
 
 public class InterfaceRespZones {
 
 	private static final String cleServeur = "stp";
 	
-	private ClientServeurAutorisation monAutorisation;
-	private ClientServeurAuthentification monAuthentification;
+	private ClientAutorisation monAutorisation;
+	private ClientAuthentification monAuthentification;
 	private ClientAnnuaire monAnnuaire;
 	
 	private short[] listeZonesResp;
@@ -30,8 +30,8 @@ public class InterfaceRespZones {
 	private String message;
 	
 	public InterfaceRespZones() {
-		setMonAutorisation(new ClientServeurAutorisation());
-		setMonAuthentification(new ClientServeurAuthentification());
+		setMonAutorisation(new ClientAutorisation());
+		setMonAuthentification(new ClientAuthentification());
 		setMonAnnuaire(new ClientAnnuaire());
 		responsable = null;
 	}
@@ -155,19 +155,19 @@ public class InterfaceRespZones {
 		this.message = message;
 	}
 
-	public ClientServeurAutorisation getMonAutorisation() {
+	public ClientAutorisation getMonAutorisation() {
 		return monAutorisation;
 	}
 
-	private void setMonAutorisation(ClientServeurAutorisation monAutorisation) {
+	private void setMonAutorisation(ClientAutorisation monAutorisation) {
 		this.monAutorisation = monAutorisation;
 	}
 
-	public ClientServeurAuthentification getMonAuthentification() {
+	public ClientAuthentification getMonAuthentification() {
 		return monAuthentification;
 	}
 
-	private void setMonAuthentification(ClientServeurAuthentification monAuthentification) {
+	private void setMonAuthentification(ClientAuthentification monAuthentification) {
 		this.monAuthentification = monAuthentification;
 	}
 

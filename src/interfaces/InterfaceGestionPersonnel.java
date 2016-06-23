@@ -11,10 +11,10 @@ import Gestion_acces.ServeurAuthentificationPackage.compteInexistant;
 import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
 import Gestion_acces.ServeurAuthentificationPackage.suppressionInterdite;
 import annuaire.ClientAnnuaire;
-import authentification.ClientServeurAuthentification;
+import authentification.ClientAuthentification;
 
 public class InterfaceGestionPersonnel {
-	private ClientServeurAuthentification monAuthentification;
+	private ClientAuthentification monAuthentification;
 	private ClientAnnuaire monAnnuaire;
 	
 	private static final String cleServeur = "stp";
@@ -23,7 +23,7 @@ public class InterfaceGestionPersonnel {
 	private String message;
 	
 	public InterfaceGestionPersonnel() {
-		monAuthentification = new ClientServeurAuthentification();
+		monAuthentification = new ClientAuthentification();
 		monAnnuaire = new ClientAnnuaire();
 		persConnectee = null;
 	}

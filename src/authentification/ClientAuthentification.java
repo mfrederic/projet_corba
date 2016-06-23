@@ -7,10 +7,10 @@ import Gestion_acces.ServeurAuthentification;
 import Gestion_acces.ServeurAuthentificationHelper;
 import config.Corbaloc;
 
-public class ClientServeurAuthentification {
+public class ClientAuthentification {
 	public static ServeurAuthentification monServeurAuthentification;
 
-	public ClientServeurAuthentification() {
+	public ClientAuthentification() {
 
 		try {
 

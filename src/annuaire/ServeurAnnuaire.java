@@ -1,23 +1,23 @@
-package autorisation;
+package annuaire;
 
 import org.omg.CORBA.ORB;
 import org.omg.CosNaming.NamingContext;
 import org.omg.CosNaming.NamingContextHelper;
 import org.omg.PortableServer.POA;
 import org.omg.PortableServer.POAHelper;
-import org.omg.PortableServer.Servant;
 
 import config.Corbaloc;
 
-public class SrvServeurAutorisation {
+public class ServeurAnnuaire {
 	public static void main(String[] args) {
 		try {
 		        // Creation du servant
 		        //*********************
-		        ServeurAutorisationImpl monServeurAutorisation = new ServeurAutorisationImpl();
+		        AnnuaireImpl monAnnuaire = new AnnuaireImpl();
 
-		        String nomObj = "Autorisation";
-		        ORB orb = Corbaloc.registerServant(args, monServeurAutorisation , nomObj);
+
+		        String nomObj = "Annuaire";
+		        ORB orb = Corbaloc.registerServant(args, monAnnuaire , nomObj);
 		        
 		        // Lancement de l'ORB et mise en attente de requete
 		        //**************************************************
@@ -28,5 +28,4 @@ public class SrvServeurAutorisation {
 				e.printStackTrace();
 			}
 		} // main
-
 }

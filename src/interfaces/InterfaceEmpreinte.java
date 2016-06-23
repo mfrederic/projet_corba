@@ -6,20 +6,20 @@ import Gestion_acces.ServeurAuthentificationPackage.accesRefuse;
 import Gestion_acces.ServeurAuthentificationPackage.compteInexistant;
 import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
 import Gestion_acces.ServeurAuthentificationPackage.empreinteDejaExistante;
-import authentification.ClientServeurAuthentification;
+import authentification.ClientAuthentification;
 
 public class InterfaceEmpreinte {
 	
 	private static final String cleServeur = "stp";
 	
-	private ClientServeurAuthentification monAuthentification;
+	private ClientAuthentification monAuthentification;
 	
 	private personne persConnectee;
 	private String userConnecte;
 	private String message;
 	
 	public InterfaceEmpreinte() {
-		monAuthentification = new ClientServeurAuthentification();
+		monAuthentification = new ClientAuthentification();
 		userConnecte = null;
 		persConnectee = null;
 		message = "";

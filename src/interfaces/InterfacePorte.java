@@ -9,15 +9,15 @@ import Gestion_acces.personne;
 import Gestion_acces.porte;
 import Gestion_acces.ServeurAuthentificationPackage.accesRefuse;
 import Gestion_acces.ServeurAutorisationPackage.porteInconnue;
-import authentification.ClientServeurAuthentification;
-import autorisation.ClientServeurAutorisation;
+import authentification.ClientAuthentification;
+import autorisation.ClientAutorisation;
 
 public class InterfacePorte {
 	
 	private static final String cleServeur = "stp";
 	
-	private ClientServeurAuthentification monAuthentification;
-	private ClientServeurAutorisation monAutorisation;
+	private ClientAuthentification monAuthentification;
+	private ClientAutorisation monAutorisation;
 	private ClientJournal monJournal;
 	
 	private personne persIdentifiee;
@@ -26,8 +26,8 @@ public class InterfacePorte {
 	private GregorianCalendar date;
 	
 	public InterfacePorte() {
-		monAuthentification = new ClientServeurAuthentification();
-		monAutorisation = new ClientServeurAutorisation();
+		monAuthentification = new ClientAuthentification();
+		monAutorisation = new ClientAutorisation();
 		monJournal = new ClientJournal();
 		
 		persIdentifiee = null;
