@@ -76,8 +76,8 @@ public class suppressionInterditeHelper
                 org.omg.CORBA.StructMember []_members = new org.omg.CORBA.StructMember[1];
 
                 _members[0] = new org.omg.CORBA.StructMember();
-                _members[0].name = "role";
-                _members[0].type = Gestion_acces.rolePersonneHelper.type();
+                _members[0].name = "statut";
+                _members[0].type = Gestion_acces.statutPersonneHelper.type();
                 _tc = orb.create_exception_tc(id(),"suppressionInterdite",_members);
                 _working = false;
             }
@@ -107,7 +107,7 @@ public class suppressionInterditeHelper
 
         if (!istream.read_string().equals(id()))
          throw new org.omg.CORBA.MARSHAL();
-        new_one.role = Gestion_acces.rolePersonneHelper.read(istream);
+        new_one.statut = Gestion_acces.statutPersonneHelper.read(istream);
 
         return new_one;
     }
@@ -120,7 +120,7 @@ public class suppressionInterditeHelper
     public static void write(org.omg.CORBA.portable.OutputStream ostream, Gestion_acces.ServeurAuthentificationPackage.suppressionInterdite value)
     {
         ostream.write_string(id());
-        Gestion_acces.rolePersonneHelper.write(ostream,value.role);
+        Gestion_acces.statutPersonneHelper.write(ostream,value.statut);
     }
 
 }

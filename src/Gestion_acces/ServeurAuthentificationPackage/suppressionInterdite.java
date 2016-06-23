@@ -8,9 +8,9 @@ package Gestion_acces.ServeurAuthentificationPackage;
 public final class suppressionInterdite extends org.omg.CORBA.UserException
 {
     /**
-     * Exception member role
+     * Exception member statut
      */
-    public Gestion_acces.rolePersonne role;
+    public Gestion_acces.statutPersonne statut;
 
     /**
      * Default constructor
@@ -22,22 +22,22 @@ public final class suppressionInterdite extends org.omg.CORBA.UserException
 
     /**
      * Constructor with fields initialization
-     * @param role role exception member
+     * @param statut statut exception member
      */
-    public suppressionInterdite(Gestion_acces.rolePersonne role)
+    public suppressionInterdite(Gestion_acces.statutPersonne statut)
     {
         super(suppressionInterditeHelper.id());
-        this.role = role;
+        this.statut = statut;
     }
 
     /**
      * Full constructor with fields initialization
-     * @param role role exception member
+     * @param statut statut exception member
      */
-    public suppressionInterdite(String orb_reason, Gestion_acces.rolePersonne role)
+    public suppressionInterdite(String orb_reason, Gestion_acces.statutPersonne statut)
     {
         super(suppressionInterditeHelper.id() +" " +  orb_reason);
-        this.role = role;
+        this.statut = statut;
     }
 
 }

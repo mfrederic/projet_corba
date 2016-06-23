@@ -50,7 +50,7 @@ module Gestion_acces {
 	interface ServeurAuthentification {
 		exception compteDejaCree {string user;};
 		exception compteInexistant {string user;};
-		exception suppressionInterdite {rolePersonne role;};
+		exception suppressionInterdite {statutPersonne statut;};
 		exception droitsInsuffisants {string raison;}; //Si mdp user faux ou statut ou role insuffisant
 		exception accesRefuse {string raison;}; //Si le mot de passe du Serveur d'authentification est faux
 		exception empreinteDejaExistante {string emp;};

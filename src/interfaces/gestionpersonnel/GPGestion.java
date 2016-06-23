@@ -213,7 +213,7 @@ public class GPGestion extends JPanel {
 		lblErrorUpdate.setHorizontalAlignment(SwingConstants.LEFT);
 		lblErrorUpdate.setForeground(Color.RED);
 		lblErrorUpdate.setFont(new Font("Calibri", Font.PLAIN, 10));
-		lblErrorUpdate.setBounds(10, 259, 260, 40);
+		lblErrorUpdate.setBounds(10, 259, 360, 80);
 		panelMaj.add(lblErrorUpdate);
 		
 		JButton btnUpdate = new JButton("Update");
@@ -411,7 +411,7 @@ public class GPGestion extends JPanel {
 		lblErrorCreer.setHorizontalAlignment(SwingConstants.LEFT);
 		lblErrorCreer.setForeground(Color.RED);
 		lblErrorCreer.setFont(new Font("Calibri", Font.PLAIN, 10));
-		lblErrorCreer.setBounds(10, 216, 260, 40);
+		lblErrorCreer.setBounds(10, 216, 360, 80);
 		panelCreer.add(lblErrorCreer);
 		
 		
