@@ -1,5 +1,6 @@
 package interfaces;
 
+import Gestion_acces.compte;
 import Gestion_acces.personne;
 import Gestion_acces.rolePersonne;
 import Gestion_acces.statutPersonne;
@@ -165,6 +166,17 @@ public class InterfaceGestionPersonnel {
 		personne[] retour = new personne[0];
 		if ((persConnectee.role == rolePersonne.RH) || (persConnectee.role == rolePersonne.accueil)) {
 			retour = monAnnuaire.getMonAnnuaire().chercherPersonnes(nom, prenom);
+			
+		} else {
+			throw new droitsInsuffisants("Acces interdit : role doit etre RH ou accueil");
+		}
+		return retour;
+	}
+	public compte[] chercherComptes(String nom, String prenom) throws droitsInsuffisants {
+		// TODO Auto-generated method stub
+		compte[] retour = new compte[0];
+		if ((persConnectee.role == rolePersonne.RH) || (persConnectee.role == rolePersonne.accueil)) {
+			retour = monAuthentification.getMonAuthentification().getComptes();
 			
 		} else {
 			throw new droitsInsuffisants("Acces interdit : role doit etre RH ou accueil");
