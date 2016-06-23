@@ -25,7 +25,6 @@ public class InterfaceRespZones {
 	private ClientAnnuaire monAnnuaire;
 	
 	private short[] listeZonesResp;
-	private autorisation[] listeAutorisationsResp;
 	private personne responsable;
 	private String message;
 	
@@ -55,7 +54,6 @@ public class InterfaceRespZones {
 					authReussie = false;
 					throw new droitsInsuffisants("Vous n'etes responsable d'aucune zone");
 				} else {
-					listeAutorisationsResp = getMonAutorisation().getMonAutorisation().getAutorisationsResp(listeZonesResp);
 					authReussie = true;
 				}
 			}
@@ -105,41 +103,21 @@ public class InterfaceRespZones {
 	}
 	
 	public void modifierAutorisation(short numAutor, structPlage plage) throws droitsInsuffisants, plageIncoherente {
-		boolean ok = false;
-		int i = 0;
-		while (i<listeAutorisationsResp.length && !ok) {
-			ok = (listeAutorisationsResp[i].numAuto == numAutor);
-			i++;
-		}
-		if (!ok)
-			throw new droitsInsuffisants("Vous n'avez pas le droit de gerer les droits de cette zone");
-		else {
-			try {
-				getMonAutorisation().getMonAutorisation().modifierAutorisation(numAutor, plage);
-			} catch (autorisationInexistante e) {
-				message = "Aucune autorisation correspondante trouvee (id = " + e.idAutorisation + ")";
-			} catch (plageIncoherente e) {
-				message = e.raison;
-			}
+		try {
+			getMonAutorisation().getMonAutorisation().modifierAutorisation(numAutor, plage);
+		} catch (autorisationInexistante e) {
+			message = "Aucune autorisation correspondante trouvee (id = " + e.idAutorisation + ")";
+		} catch (plageIncoherente e) {
+			message = e.raison;
 		}
 	}
 
 	public void supprimerAutorisation(short numAutor) throws droitsInsuffisants {
-		boolean ok = false;
-		int i = 0;
-		while (i<listeAutorisationsResp.length && !ok) {
-			ok = (listeAutorisationsResp[i].numAuto == numAutor);
-			i++;
-		}
-		if (!ok)
-			throw new droitsInsuffisants("Vous n'avez pas le droit de gerer les droits de cette zone");
-		else {
-			try {
-				getMonAutorisation().getMonAutorisation().supprimerAutorisation(numAutor);
-			} catch (autorisationInexistante e) {
-				// TODO Auto-generated catch block
-				message = "Aucune autorisation correspondante trouvee (id = " + e.idAutorisation + ")";
-			}
+		try {
+			getMonAutorisation().getMonAutorisation().supprimerAutorisation(numAutor);
+		} catch (autorisationInexistante e) {
+			// TODO Auto-generated catch block
+			message = "Aucune autorisation correspondante trouvee (id = " + e.idAutorisation + ")";
 		}
 	}
 	
