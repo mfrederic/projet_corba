@@ -19,10 +19,7 @@ public class ClientAuthentification {
 	
 	        String idObj = "Authentification";
 	
-	        // Recuperation du naming service
-	        /*org.omg.CosNaming.NamingContext nameRoot =
-	        		org.omg.CosNaming.NamingContextHelper.narrow(orb.resolve_initial_references("NameService"));
-	*/
+//Recuperation du namingService
 	        NamingContext nameRoot=NamingContextHelper.narrow(orb.string_to_object(Corbaloc.getCorbaRef()));
 	        
 	        // Construction du nom a rechercher

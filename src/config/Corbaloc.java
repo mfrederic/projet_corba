@@ -20,23 +20,15 @@ public class Corbaloc {
 		// Intialisation de l'ORB
 		//************************
 		org.omg.CORBA.ORB orb = org.omg.CORBA.ORB.init(args,null);
-
 		// Gestion du POA
 		//****************
 		// Recuperation du POA
 		POA rootPOA = POAHelper.narrow(orb.resolve_initial_references("RootPOA"));
-
 		byte[] monServeurId = rootPOA.activate_object(inst);
-
 		// Activer le POA manager
 		rootPOA.the_POAManager().activate();
-
-		// Enregistrement dans le service de nommage
-		//*******************************************
 		// Recuperation du naming service
-		//NamingContext nameRoot=org.omg.CosNaming.NamingContextHelper.narrow(orb.resolve_initial_references("NameService"));
 		NamingContext nameRoot=NamingContextHelper.narrow(orb.string_to_object(Corbaloc.getCorbaRef()));
-
 		// Construction du nom a enregistrer
 		org.omg.CosNaming.NameComponent[] nameToRegister = new org.omg.CosNaming.NameComponent[1];
 		switch(inst.getClass().getSimpleName()){
@@ -57,13 +49,9 @@ public class Corbaloc {
 
 		}
 		nameToRegister[0] = new org.omg.CosNaming.NameComponent(objectName,"");
-
-
 		// Enregistrement de l'objet CORBA dans le service de noms
 		nameRoot.rebind(nameToRegister,rootPOA.servant_to_reference(inst));
 		System.out.println("==> Nom '"+ objectName + "' est enregistre dans le service de noms.");
-
 		return orb;
-
 	}
 }

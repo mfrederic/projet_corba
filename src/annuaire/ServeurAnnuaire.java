@@ -14,8 +14,7 @@ public class ServeurAnnuaire {
 		        // Creation du servant
 		        //*********************
 		        AnnuaireImpl monAnnuaire = new AnnuaireImpl();
-
-
+		        //Initialisation du POA et enregistrement dans le namespace
 		        ORB orb = Corbaloc.registerServant(args, monAnnuaire);
 		        
 		        // Lancement de l'ORB et mise en attente de requete
