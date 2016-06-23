@@ -117,7 +117,7 @@ public class ServeurAuthentificationImpl extends ServeurAuthentificationPOA{
 					
 			if (cmpt == null) // Contrôle de l'existance du user dans la base
 				throw new compteInexistant(user);
-			else if(cmpt.getEmpreinte() == null) { // le compte existe et pas d'empreinte
+			else if((cmpt.getEmpreinte() == null) || (cmpt.getEmpreinte().isEmpty())) { // le compte existe et pas d'empreinte
 				
 				// BD
 				cmpt.setEmpreinte(emp);
