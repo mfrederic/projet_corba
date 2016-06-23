@@ -24,7 +24,7 @@ public class ModifierEmpreinte extends JPanel {
 		setLayout(null);
 		
 		JLabel lblAjouterEmpreinte = new JLabel("Modifier empreinte");
-		lblAjouterEmpreinte.setBounds(10, 10, 139, 23);
+		lblAjouterEmpreinte.setBounds(36, 11, 178, 22);
 		lblAjouterEmpreinte.setFont(new Font("Calibri", Font.BOLD, 18));
 		add(lblAjouterEmpreinte);
 		
@@ -37,7 +37,7 @@ public class ModifierEmpreinte extends JPanel {
 		add(textFieldEmpreinte);
 		textFieldEmpreinte.setColumns(10);
 		
-		JButton btnAjouter = new JButton("modifier");
+		JButton btnAjouter = new JButton("Modifier");
 		btnAjouter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String empreinte = textFieldEmpreinte.getText();
@@ -46,30 +46,30 @@ public class ModifierEmpreinte extends JPanel {
 				else {
 					try {
 						window.getCltEmpreintes().modifierEmpreinte(window.getCltEmpreintes().getUserConnecte(), empreinte);
+						lblError.setText(window.getCltEmpreintes().getMessage());
 					} catch (droitsInsuffisants e1) {
 						// TODO Auto-generated catch block
-						lblError.setText(window.getCltEmpreintes().getMessage());
+						lblError.setText(e1.raison);
 					}
-					lblError.setText(window.getCltEmpreintes().getMessage());
 				}
 			}
 		});
-		btnAjouter.setBounds(10, 109, 69, 23);
+		btnAjouter.setBounds(20, 97, 96, 29);
 		add(btnAjouter);
 		
 		lblError = new JLabel(" ");
 		lblError.setFont(new Font("Calibri", Font.PLAIN, 10));
 		lblError.setForeground(Color.RED);
-		lblError.setBounds(10, 70, 204, 28);
+		lblError.setBounds(10, 70, 216, 22);
 		add(lblError);
 		
-		JButton btnRetour = new JButton("retour");
+		JButton btnRetour = new JButton("Retour");
 		btnRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				window.setPane(new EmpreinteMenu(window));
 			}
 		});
-		btnRetour.setBounds(89, 109, 89, 23);
+		btnRetour.setBounds(132, 97, 82, 29);
 		add(btnRetour);
 
 	}

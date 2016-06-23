@@ -45,7 +45,7 @@ public class EmpreintesLogin extends JPanel {
 		add(passwordField);
 		
 		JButton btnConnexion = new JButton("Connexion");
-		btnConnexion.setBounds(84, 99, 114, 29);
+		btnConnexion.setBounds(84, 118, 114, 29);
 		btnConnexion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String login = textFieldLogin.getText();
@@ -65,7 +65,7 @@ public class EmpreintesLogin extends JPanel {
 		add(btnConnexion);
 		
 		lblError = new JLabel(" ");
-		lblError.setBounds(10, 94, 257, 32);
+		lblError.setBounds(10, 94, 235, 22);
 		lblError.setFont(new Font("Calibri", Font.PLAIN, 10));
 		lblError.setForeground(Color.RED);
 		add(lblError);
