@@ -22,20 +22,23 @@ public class AjouterEmpreinte extends JPanel {
 		setLayout(null);
 		
 		JLabel lblAjouterEmpreinte = new JLabel("Ajouter empreinte");
-		lblAjouterEmpreinte.setBounds(65, 6, 169, 22);
+		lblAjouterEmpreinte.setBounds(10, 8, 169, 22);
 		lblAjouterEmpreinte.setFont(new Font("Calibri", Font.BOLD, 18));
 		add(lblAjouterEmpreinte);
 		
 		JLabel lblEmpreinte = new JLabel("Empreinte");
-		lblEmpreinte.setBounds(10, 58, 63, 16);
+		lblEmpreinte.setFont(new Font("Calibri", Font.PLAIN, 11));
+		lblEmpreinte.setBounds(10, 43, 63, 16);
 		add(lblEmpreinte);
 		
 		textFieldEmpreinte = new JTextField();
-		textFieldEmpreinte.setBounds(96, 56, 160, 20);
+		textFieldEmpreinte.setFont(new Font("Calibri", Font.PLAIN, 11));
+		textFieldEmpreinte.setBounds(96, 41, 160, 20);
 		add(textFieldEmpreinte);
 		textFieldEmpreinte.setColumns(10);
 		
 		JButton btnAjouter = new JButton("Ajouter");
+		btnAjouter.setFont(new Font("Calibri", Font.PLAIN, 11));
 		btnAjouter.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String empreinte = textFieldEmpreinte.getText();
@@ -47,22 +50,24 @@ public class AjouterEmpreinte extends JPanel {
 				}
 			}
 		});
-		btnAjouter.setBounds(87, 88, 90, 29);
+		btnAjouter.setBounds(166, 72, 90, 22);
 		add(btnAjouter);
 		
 		lblError = new JLabel(" ");
 		lblError.setFont(new Font("Calibri", Font.PLAIN, 10));
 		lblError.setForeground(Color.RED);
-		lblError.setBounds(10, 70, 224, 28);
+		lblError.setBounds(10, 105, 246, 28);
 		add(lblError);
 		
 		JButton btnRetour = new JButton("Retour");
+		btnRetour.setFont(new Font("Calibri", Font.PLAIN, 11));
 		btnRetour.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				window.setPane(new EmpreinteMenu(window));
+				window.getFrame().setBounds(100, 100, 200, 200);
 			}
 		});
-		btnRetour.setBounds(174, 88, 82, 29);
+		btnRetour.setBounds(189, 8, 67, 24);
 		add(btnRetour);
 
 	}

@@ -1,6 +1,5 @@
 package interfaces.moncompte;
 
-import interfaces.InterfaceEmpreinte;
 import interfaces.InterfaceMonCompte;
 
 import java.awt.Container;
@@ -45,7 +44,7 @@ public class InterfaceMonCompteSwing {
 		cltMonCompte = new InterfaceMonCompte();
 		
 		frame = new JFrame();
-		frame.setBounds(100, 100, 274, 245);
+		frame.setBounds(100, 100, 245, 245);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		setPane(new MonCompteLogin(this));

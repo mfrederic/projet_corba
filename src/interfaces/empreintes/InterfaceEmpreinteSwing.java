@@ -43,7 +43,7 @@ public class InterfaceEmpreinteSwing {
 		cltEmpreintes = new InterfaceEmpreinte();
 		
 		frame = new JFrame();
-		frame.setBounds(100, 100, 274, 245);
+		frame.setBounds(100, 100, 315, 205);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		setPane(new EmpreintesLogin(this));

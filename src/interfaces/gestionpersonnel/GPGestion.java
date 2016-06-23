@@ -1,45 +1,34 @@
 package interfaces.gestionpersonnel;
 
-import interfaces.gestionpersonnel.InterfaceGestionPersonnelSwing.PersonneComboBox;
-
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.ListSelectionModel;
-
-import java.awt.Font;
-
-import javax.swing.JSeparator;
-import javax.swing.JButton;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-import javax.swing.JTable;
-import javax.swing.JScrollPane;
-
-import Gestion_acces.personne;
-import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
-
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 
 import model.Personne;
-
-import javax.swing.JTabbedPane;
-import javax.swing.border.LineBorder;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-
 import Gestion_acces.compte;
-import Gestion_acces.statutPersonne;
+import Gestion_acces.personne;
 import Gestion_acces.rolePersonne;
-
-import javax.swing.JPasswordField;
+import Gestion_acces.statutPersonne;
+import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
 
 public class GPGestion extends JPanel {
 	private static final long serialVersionUID = -1241512579162739300L;
@@ -61,8 +50,7 @@ public class GPGestion extends JPanel {
 	private JComboBox<statutPersonne> comboBoxStatut;
 	private JComboBox<rolePersonne> comboBoxRoleCreer;
 	private JComboBox<statutPersonne> comboBoxStatutCreer;
-	private PersonneModel personneModel;
-
+	
 	/**
 	 * Create the panel.
 	 */

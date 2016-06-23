@@ -17,35 +17,41 @@ public class EmpreinteMenu extends JPanel {
 	public EmpreinteMenu(InterfaceEmpreinteSwing window) {
 		
 		JButton btnAjouterEmpreinte = new JButton("Ajouter empreinte");
-		btnAjouterEmpreinte.setBounds(88, 40, 163, 29);
+		btnAjouterEmpreinte.setFont(new Font("Calibri", Font.PLAIN, 11));
+		btnAjouterEmpreinte.setBounds(10, 44, 163, 29);
 		btnAjouterEmpreinte.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				window.setPane(new AjouterEmpreinte(window));
+				window.getFrame().setBounds(100, 100, 280, 165);
 			}
 		});
 		setLayout(null);
 		add(btnAjouterEmpreinte);
 		
 		JButton btnNewButton = new JButton("Modifier empreinte");
+		btnNewButton.setFont(new Font("Calibri", Font.PLAIN, 11));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				window.setPane(new ModifierEmpreinte(window));
+				window.getFrame().setBounds(100, 100, 305, 175);
 			}
 		});
-		btnNewButton.setBounds(88, 69, 163, 29);
+		btnNewButton.setBounds(10, 84, 163, 29);
 		add(btnNewButton);
 		
 		JButton btnDeconnexion = new JButton("Deconnexion");
+		btnDeconnexion.setFont(new Font("Calibri", Font.PLAIN, 11));
 		btnDeconnexion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				window.setPane(new EmpreintesLogin(window));
+				window.getFrame().setBounds(100, 100, 315, 205);
 			}
 		});
-		btnDeconnexion.setBounds(88, 96, 163, 29);
+		btnDeconnexion.setBounds(10, 124, 163, 29);
 		add(btnDeconnexion);
 		
 		JLabel lblMenu = new JLabel("Menu empreinte");
-		lblMenu.setBounds(88, 6, 152, 22);
+		lblMenu.setBounds(10, 11, 152, 22);
 		lblMenu.setFont(new Font("Calibri", Font.BOLD, 18));
 		add(lblMenu);
 
