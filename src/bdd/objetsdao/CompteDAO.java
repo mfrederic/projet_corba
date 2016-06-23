@@ -164,7 +164,7 @@ public class CompteDAO extends DAO<Compte>{
 					ResultSet.CONCUR_UPDATABLE).executeQuery(
 							"SELECT * FROM \"Compte\"");
 			while (result.next()) {
-				Compte a = this.find(result.getInt(1));
+				Compte a = this.find(result.getInt("refPersonne"));
 				pers.add(a);
 			}
 		} catch (SQLException e) {

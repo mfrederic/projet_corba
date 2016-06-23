@@ -11,8 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
-
 public class RespZoneLogin extends JPanel {
 	private static final long serialVersionUID = 8923433902787752765L;
 	private JLabel lblError;

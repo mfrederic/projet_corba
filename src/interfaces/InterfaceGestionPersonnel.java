@@ -42,13 +42,10 @@ public class InterfaceGestionPersonnel {
 				throw new droitsInsuffisants("Acces interdit : role doit etre RH ou Accueil");
 			}
 		} catch (compteInexistant e) {
-			// TODO Auto-generated catch block
 			message = "Compte inexistant : (user: " + e.user + ")";
 		} catch (droitsInsuffisants e) {
-			// TODO Auto-generated catch block
 			message = "Droits insuffisants : " + e.raison;
 		} catch (accesRefuse e) {
-			// TODO Auto-generated catch block
 			message = "Acces refuse : " + e.raison;
 		}
 		
@@ -69,10 +66,8 @@ public class InterfaceGestionPersonnel {
 					monAuthentification.getMonAuthentification().creerCompte(idPers, user, password, cleServeur);
 					message = "La personne et le compte associes ont ete crees avec succes";
 				} catch (compteDejaCree e) {
-					// TODO Auto-generated catch block
 					message = "Le compte existe deja (user: " + e.user + " )";
 				} catch (accesRefuse e) {
-					// TODO Auto-generated catch block
 					message = "Acces refuse : " + e.raison;
 				}
 			}
@@ -92,10 +87,8 @@ public class InterfaceGestionPersonnel {
 				message = "Personne et compte associes supprimes avec succes";
 
 			} catch (accesRefuse e) {
-				// TODO Auto-generated catch block
 				message = e.raison;
 			} catch (compteInexistant e) {
-				// TODO Auto-generated catch block
 				message = "Compte inexistant : (user: " + e.user + ")";
 			} catch (personneInexistante e) {
 				message = "Personne inexistante dans la base (id = " + e.id + ")";
@@ -113,7 +106,6 @@ public class InterfaceGestionPersonnel {
 				monAnnuaire.getMonAnnuaire().ajouterPhoto(idPers, ph);
 				message = "Photo ajoutee avec succes";
 			} catch (personneInexistante e) {
-				// TODO Auto-generated catch block
 				message = "Personne inexistante dans la base (id = " + e.id + ")";
 			}
 		
@@ -129,13 +121,10 @@ public class InterfaceGestionPersonnel {
 				monAuthentification.getMonAuthentification().supprimerEmpreinte(idPersonne, cleServeur);
 				message = "Empreinte supprimee avec succes";
 			} catch (accesRefuse e) {
-				// TODO Auto-generated catch block
 				message = "Acces refuse : " + e.raison;
 			} catch (compteInexistant e) {
-				// TODO Auto-generated catch block
 				message = "Compte inexistant : (user: " + e.user + ")";
 			} catch (suppressionInterdite e) {
-				// TODO Auto-generated catch block
 				message = "Vous n'avez pas le droit de supprimer l'empreinte (role = " + e.role + ")";
 			}
 
@@ -152,7 +141,6 @@ public class InterfaceGestionPersonnel {
 				monAnnuaire.getMonAnnuaire().modifierInfos(idPers, nom, prenom, statut, role);
 				message = "Infos mises a jour";
 			} catch (personneInexistante e) {
-				// TODO Auto-generated catch block
 				message = "Personne inexistante dans la base (id = " + e.id + ")";
 			}
 		
@@ -162,7 +150,6 @@ public class InterfaceGestionPersonnel {
 	}
 	
 	public personne[] chercherPersonnes(String nom, String prenom) throws droitsInsuffisants {
-		// TODO Auto-generated method stub
 		personne[] retour = new personne[0];
 		if ((persConnectee.role == rolePersonne.RH) || (persConnectee.role == rolePersonne.accueil)) {
 			retour = monAnnuaire.getMonAnnuaire().chercherPersonnes(nom, prenom);
@@ -173,7 +160,6 @@ public class InterfaceGestionPersonnel {
 		return retour;
 	}
 	public compte[] chercherComptes(String nom, String prenom) throws droitsInsuffisants {
-		// TODO Auto-generated method stub
 		compte[] retour = new compte[0];
 		if ((persConnectee.role == rolePersonne.RH) || (persConnectee.role == rolePersonne.accueil)) {
 			retour = monAuthentification.getMonAuthentification().getComptes();

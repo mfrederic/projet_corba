@@ -35,6 +35,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 
+import Gestion_acces.compte;
 import Gestion_acces.statutPersonne;
 import Gestion_acces.rolePersonne;
 
@@ -93,19 +94,14 @@ public class GPGestion extends JPanel {
 		scrollPaneListPersonne.setBounds(10, 59, 430, 109);
 		add(scrollPaneListPersonne);
 		
-		personneModel = new PersonneModel();
-		table = new JTable(personneModel);
+		table = new JTable(new PersonneModel());
 		scrollPaneListPersonne.setViewportView(table);
 		table.setFont(new Font("Calibri", Font.PLAIN, 11));
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setAutoCreateRowSorter(true);
-		table.getRowSorter().toggleSortOrder(0);
 		scrollPaneListPersonne.setViewportView(table);
 		
 		ListSelectionModel listSelectionModel = table.getSelectionModel();
 		listSelectionModel.addListSelectionListener(new ListSelectionListener() {
-			
-
 			@Override
 			public void valueChanged(ListSelectionEvent e) {
 				if (e.getValueIsAdjusting())
@@ -114,11 +110,10 @@ public class GPGestion extends JPanel {
 		        ListSelectionModel lsm = (ListSelectionModel)e.getSource();
 		        if (!lsm.isSelectionEmpty()) {
 		        	tabbedPane.setSelectedIndex(1);
-		            currentSelected = personneModel.getPersonneAt(lsm.getMinSelectionIndex());
+		            currentSelected = ((PersonneModel) table.getModel()).getPersonneAt(lsm.getMinSelectionIndex());
 		            setFormValue();
-		    		// updateAccountPanel.setVisible(true);
 		        } else {
-		    		// updateAccountPanel.setVisible(false);
+		        	currentSelected = null;
 		        }
 			}
 		});
@@ -236,8 +231,7 @@ public class GPGestion extends JPanel {
 							statutPersonne.from_int(comboBoxStatut.getSelectedIndex()),
 							rolePersonne.from_int(comboBoxRole.getSelectedIndex())
 					);
-					personneModel.updateAllContent();
-					personneModel.fireTableDataChanged();
+					table.setModel(new PersonneModel());
 					lblErrorUpdate.setText(window.getCltGestPers().getMessage());
 				} catch (NumberFormatException e1) {
 					e1.printStackTrace();
@@ -256,8 +250,7 @@ public class GPGestion extends JPanel {
 				lblErrorUpdate.setText("");
 				try {
 					window.getCltGestPers().supprimerPersonne(Short.valueOf(textFieldId.getText()));
-					personneModel.updateAllContent();
-					personneModel.fireTableDataChanged();
+					table.setModel(new PersonneModel());
 					lblErrorUpdate.setText(window.getCltGestPers().getMessage());
 				} catch (droitsInsuffisants e1) {
 					lblErrorUpdate.setText(e1.raison);
@@ -278,8 +271,7 @@ public class GPGestion extends JPanel {
 				String photo = new String(textFieldPhoto.getText());
 				try {
 					window.getCltGestPers().ajouterPhoto(Short.valueOf(textFieldId.getText()), photo);
-					personneModel.updateAllContent();
-					personneModel.fireTableDataChanged();
+					table.setModel(new PersonneModel());
 					lblErrorUpdate.setText(window.getCltGestPers().getMessage());
 				} catch (NumberFormatException e1) {
 					lblErrorUpdate.setText("Aucun compte selectionne.");
@@ -312,6 +304,7 @@ public class GPGestion extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					window.getCltGestPers().supprimerEmpreinte(Short.valueOf(textFieldId.getText()));
+					table.setModel(new PersonneModel());
 					lblErrorUpdate.setText(window.getCltGestPers().getMessage());
 				} catch (droitsInsuffisants e1) {
 					lblErrorUpdate.setText(e1.raison);
@@ -466,7 +459,9 @@ public class GPGestion extends JPanel {
 		private static final long serialVersionUID = -3240581296997491550L;
 		
 		private Personne[] listePersonne;
-		private final String[] listeColonnes = {"Id", "Nom", "Prenom", "Photo", "Statut", "Role"};
+		private compte[] listeCompte;
+		private final String[] listeColonnes = {"Id", "Nom", "Prenom", "Photo", "Statut", "Role", "Empreinte"};
+
 
 		public PersonneModel(Personne[] liste) {
 			super();
@@ -504,6 +499,8 @@ public class GPGestion extends JPanel {
 			personne[] liste = null;
 			try {
 				liste = window.getCltGestPers().chercherPersonnes(new String(), new String());
+				listeCompte = window.getCltGestPers().chercherComptes(new String(), new String());
+				
 			} catch (droitsInsuffisants e) {
 				e.printStackTrace();
 			}
@@ -524,6 +521,8 @@ public class GPGestion extends JPanel {
 			personne[] liste = null;
 			try {
 				liste = window.getCltGestPers().chercherPersonnes(new String(), new String());
+				listeCompte = window.getCltGestPers().chercherComptes(new String(), new String());
+				
 			} catch (droitsInsuffisants e) {
 				e.printStackTrace();
 			}
@@ -564,6 +563,12 @@ public class GPGestion extends JPanel {
 					return listePersonne[row].getStatutPersonne();
 				case 5:
 					return listePersonne[row].getRolePersonne();
+				case 6:
+					compte current = getCompteFromPersonneId(listePersonne[row].getIdPersonne());
+					if(current != null) {
+						return (current.empreinte.equals("")) ? "Non" : "Oui";
+					}
+					return "?";
 				default:
 					return null;
 			}
@@ -584,9 +589,20 @@ public class GPGestion extends JPanel {
 					return String.class;
 				case 5:
 					return String.class;
+				case 6:
+					return String.class;
 				default:
 					return Object.class;
 			}
+		}
+		
+		public compte getCompteFromPersonneId(int persId) {
+			for(compte c : listeCompte) {
+				if(c.refPersonne == (short) persId) {
+					return c;
+				}
+			}
+			return null;
 		}
 	}
 }
