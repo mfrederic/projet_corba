@@ -192,7 +192,7 @@ public class ServeurAuthentificationImpl extends ServeurAuthentificationPOA{
 						cmpt = repoCompte.update(cmpt);
 						
 					} else
-						throw new suppressionInterdite(p.role);
+						throw new suppressionInterdite(p.statut);
 				} catch (personneInexistante e) {
 					// TODO Auto-generated catch block
 					System.out.println("Personne inexistante dans la base (id = " + e.id + ")");

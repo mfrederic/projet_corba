@@ -125,7 +125,7 @@ public class InterfaceGestionPersonnel {
 			} catch (compteInexistant e) {
 				message = "Compte inexistant : (user: " + e.user + ")";
 			} catch (suppressionInterdite e) {
-				message = "Vous n'avez pas le droit de supprimer l'empreinte (role = " + e.role + ")";
+				message = "Vous n'avez pas le droit de supprimer l'empreinte (statut = " + e.statut + ")";
 			}
 
 		
