@@ -7,6 +7,8 @@ import log.ClientJournal;
 import model.Porte;
 import Gestion_acces.personne;
 import Gestion_acces.porte;
+import Gestion_acces.rolePersonne;
+import Gestion_acces.statutPersonne;
 import Gestion_acces.ServeurAuthentificationPackage.accesRefuse;
 import Gestion_acces.ServeurAutorisationPackage.porteInconnue;
 import authentification.ClientAuthentification;
@@ -72,6 +74,7 @@ public class InterfacePorte {
 		Calendar gc = new GregorianCalendar();
 		String ts = String.valueOf(gc.get(Calendar.YEAR)) + "-" + String.valueOf(gc.get(Calendar.MONTH)+1) + "-" + String.valueOf(gc.get(Calendar.DAY_OF_MONTH)) + " " + String.valueOf(gc.get(Calendar.HOUR_OF_DAY)) + ":" + String.valueOf(gc.get(Calendar.MINUTE)) + ":" + String.valueOf(gc.get(Calendar.SECOND)); 
 		
+		if (p == null) p = new personne((short)0,"nom","prenom","photo",statutPersonne.permanent,rolePersonne.basique);
 		monJournal.getMonJournal().journaliser(ts, typeAcces, p, res, commentaire);
 	}
 	

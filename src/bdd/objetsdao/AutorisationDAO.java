@@ -169,10 +169,15 @@ public class AutorisationDAO extends DAO<Autorisation>{
 	//retourne la liste de plages d'autorisation pour une personne et une zone ou null si aucun match
 	public List<MaPlageDate> findAllByPersonneZone(int idPersonne, int idZone) {
 		List<MaPlageDate> out = new ArrayList<MaPlageDate>();
+		String jourDeb = "";
+		String jourFin = "";
+		
 		try {
 			ResultSet result = this.connect.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE).executeQuery("SELECT * FROM \"Autorisation\" WHERE \"refPersonne\" = " + idPersonne + " AND \"refZone\" = " + idZone);
 			while (result.next()) {
-				out.add(new MaPlageDate(result.getString(6), result.getString(7), result.getInt(4), result.getInt(5)));
+				if (result.getString(6) != null) jourDeb = result.getString(6);
+				if (result.getString(7) != null) jourFin = result.getString(7);
+				out.add(new MaPlageDate(jourDeb, jourFin, result.getFloat(4), result.getFloat(5)));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

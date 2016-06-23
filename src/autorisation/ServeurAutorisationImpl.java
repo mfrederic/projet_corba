@@ -67,17 +67,12 @@ public class ServeurAutorisationImpl extends ServeurAutorisationPOA{
 		if (porteBD == null)
 			throw new porteInconnue(porte);
 		else {
+			
 			listePlages = repoAutorisation.findAllByPersonneZone(p.idPers, porteBD.getRefZone());
 			if (listePlages != null) {
-				if (p.statut == statutPersonne.permanent) { // Personne permanente
-					if (listePlages != null)
-						autorise = true;
-					
-				} else { // Personne temporaire
-					Iterator<MaPlageDate> it = listePlages.iterator();
-					while (!autorise && it.hasNext()) {
-						autorise = it.next().contient(dateGc);					
-					}
+				Iterator<MaPlageDate> it = listePlages.iterator();
+				while (!autorise && it.hasNext()) {
+					autorise = it.next().contient(dateGc);					
 				}
 			}
 		
