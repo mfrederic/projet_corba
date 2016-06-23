@@ -393,8 +393,7 @@ public class GPGestion extends JPanel {
 							textFieldLoginCreer.getText(),
 							new String(passwordFieldCreer.getPassword())
 					);
-					personneModel.updateAllContent();
-					personneModel.fireTableDataChanged();
+					table.setModel(new PersonneModel());
 					lblError.setText(window.getCltGestPers().getMessage());
 				} catch (NumberFormatException e1) {
 					e1.printStackTrace();
