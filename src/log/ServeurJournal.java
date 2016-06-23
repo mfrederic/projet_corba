@@ -19,8 +19,7 @@ public class ServeurJournal {
 
 
 
-		        String nomObj = "Journal";
-		        ORB orb = Corbaloc.registerServant(args, monJournal , nomObj);
+		        ORB orb = Corbaloc.registerServant(args, monJournal);
 		        
 		        // Lancement de l'ORB et mise en attente de requete
 		        //**************************************************

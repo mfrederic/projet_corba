@@ -16,8 +16,7 @@ public class ServeurAnnuaire {
 		        AnnuaireImpl monAnnuaire = new AnnuaireImpl();
 
 
-		        String nomObj = "Annuaire";
-		        ORB orb = Corbaloc.registerServant(args, monAnnuaire , nomObj);
+		        ORB orb = Corbaloc.registerServant(args, monAnnuaire);
 		        
 		        // Lancement de l'ORB et mise en attente de requete
 		        //**************************************************
