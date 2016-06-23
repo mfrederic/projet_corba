@@ -43,7 +43,7 @@ public class InterfaceRespZoneSwing {
 		interfaceRespZone = new InterfaceRespZones();
 		
 		setFrame(new JFrame());
-		getFrame().setBounds(100, 100, 450, 300);
+		getFrame().setBounds(100, 100, 292, 215);
 		getFrame().setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		setPane(new RespZoneLogin(this));

@@ -30,6 +30,7 @@ import Gestion_acces.personne;
 import Gestion_acces.structPlage;
 import Gestion_acces.AnnuairePackage.personneInexistante;
 import Gestion_acces.ServeurAuthentificationPackage.droitsInsuffisants;
+import Gestion_acces.ServeurAutorisationPackage.plageIncoherente;
 
 public class RespZoneGestion extends JPanel {
 	private static final long serialVersionUID = -1241512579162739300L;
@@ -50,6 +51,7 @@ public class RespZoneGestion extends JPanel {
 	private JComboBox<Short> comboBoxZoneUpdate;
 	private JTextField textFieldUserUpdate;
 	private JButton btnMaj;
+	private JButton btnSuppr;
 
 	/**
 	 * Create the panel.
@@ -98,6 +100,7 @@ public class RespZoneGestion extends JPanel {
 		});
 		add(comboBoxZone);
 
+
 		short[] currentZone = {comboBoxZone.getItemAt(0)};
 		tableGrants = new JTable(new AutorisationModel(currentZone));
 		ListSelectionModel listSelectionModel = tableGrants.getSelectionModel();
@@ -113,9 +116,11 @@ public class RespZoneGestion extends JPanel {
 		            currentSelected = ((AutorisationModel) tableGrants.getModel()).getAutorisationAt(lsm.getMinSelectionIndex());
 		            updateFormFields();
 		        	btnMaj.setEnabled(true);
+		        	btnSuppr.setEnabled(true);
 		        } else {
 		        	currentSelected = null;
 		        	btnMaj.setEnabled(false);
+		        	btnSuppr.setEnabled(false);
 		        }
 			}
 		});
@@ -304,7 +309,7 @@ public class RespZoneGestion extends JPanel {
 		panelUpdateGrant.add(label_1);
 		
 		comboBoxZoneUpdate = new JComboBox<Short>(new ZoneCBModel());
-		comboBoxZoneUpdate.setEditable(true);
+		comboBoxZoneUpdate.setEnabled(false);
 		comboBoxZoneUpdate.setSelectedIndex(0);
 		comboBoxZoneUpdate.setBounds(104, 72, 86, 20);
 		panelUpdateGrant.add(comboBoxZoneUpdate);
@@ -350,9 +355,68 @@ public class RespZoneGestion extends JPanel {
 		panelUpdateGrant.add(textFieldTempsFinUpdate);
 		
 		btnMaj = new JButton("MaJ");
+		btnMaj.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(textFieldJourDebutUpdate.getText().length() != 0 || textFieldJourFinUpdate.getText().length() != 0) {
+					if(!MatcherDate.testDateIsValid(textFieldJourDebutUpdate.getText()) ||
+						!MatcherDate.testDateIsValid(textFieldJourFinUpdate.getText())) {
+						lblError.setText("Le(s) jour(s) renseignes doivent etre au format 'dd/mm/yy'.");
+						return;
+					}
+				}
+				
+				lblError.setText("");
+				Float heureDebut = (textFieldTempsDebutUpdate.getText().length() == 0) ? 0 : Float.valueOf(textFieldTempsDebutUpdate.getText());
+				Float heureFin = (textFieldTempsFinUpdate.getText().length() == 0) ? 0 : Float.valueOf(textFieldTempsFinUpdate.getText());
+				
+				structPlage plage = new structPlage(
+						textFieldJourDebutUpdate.getText(),
+						textFieldJourFinUpdate.getText(),
+						heureDebut,
+						heureFin
+						);
+				
+				try {
+					try {
+						window.getInterfaceRespZone().modifierAutorisation(
+								(short) currentSelected.getNumAuto(),
+								plage);
+						lblError.setText("Autorisation modifiee.");
+					} catch (plageIncoherente e1) {
+						lblError.setText(e1.raison);
+						e1.printStackTrace();
+					}
+					
+					lblError.setText(window.getInterfaceRespZone().getMessage());
+					short[] currentZone = {(short) comboBoxZoneCreate.getSelectedItem()};
+					tableGrants.setModel(new AutorisationModel(currentZone));
+				} catch (droitsInsuffisants e1) {
+					lblError.setText(e1.raison);
+					e1.printStackTrace();
+				}
+			}
+		});
 		btnMaj.setBounds(101, 227, 89, 23);
 		btnMaj.setEnabled(false);
 		panelUpdateGrant.add(btnMaj);
+		
+		btnSuppr = new JButton("Suppr");
+		btnSuppr.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					window.getInterfaceRespZone().supprimerAutorisation((short) currentSelected.getNumAuto());
+					lblError.setText("Autorisation supprime.");
+					short[] currentZone = {(short) comboBoxZoneCreate.getSelectedItem()};
+					tableGrants.setModel(new AutorisationModel(currentZone));
+				} catch (droitsInsuffisants e) {
+					lblError.setText(e.raison);
+					e.printStackTrace();
+				}
+			}
+		});
+		btnSuppr.setEnabled(false);
+		btnSuppr.setBounds(10, 227, 69, 23);
+		panelUpdateGrant.add(btnSuppr);
 	}
 	
 	public void updateFormFields() {
@@ -503,8 +567,7 @@ public class RespZoneGestion extends JPanel {
 		public AutorisationModel(short[] z) {
 			super();
 			ArrayList<Autorisation> list = new ArrayList<Autorisation>();
-			autorisation[] liste = null;
-			liste = window.getInterfaceRespZone().getMonAutorisation().getMonAutorisation().getAutorisationsResp(z);
+			autorisation[] liste = window.getInterfaceRespZone().getMonAutorisation().getMonAutorisation().getAutorisationsResp(z);
 			for(autorisation a : liste) {
 				Autorisation current = new Autorisation(a.refPers, a.sP.heureDeb, a.sP.heureFin, a.sP.jourDeb, a.sP.jourFin, a.refZone);
 				current.setNumAuto(a.numAuto);
@@ -513,7 +576,7 @@ public class RespZoneGestion extends JPanel {
 			listeAutorisations = new Autorisation[list.size()];
 			listeAutorisations = list.toArray(listeAutorisations);
 		}
-		
+
 		@Override
 		public void fireTableDataChanged() {
 			super.fireTableDataChanged();
