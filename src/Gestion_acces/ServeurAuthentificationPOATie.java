@@ -134,4 +134,12 @@ public class ServeurAuthentificationPOATie extends ServeurAuthentificationPOA
         _tie.modifierMdp( user,  newMdp,  mdpServeur);
     }
 
+    /**
+     * Operation getComptes
+     */
+    public Gestion_acces.compte[] getComptes()
+    {
+        return _tie.getComptes();
+    }
+
 }

@@ -1,7 +1,11 @@
 package authentification;
 
+import java.util.ArrayList;
+
 import model.Compte;
+import model.Personne;
 import Gestion_acces.ServeurAuthentificationPOA;
+import Gestion_acces.compte;
 import Gestion_acces.personne;
 import Gestion_acces.rolePersonne;
 import Gestion_acces.statutPersonne;
@@ -281,5 +285,28 @@ public class ServeurAuthentificationImpl extends ServeurAuthentificationPOA{
 			throw new accesRefuse("Mot de passe serveur faux");
 		}
 	}
+
+	@Override
+	public compte[] getComptes() {
+		// TODO Auto-generated method stub
+		ArrayList<Compte> listeComptes;
+		compte[] listeCmptORB = null;
+		
+		listeComptes = repoCompte.getInstances();
+	
+		if (listeComptes == null)
+			listeCmptORB = new compte[0];		
+		else {
+			Compte[] listeCmptBD = new Compte[listeComptes.size()];
+			listeCmptBD = (Compte[]) listeComptes.toArray(listeCmptBD);
+			listeCmptORB = new compte[listeCmptBD.length];
+			for (int i=0; i<listeCmptBD.length; i++) {
+				listeCmptORB[i] = new compte(listeCmptBD[i].getUser(), listeCmptBD[i].getPassword(), listeCmptBD[i].getEmpreinte(), (short)listeCmptBD[i].getRefPersonne());
+			}
+		}
+		return listeCmptORB;
+	}
+	
+	
 
 }

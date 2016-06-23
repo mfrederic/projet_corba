@@ -538,4 +538,53 @@ public class _ServeurAuthentificationStub extends org.omg.CORBA.portable.ObjectI
         }
     }
 
+    /**
+     * Operation getComptes
+     */
+    public Gestion_acces.compte[] getComptes()
+    {
+        while(true)
+        {
+            if (!this._is_local())
+            {
+                org.omg.CORBA.portable.InputStream _input = null;
+                try
+                {
+                    org.omg.CORBA.portable.OutputStream _output = this._request("getComptes",true);
+                    _input = this._invoke(_output);
+                    Gestion_acces.compte[] _arg_ret = Gestion_acces.listeComptesHelper.read(_input);
+                    return _arg_ret;
+                }
+                catch(org.omg.CORBA.portable.RemarshalException _exception)
+                {
+                    continue;
+                }
+                catch(org.omg.CORBA.portable.ApplicationException _exception)
+                {
+                    String _exception_id = _exception.getId();
+                    throw new org.omg.CORBA.UNKNOWN("Unexpected User Exception: "+ _exception_id);
+                }
+                finally
+                {
+                    this._releaseReply(_input);
+                }
+            }
+            else
+            {
+                org.omg.CORBA.portable.ServantObject _so = _servant_preinvoke("getComptes",_opsClass);
+                if (_so == null)
+                   continue;
+                Gestion_acces.ServeurAuthentificationOperations _self = (Gestion_acces.ServeurAuthentificationOperations) _so.servant;
+                try
+                {
+                    return _self.getComptes();
+                }
+                finally
+                {
+                    _servant_postinvoke(_so);
+                }
+            }
+        }
+    }
+
 }

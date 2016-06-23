@@ -55,4 +55,9 @@ public interface ServeurAuthentificationOperations
     public void modifierMdp(String user, String newMdp, String mdpServeur)
         throws Gestion_acces.ServeurAuthentificationPackage.compteInexistant, Gestion_acces.ServeurAuthentificationPackage.accesRefuse;
 
+    /**
+     * Operation getComptes
+     */
+    public Gestion_acces.compte[] getComptes();
+
 }

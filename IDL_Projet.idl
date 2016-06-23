@@ -11,6 +11,13 @@ module Gestion_acces {
 
 	typedef string photo;
 
+	struct compte {
+		string user;
+		string password;
+		string empreinte;
+		short refPersonne;
+	};
+	
 	struct personne {
 		short idPers;
 		string nom;
@@ -38,6 +45,7 @@ module Gestion_acces {
 	typedef sequence<autorisation> listeAutorisations;
 	typedef sequence<short> listeIdZones;
 	typedef sequence<porte> listePortes;
+	typedef sequence<compte> listeComptes;
 
 	interface ServeurAuthentification {
 		exception compteDejaCree {string user;};
@@ -55,6 +63,7 @@ module Gestion_acces {
 		void creerCompte (in short idPersonne, in string user, in string password, in string mdp) raises(compteDejaCree, accesRefuse);
 		void supprimerCompte (in short idPersonne, in string mdp) raises(accesRefuse, compteInexistant);
 		void modifierMdp (in string user, in string newMdp, in string mdpServeur) raises(compteInexistant, accesRefuse);
+		listeComptes getComptes();
 	};
 
 	interface ServeurAutorisation {

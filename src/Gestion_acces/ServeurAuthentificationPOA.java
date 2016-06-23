@@ -28,30 +28,41 @@ public abstract class ServeurAuthentificationPOA extends org.omg.PortableServer.
         return _ids_list;
     }
 
+    private static final java.util.Map operationMap = new java.util.HashMap();
+
+    static {
+            operationMap.put("ajouterEmpreinte",
+                    new Operation_ajouterEmpreinte());
+            operationMap.put("authentifier",
+                    new Operation_authentifier());
+            operationMap.put("creerCompte",
+                    new Operation_creerCompte());
+            operationMap.put("demanderAuth",
+                    new Operation_demanderAuth());
+            operationMap.put("getComptes",
+                    new Operation_getComptes());
+            operationMap.put("modifierEmpreinte",
+                    new Operation_modifierEmpreinte());
+            operationMap.put("modifierMdp",
+                    new Operation_modifierMdp());
+            operationMap.put("supprimerCompte",
+                    new Operation_supprimerCompte());
+            operationMap.put("supprimerEmpreinte",
+                    new Operation_supprimerEmpreinte());
+    }
+
     public final org.omg.CORBA.portable.OutputStream _invoke(final String opName,
             final org.omg.CORBA.portable.InputStream _is,
             final org.omg.CORBA.portable.ResponseHandler handler)
     {
 
-        if (opName.equals("ajouterEmpreinte")) {
-                return _invoke_ajouterEmpreinte(_is, handler);
-        } else if (opName.equals("authentifier")) {
-                return _invoke_authentifier(_is, handler);
-        } else if (opName.equals("creerCompte")) {
-                return _invoke_creerCompte(_is, handler);
-        } else if (opName.equals("demanderAuth")) {
-                return _invoke_demanderAuth(_is, handler);
-        } else if (opName.equals("modifierEmpreinte")) {
-                return _invoke_modifierEmpreinte(_is, handler);
-        } else if (opName.equals("modifierMdp")) {
-                return _invoke_modifierMdp(_is, handler);
-        } else if (opName.equals("supprimerCompte")) {
-                return _invoke_supprimerCompte(_is, handler);
-        } else if (opName.equals("supprimerEmpreinte")) {
-                return _invoke_supprimerEmpreinte(_is, handler);
-        } else {
+        final AbstractOperation operation = (AbstractOperation)operationMap.get(opName);
+
+        if (null == operation) {
             throw new org.omg.CORBA.BAD_OPERATION(opName);
         }
+
+        return operation.invoke(this, _is, handler);
     }
 
     // helper methods
@@ -293,6 +304,117 @@ public abstract class ServeurAuthentificationPOA extends org.omg.PortableServer.
             Gestion_acces.ServeurAuthentificationPackage.accesRefuseHelper.write(_output,_exception);
         }
         return _output;
+    }
+
+    private org.omg.CORBA.portable.OutputStream _invoke_getComptes(
+            final org.omg.CORBA.portable.InputStream _is,
+            final org.omg.CORBA.portable.ResponseHandler handler) {
+        org.omg.CORBA.portable.OutputStream _output;
+
+        Gestion_acces.compte[] _arg_result = getComptes();
+
+        _output = handler.createReply();
+        Gestion_acces.listeComptesHelper.write(_output,_arg_result);
+
+        return _output;
+    }
+
+    // operation classes
+    private abstract static class AbstractOperation {
+        protected abstract org.omg.CORBA.portable.OutputStream invoke(
+                ServeurAuthentificationPOA target,
+                org.omg.CORBA.portable.InputStream _is,
+                org.omg.CORBA.portable.ResponseHandler handler);
+    }
+
+    private static final class Operation_demanderAuth extends AbstractOperation
+    {
+        protected org.omg.CORBA.portable.OutputStream invoke(
+                final ServeurAuthentificationPOA target,
+                final org.omg.CORBA.portable.InputStream _is,
+                final org.omg.CORBA.portable.ResponseHandler handler) {
+            return target._invoke_demanderAuth(_is, handler);
+        }
+    }
+
+    private static final class Operation_authentifier extends AbstractOperation
+    {
+        protected org.omg.CORBA.portable.OutputStream invoke(
+                final ServeurAuthentificationPOA target,
+                final org.omg.CORBA.portable.InputStream _is,
+                final org.omg.CORBA.portable.ResponseHandler handler) {
+            return target._invoke_authentifier(_is, handler);
+        }
+    }
+
+    private static final class Operation_ajouterEmpreinte extends AbstractOperation
+    {
+        protected org.omg.CORBA.portable.OutputStream invoke(
+                final ServeurAuthentificationPOA target,
+                final org.omg.CORBA.portable.InputStream _is,
+                final org.omg.CORBA.portable.ResponseHandler handler) {
+            return target._invoke_ajouterEmpreinte(_is, handler);
+        }
+    }
+
+    private static final class Operation_modifierEmpreinte extends AbstractOperation
+    {
+        protected org.omg.CORBA.portable.OutputStream invoke(
+                final ServeurAuthentificationPOA target,
+                final org.omg.CORBA.portable.InputStream _is,
+                final org.omg.CORBA.portable.ResponseHandler handler) {
+            return target._invoke_modifierEmpreinte(_is, handler);
+        }
+    }
+
+    private static final class Operation_supprimerEmpreinte extends AbstractOperation
+    {
+        protected org.omg.CORBA.portable.OutputStream invoke(
+                final ServeurAuthentificationPOA target,
+                final org.omg.CORBA.portable.InputStream _is,
+                final org.omg.CORBA.portable.ResponseHandler handler) {
+            return target._invoke_supprimerEmpreinte(_is, handler);
+        }
+    }
+
+    private static final class Operation_creerCompte extends AbstractOperation
+    {
+        protected org.omg.CORBA.portable.OutputStream invoke(
+                final ServeurAuthentificationPOA target,
+                final org.omg.CORBA.portable.InputStream _is,
+                final org.omg.CORBA.portable.ResponseHandler handler) {
+            return target._invoke_creerCompte(_is, handler);
+        }
+    }
+
+    private static final class Operation_supprimerCompte extends AbstractOperation
+    {
+        protected org.omg.CORBA.portable.OutputStream invoke(
+                final ServeurAuthentificationPOA target,
+                final org.omg.CORBA.portable.InputStream _is,
+                final org.omg.CORBA.portable.ResponseHandler handler) {
+            return target._invoke_supprimerCompte(_is, handler);
+        }
+    }
+
+    private static final class Operation_modifierMdp extends AbstractOperation
+    {
+        protected org.omg.CORBA.portable.OutputStream invoke(
+                final ServeurAuthentificationPOA target,
+                final org.omg.CORBA.portable.InputStream _is,
+                final org.omg.CORBA.portable.ResponseHandler handler) {
+            return target._invoke_modifierMdp(_is, handler);
+        }
+    }
+
+    private static final class Operation_getComptes extends AbstractOperation
+    {
+        protected org.omg.CORBA.portable.OutputStream invoke(
+                final ServeurAuthentificationPOA target,
+                final org.omg.CORBA.portable.InputStream _is,
+                final org.omg.CORBA.portable.ResponseHandler handler) {
+            return target._invoke_getComptes(_is, handler);
+        }
     }
 
 }
