@@ -13,12 +13,11 @@ public class ServeurAuthentification {
 	
 	public static void main(String[] args) {
 		try {		
-	        // Creation du servant
+	        // Creation du servant de la classe souhaitée
 	        //*********************
 	        ServeurAuthentificationImpl monServeurAuthentification = new ServeurAuthentificationImpl();
-
-	        String nomObj = "Authentification";
-	        ORB orb = Corbaloc.registerServant(args, monServeurAuthentification , nomObj);        
+	        //Appel à la méthode générique de lancement de serveur
+	        ORB orb = Corbaloc.registerServant(args, monServeurAuthentification);        
 	        // Lancement de l'ORB et mise en attente de requete
 	        //**************************************************
 	        orb.run();
@@ -26,6 +25,6 @@ public class ServeurAuthentification {
 			catch (Exception e) {
 				e.printStackTrace();
 			}
-		} // main
+		} 
 
 }
