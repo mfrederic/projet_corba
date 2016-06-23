@@ -24,7 +24,10 @@ public class JournalDAO extends DAO<Journal>{
 				ligneLog.setTypeAcces(result.getString(2));
 				ligneLog.setRefPersonne(result.getInt(3));
 				ligneLog.setResultat(result.getBoolean(4));
-				ligneLog.setCommentaire(result.getString(5));
+				if(result.getString(5)==null)
+					ligneLog.setCommentaire(result.getString(5));
+				else
+					ligneLog.setCommentaire(new String());
 				ligneLog.setIdJournal(result.getInt(6));
 			}
 			else return null;
@@ -47,7 +50,10 @@ public class JournalDAO extends DAO<Journal>{
 			prepare.setString(2, obj.getTypeAcces());		
 			prepare.setString(3, obj.getTimestamp());
 			prepare.setBoolean(4, obj.isResultat());
-			prepare.setString(5, obj.getCommentaire());	
+			if(!obj.getCommentaire().equals(""))
+				prepare.setString(5, obj.getCommentaire());	
+			else
+				prepare.setString(5, null);	
 			prepare.executeUpdate();
 			ResultSet rs = prepare.getGeneratedKeys();
 			rs.next();
@@ -94,7 +100,22 @@ public class JournalDAO extends DAO<Journal>{
 	}
 	
 
-
+	public ArrayList<Journal> getAllLog(){
+		ArrayList<Journal> pers = new ArrayList<Journal>();
+		try {
+			ResultSet result = this.connect.createStatement(
+					ResultSet.TYPE_SCROLL_INSENSITIVE,
+					ResultSet.CONCUR_UPDATABLE).executeQuery(
+							"SELECT * FROM \"JournalAcces\"");
+			while (result.next()) {
+				Journal a = this.find(result.getInt(6));
+				pers.add(a);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return pers;
+	}
 
 	@Override
 	public ArrayList<Journal> getInstances() {
